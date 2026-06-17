@@ -18,29 +18,130 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+  position: relative;
+  overflow-x: hidden;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(45, 212, 191, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(250, 204, 21, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Gradient Text */
 .gradient-text {
-  background: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+  background: linear-gradient(135deg, #2DD4BF 0%, #FACC15 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+/* Gradient Button */
 .gradient-button {
-  background: linear-gradient(135deg, #7C3AED 0%, #3B82F6 100%);
+  background: linear-gradient(135deg, #2DD4BF 0%, #FACC15 100%);
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #FACC15 0%, #2DD4BF 100%);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.gradient-button:hover::before {
+  left: 0;
 }
 
 .gradient-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 10px 25px rgba(45, 212, 191, 0.4), 0 5px 15px rgba(250, 204, 21, 0.2);
 }
 
+/* Glow Effects */
 .glow-effect {
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+  box-shadow: 0 0 20px rgba(45, 212, 191, 0.2);
+  transition: all 0.3s ease;
 }
 
 .glow-effect:hover {
-  box-shadow: 0 0 30px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 0 40px rgba(45, 212, 191, 0.5), 0 0 60px rgba(250, 204, 21, 0.2);
+}
+
+/* Animation Classes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(45, 212, 191, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(45, 212, 191, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Smooth Transitions */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+button, a {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2DD4BF 0%, #FACC15 100%);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #FACC15 0%, #2DD4BF 100%);
 }

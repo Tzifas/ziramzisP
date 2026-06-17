@@ -1,55 +1,112 @@
+import { motion } from 'framer-motion'
+
 export default function CTA() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-gradient-to-r from-primary/20 via-dark to-secondary/20 border border-primary/30 rounded-2xl p-12 text-center">
-        <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-dark-card/50 to-dark">
+      <motion.div
+        className="max-w-4xl mx-auto bg-gradient-to-r from-primary/20 via-dark to-secondary/20 border border-primary/30 rounded-2xl p-12 text-center"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: '-100px' }}
+      >
+        <motion.h2
+          className="text-4xl sm:text-5xl font-bold mb-6"
+          variants={itemVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           Let's <span className="gradient-text">Build Your Idea</span>
-        </h2>
-        <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
+        </motion.h2>
+        <motion.p
+          className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto"
+          variants={itemVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           Have a project in mind? Let's work together to turn your vision into reality. Reach out and let's create something amazing.
-        </p>
+        </motion.p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
+        <motion.div
+          className="flex flex-col sm:flex-row gap-4 justify-center"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.a
             href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%20have%20a%20project%20idea%20I%27d%20like%20to%20discuss"
             target="_blank"
             rel="noopener noreferrer"
             className="gradient-button px-8 py-4 rounded-lg font-semibold text-white inline-flex items-center justify-center gap-2 hover:shadow-lg transition flex-1 sm:flex-none"
+            variants={itemVariants}
+            whileHover={{ scale: 1.05, y: -4 }}
+            whileTap={{ scale: 0.98 }}
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.289-3.795 6.233-1.976 9.038 1.819 2.805 5.063 3.289 7.68 2.2l.5.291c.39.113.645.6.211 1.127-.434.527-.923.852-1.346.852-.423 0-.923-.325-1.346-.852l-.5-.291c-2.617 1.089-5.861.605-7.68-2.2-1.819-2.805-1.079-6.749 1.976-9.038a9.87 9.87 0 015.031-1.378z"/>
             </svg>
             Chat on WhatsApp
-          </a>
-          <button
+          </motion.a>
+          <motion.button
             onClick={() => {
               const email = 'hello@ziramzis.vercel.app'
               window.location.href = `mailto:${email}`
             }}
             className="px-8 py-4 rounded-lg font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-white transition flex-1 sm:flex-none inline-flex items-center justify-center gap-2"
+            variants={itemVariants}
+            whileHover={{ scale: 1.05, y: -4 }}
+            whileTap={{ scale: 0.98 }}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
             Send Email
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         {/* Contact Info */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
+        <motion.div
+          className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }}>
             <p className="text-gray-400 mb-2">WhatsApp</p>
-            <a href="https://wa.me/254711410442" target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline">
+            <motion.a
+              href="https://wa.me/254711410442"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary font-semibold hover:underline"
+              whileHover={{ x: 5 }}
+            >
               +254 711 410 442
-            </a>
-          </div>
-          <div>
+            </motion.a>
+          </motion.div>
+          <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }}>
             <p className="text-gray-400 mb-2">Location</p>
             <p className="text-white font-semibold">Mombasa, Kenya</p>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </section>
   )
 }
