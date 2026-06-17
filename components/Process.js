@@ -1,98 +1,86 @@
 const processSteps = [
   {
     number: 1,
-    title: 'You Share Your Idea',
-    description: 'Tell me about your project, goals, and vision. I listen and understand your needs.',
+    title: 'Share Your Vision',
+    description: 'We start with your idea, goals, and the audience you want to impress.',
     icon: '💡',
   },
   {
     number: 2,
-    title: 'We Plan & Design',
-    description: 'I create a roadmap and design mockups to bring your vision to life.',
+    title: 'Design the experience',
+    description: 'I craft polished wireframes and visual systems with clear brand direction.',
     icon: '🎨',
   },
   {
     number: 3,
-    title: 'I Build & Develop',
-    description: 'Using modern technologies, I build your solution with clean, scalable code.',
+    title: 'Build with precision',
+    description: 'I code the product using modern tools for speed, accessibility, and performance.',
     icon: '⚙️',
   },
   {
     number: 4,
-    title: 'We Test & Deploy',
-    description: 'Rigorous testing ensures everything works perfectly before launch.',
+    title: 'Test and refine',
+    description: 'Every page, interaction, and flow is checked until the experience feels effortless.',
     icon: '✅',
   },
   {
     number: 5,
-    title: 'You Grow & Scale',
-    description: 'I provide ongoing support and maintenance to ensure your success.',
-    icon: '📈',
+    title: 'Launch and support',
+    description: 'I launch your project and help keep it updated, supported, and growing.',
+    icon: '🚀',
   },
 ]
 
 export default function Process() {
   return (
-    <section id="process" className="py-20 px-4 sm:px-6 lg:px-8 bg-dark-card/50">
+    <section id="process" className="py-24 px-4 sm:px-6 lg:px-8 bg-dark-card/70">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            How I <span className="gradient-text">Work</span>
+          <p className="text-sm uppercase tracking-[0.4em] text-secondary/70 mb-4">The process</p>
+          <h2 className="text-4xl sm:text-5xl font-semibold mb-4">
+            A transparent workflow built for clarity and speed.
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            A simple, transparent process designed to deliver exceptional results while keeping you involved every step of the way.
+          <p className="text-gray-400 text-lg max-w-3xl mx-auto leading-8">
+            From first conversation to launch, every step is designed to keep you informed and deliver polished results.
           </p>
         </div>
 
-        {/* Process Timeline */}
         <div className="max-w-4xl mx-auto">
-          <div className="space-y-8">
-            {processSteps.map((step, index) => (
-              <div key={step.number} className="relative">
-                {/* Connector Line */}
-                {index !== processSteps.length - 1 && (
-                  <div className="absolute left-8 top-20 w-0.5 h-16 bg-gradient-to-b from-primary to-secondary hidden md:block"></div>
-                )}
-
-                {/* Step Container */}
-                <div className="flex gap-6 md:gap-8">
-                  {/* Step Number Circle */}
-                  <div className="flex-shrink-0">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center font-bold text-2xl text-white relative z-10">
+          <div className="relative">
+            <div className="hidden md:block absolute left-8 top-16 h-[calc(100%-4rem)] w-0.5 bg-gradient-to-b from-primary to-secondary opacity-40"></div>
+            <div className="space-y-10">
+              {processSteps.map((step, index) => (
+                <div key={step.number} className="relative md:pl-20">
+                  <div className="absolute left-0 top-2 md:top-0 flex items-start justify-center w-16">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary text-2xl border border-primary/20 shadow-glow">
                       {step.icon}
                     </div>
                   </div>
-
-                  {/* Step Content */}
-                  <div className="flex-1 pt-2">
-                    <div className="bg-dark p-6 rounded-xl border border-gray-800 hover:border-primary/50 transition">
-                      <h3 className="text-2xl font-bold mb-2">{step.title}</h3>
-                      <p className="text-gray-400">{step.description}</p>
-                    </div>
+                  <div className="section-card rounded-[30px] p-7 border border-white/10 shadow-glow hover:-translate-y-1 transition-transform duration-300">
+                    <h3 className="text-2xl font-semibold mb-3">{step.title}</h3>
+                    <p className="text-gray-300 leading-7">{step.description}</p>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Process Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
-          <div className="bg-dark p-6 rounded-xl text-center border border-gray-800">
-            <div className="text-4xl mb-3">⏱️</div>
-            <h4 className="font-bold mb-2">Quick Turnaround</h4>
-            <p className="text-gray-400">Efficient process without compromising quality</p>
+          <div className="section-card p-7 rounded-[30px] border border-white/10 text-center shadow-glow">
+            <div className="text-5xl mb-4">⏱️</div>
+            <h4 className="font-semibold mb-2">Fast Delivery</h4>
+            <p className="text-gray-400">Smooth project flow without unnecessary delays.</p>
           </div>
-          <div className="bg-dark p-6 rounded-xl text-center border border-gray-800">
-            <div className="text-4xl mb-3">🤝</div>
-            <h4 className="font-bold mb-2">Full Communication</h4>
-            <p className="text-gray-400">Regular updates and transparent progress tracking</p>
+          <div className="section-card p-7 rounded-[30px] border border-white/10 text-center shadow-glow">
+            <div className="text-5xl mb-4">🤝</div>
+            <h4 className="font-semibold mb-2">Clear Communication</h4>
+            <p className="text-gray-400">You stay in control with regular updates and honest advice.</p>
           </div>
-          <div className="bg-dark p-6 rounded-xl text-center border border-gray-800">
-            <div className="text-4xl mb-3">🚀</div>
-            <h4 className="font-bold mb-2">Ready to Launch</h4>
-            <p className="text-gray-400">Deploy-ready solution that's fully tested</p>
+          <div className="section-card p-7 rounded-[30px] border border-white/10 text-center shadow-glow">
+            <div className="text-5xl mb-4">🚀</div>
+            <h4 className="font-semibold mb-2">Launch Ready</h4>
+            <p className="text-gray-400">A polished release that looks great from first visit.</p>
           </div>
         </div>
       </div>

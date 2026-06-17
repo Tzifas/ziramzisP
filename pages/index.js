@@ -11,16 +11,18 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Ziramzis - I Build Digital Solutions That Help Businesses Grow</title>
-        <meta name="description" content="Ziramzis is a digital creator offering websites, web apps, and portfolios. Based in Mombasa, Kenya." />
-        <meta name="keywords" content="web design, web development, digital solutions, Mombasa" />
-        <meta property="og:title" content="Ziramzis - Digital Creator" />
-        <meta property="og:description" content="I Build Digital Solutions That Help Businesses Grow" />
+        <title>Ziramzis — Creative Digital Portfolio</title>
+        <meta name="description" content="Ziramzis builds vibrant websites, web apps, and brand portfolios with motion, polished UI, and strong business impact." />
+        <meta name="keywords" content="digital portfolio, web design, web development, creative agency, Mombasa" />
+        <meta property="og:title" content="Ziramzis — Creative Digital Portfolio" />
+        <meta property="og:description" content="Modern websites, apps, and portfolio experiences designed to feel alive." />
         <meta property="og:type" content="website" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
-      <div className="bg-dark text-white overflow-hidden">
+      <div className="relative overflow-hidden bg-dark text-white">
+        <div className="floating-glow w-[28rem] h-[28rem] rounded-full bg-teal-500/20 left-[-8rem] top-[-10rem] hidden lg:block"></div>
+        <div className="floating-glow w-[18rem] h-[18rem] rounded-full bg-yellow-400/15 right-[-6rem] top-[12rem] hidden lg:block"></div>
         <Header />
         <main>
           <Hero />
