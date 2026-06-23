@@ -6,6 +6,7 @@ import Work from '../components/Work'
 import Process from '../components/Process'
 import CTA from '../components/CTA'
 import Footer from '../components/Footer'
+import WhatsAppWidget from '../components/WhatsAppWidget'
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ export default function Home() {
           <CTA />
         </main>
         <Footer />
+        <WhatsAppWidget />
       </div>
     </>
   )

@@ -1,112 +1,182 @@
-import { motion } from 'framer-motion'
+'use client';
+import { motion } from 'framer-motion';
+import { BeeIcon, WhatsAppIcon, EmailIcon, PhoneIcon, MapPinIcon } from './Icons';
+
+/* ── Bee Flyby ────────────────────────────────────────── */
+const BeeFlyby = () => (
+  <motion.div
+    className="absolute pointer-events-none z-10"
+    style={{ top: '20%' }}
+    initial={{ left: '-80px' }}
+    animate={{ left: 'calc(100% + 80px)' }}
+    transition={{ duration: 8, repeat: Infinity, repeatDelay: 12, ease: 'easeInOut' }}
+  >
+    <motion.div animate={{ y: [0, -15, 10, -8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>
+      <BeeIcon size={50} />
+    </motion.div>
+  </motion.div>
+);
+
+const contactDetails = [
+  { Icon: PhoneIcon, label: 'WhatsApp', value: '+254 711 410 442', href: 'https://wa.me/254711410442', color: '#F5C842' },
+  { Icon: EmailIcon, label: 'Email', value: 'hello@ziramzis.app', href: 'mailto:hello@ziramzis.vercel.app', color: '#00F5FF' },
+  { Icon: MapPinIcon, label: 'Location', value: 'Mombasa, Kenya', href: null, color: '#F5C842' },
+];
 
 export default function CTA() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
-    },
-  };
-
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-dark-card/50 to-dark">
-      <motion.div
-        className="max-w-4xl mx-auto bg-gradient-to-r from-primary/20 via-dark to-secondary/20 border border-primary/30 rounded-2xl p-12 text-center"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true, margin: '-100px' }}
-      >
-        <motion.h2
-          className="text-4xl sm:text-5xl font-bold mb-6"
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          Let's <span className="gradient-text">Build Your Idea</span>
-        </motion.h2>
-        <motion.p
-          className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto"
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          Have a project in mind? Let's work together to turn your vision into reality. Reach out and let's create something amazing.
-        </motion.p>
+    <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, #050A18 0%, #0A1628 100%)' }}>
 
-        {/* CTA Buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <motion.a
-            href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%20have%20a%20project%20idea%20I%27d%20like%20to%20discuss"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="gradient-button px-8 py-4 rounded-lg font-semibold text-white inline-flex items-center justify-center gap-2 hover:shadow-lg transition flex-1 sm:flex-none"
-            variants={itemVariants}
-            whileHover={{ scale: 1.05, y: -4 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-5.031 1.378c-3.055 2.289-3.795 6.233-1.976 9.038 1.819 2.805 5.063 3.289 7.68 2.2l.5.291c.39.113.645.6.211 1.127-.434.527-.923.852-1.346.852-.423 0-.923-.325-1.346-.852l-.5-.291c-2.617 1.089-5.861.605-7.68-2.2-1.819-2.805-1.079-6.749 1.976-9.038a9.87 9.87 0 015.031-1.378z"/>
-            </svg>
-            Chat on WhatsApp
-          </motion.a>
-          <motion.button
-            onClick={() => {
-              const email = 'hello@ziramzis.vercel.app'
-              window.location.href = `mailto:${email}`
-            }}
-            className="px-8 py-4 rounded-lg font-semibold border-2 border-primary text-primary hover:bg-primary hover:text-white transition flex-1 sm:flex-none inline-flex items-center justify-center gap-2"
-            variants={itemVariants}
-            whileHover={{ scale: 1.05, y: -4 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            Send Email
-          </motion.button>
-        </motion.div>
+      <div className="absolute inset-0 opacity-50 pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpath d='M40 4 L76 23 L76 69 L40 88 L4 69 L4 23 Z' fill='none' stroke='%23F5C842' stroke-width='0.4' opacity='0.09'/%3E%3C/svg%3E")`,
+          backgroundSize: '80px 92px',
+        }}
+      />
 
-        {/* Contact Info */}
+      <BeeFlyby />
+
+      <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
-          className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          className="relative rounded-3xl p-1 overflow-hidden"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9 }}
+          viewport={{ once: true, margin: '-80px' }}
         >
-          <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }}>
-            <p className="text-gray-400 mb-2">WhatsApp</p>
-            <motion.a
-              href="https://wa.me/254711410442"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary font-semibold hover:underline"
-              whileHover={{ x: 5 }}
+          {/* Animated gradient border */}
+          <motion.div
+            className="absolute inset-0 rounded-3xl"
+            style={{ background: 'linear-gradient(135deg, rgba(245,200,66,0.4), rgba(0,245,255,0.2), rgba(245,200,66,0.4))' }}
+            animate={{ opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 3, repeat: Infinity }}
+          />
+
+          <div className="relative rounded-3xl p-10 sm:p-14 text-center"
+            style={{ background: 'linear-gradient(135deg, #050A18 0%, #0A1628 50%, #050A18 100%)' }}>
+
+            {/* Corner hex decorations */}
+            <div className="hidden sm:block absolute top-6 left-6 opacity-20">
+              <svg width="50" height="58" viewBox="0 0 50 58">
+                <path d="M25 3 L47 15.5 L47 42.5 L25 55 L3 42.5 L3 15.5 Z"
+                  fill="rgba(245,200,66,0.4)" stroke="rgba(245,200,66,0.6)" strokeWidth="1" />
+              </svg>
+            </div>
+            <div className="hidden sm:block absolute top-6 right-6 opacity-20">
+              <svg width="40" height="46" viewBox="0 0 40 46">
+                <path d="M20 2 L38 11.5 L38 34.5 L20 44 L2 34.5 L2 11.5 Z"
+                  fill="rgba(0,245,255,0.4)" stroke="rgba(0,245,255,0.6)" strokeWidth="1" />
+              </svg>
+            </div>
+
+            {/* Big bee icon */}
+            <motion.div
+              className="flex justify-center mb-6"
+              animate={{ rotate: [-10, 10, -10], y: [0, -8, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             >
-              +254 711 410 442
-            </motion.a>
-          </motion.div>
-          <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }}>
-            <p className="text-gray-400 mb-2">Location</p>
-            <p className="text-white font-semibold">Mombasa, Kenya</p>
-          </motion.div>
+              <div style={{ filter: 'drop-shadow(0 0 20px rgba(245,200,66,0.5))' }}>
+                <BeeIcon size={64} />
+              </div>
+            </motion.div>
+
+            <motion.h2
+              className="text-4xl sm:text-5xl font-black mb-6"
+              variants={itemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              Let's Build Your <span className="gradient-text">Digital Hive</span>
+            </motion.h2>
+
+            <motion.p
+              className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto leading-relaxed"
+              variants={itemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              Have a project in mind? The busy bee is ready to get to work. Let's turn your vision into something sweet — reach out and let's build together.
+            </motion.p>
+
+            {/* Buttons */}
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <motion.a
+                href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%20have%20a%20project%20idea%20I%27d%20like%20to%20discuss"
+                target="_blank" rel="noopener noreferrer"
+                className="gradient-button px-10 py-4 rounded-xl font-bold text-black text-base inline-flex items-center justify-center gap-3"
+                whileHover={{ scale: 1.06, y: -4 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <WhatsAppIcon size={20} />
+                  Chat on WhatsApp
+                </span>
+              </motion.a>
+
+              <motion.button
+                onClick={() => { window.location.href = 'mailto:hello@ziramzis.vercel.app'; }}
+                className="px-10 py-4 rounded-xl font-bold text-base border-2 inline-flex items-center justify-center gap-3 transition"
+                style={{ borderColor: 'rgba(0,245,255,0.5)', color: '#00F5FF', background: 'rgba(0,245,255,0.05)' }}
+                whileHover={{ scale: 1.06, y: -4, borderColor: '#00F5FF', boxShadow: '0 0 25px rgba(0,245,255,0.3)', background: 'rgba(0,245,255,0.1)' }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <EmailIcon size={20} color="#00F5FF" />
+                Send Email
+              </motion.button>
+            </motion.div>
+
+            {/* Contact Info */}
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-3 gap-6"
+              style={{ borderTop: '1px solid rgba(245,200,66,0.12)', paddingTop: '2rem' }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.7 }}
+              viewport={{ once: true }}
+            >
+              {contactDetails.map((contact, idx) => (
+                <motion.div
+                  key={contact.label}
+                  className="text-center"
+                  whileHover={{ scale: 1.05, y: -4 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                >
+                  <motion.div
+                    className="flex justify-center mb-2"
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: idx * 0.5 }}
+                  >
+                    <contact.Icon size={24} color={contact.color} />
+                  </motion.div>
+                  <p className="text-gray-500 text-xs uppercase tracking-widest mb-1">{contact.label}</p>
+                  {contact.href ? (
+                    <motion.a href={contact.href} className="font-semibold text-sm transition-colors"
+                      style={{ color: contact.color }} whileHover={{ x: 3 }}>
+                      {contact.value}
+                    </motion.a>
+                  ) : (
+                    <p className="font-semibold text-sm text-white">{contact.value}</p>
+                  )}
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
-  )
+  );
 }

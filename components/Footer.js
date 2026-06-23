@@ -1,79 +1,123 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+'use client';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import {
+  BeeIcon, HoneyJarIcon, PhoneIcon, EmailIcon, MapPinIcon,
+  GlobeIcon, LinkedInIcon, XIcon, GitHubIcon
+} from './Icons';
 
 export default function Footer() {
-  const [email, setEmail] = useState('')
-  const [subscribeMessage, setSubscribeMessage] = useState('')
+  const [email, setEmail] = useState('');
+  const [subscribeMessage, setSubscribeMessage] = useState('');
+  const currentYear = new Date().getFullYear();
 
   const handleSubscribe = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (email) {
-      setSubscribeMessage('Thanks for subscribing!')
-      setEmail('')
-      setTimeout(() => setSubscribeMessage(''), 3000)
+      setSubscribeMessage('Welcome to the hive!');
+      setEmail('');
+      setTimeout(() => setSubscribeMessage(''), 3500);
     }
-  }
-
-  const currentYear = new Date().getFullYear()
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
-
   const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 15 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  const socials = [
+    { name: 'LinkedIn', Icon: LinkedInIcon, color: '#F5C842' },
+    { name: 'X', Icon: XIcon, color: '#00F5FF' },
+    { name: 'GitHub', Icon: GitHubIcon, color: '#F5C842' },
+  ];
+
+  const contactLinks = [
+    { Icon: PhoneIcon, href: 'https://wa.me/254711410442', label: 'WhatsApp: +254 711 410 442', color: '#F5C842' },
+    { Icon: EmailIcon, href: 'mailto:hello@ziramzis.vercel.app', label: 'Email: hello@ziramzis.app', color: '#00F5FF' },
+    { Icon: MapPinIcon, href: null, label: 'Location: Mombasa, Kenya', color: '#F5C842' },
+  ];
+
   return (
-    <footer className="bg-dark-card border-t border-primary/20 py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <footer className="relative overflow-hidden"
+      style={{ background: '#030810', borderTop: '1px solid rgba(245,200,66,0.15)' }}>
+
+      {/* Hex pattern */}
+      <div className="absolute inset-0 opacity-40 pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpath d='M40 4 L76 23 L76 69 L40 88 L4 69 L4 23 Z' fill='none' stroke='%23F5C842' stroke-width='0.4' opacity='0.06'/%3E%3C/svg%3E")`,
+          backgroundSize: '80px 92px',
+        }}
+      />
+
+      {/* Top glow line */}
+      <div className="h-px w-full"
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(245,200,66,0.4), rgba(0,245,255,0.2), transparent)' }} />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+
         {/* Newsletter */}
         <motion.div
-          className="mb-16 pb-16 border-b border-primary/20"
+          className="mb-16 pb-16"
+          style={{ borderBottom: '1px solid rgba(245,200,66,0.12)' }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, margin: '-50px' }}
         >
-          <h3 className="text-2xl font-bold mb-2">Stay Updated</h3>
-          <p className="text-gray-400 mb-6">Get insights on web design, development, and digital solutions.</p>
-          <motion.form
-            onSubmit={handleSubscribe}
-            className="flex flex-col sm:flex-row gap-3 max-w-md"
-            whileHover={{ scale: 1.02 }}
-          >
-            <motion.input
-              type="email"
-              placeholder="Your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="flex-1 px-4 py-3 rounded-lg bg-dark border border-primary/20 focus:border-primary outline-none transition"
-              whileFocus={{ scale: 1.02 }}
-            />
-            <motion.button
-              type="submit"
-              className="gradient-button px-6 py-3 rounded-lg font-semibold text-white whitespace-nowrap"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Subscribe
-            </motion.button>
-          </motion.form>
-          {subscribeMessage && (
-            <motion.p
-              className="text-primary mt-3 text-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              {subscribeMessage}
-            </motion.p>
-          )}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <motion.div
+                  animate={{ rotate: [-10, 10, -10], y: [0, -4, 0] }}
+                  transition={{ duration: 2.5, repeat: Infinity }}
+                >
+                  <HoneyJarIcon size={28} />
+                </motion.div>
+                <h3 className="text-2xl font-black text-white">Join the Hive</h3>
+              </div>
+              <p className="text-gray-400 max-w-sm">Get insights on web design, development and digital solutions delivered to your inbox.</p>
+            </div>
+            <div className="w-full md:w-auto">
+              <motion.form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
+                <motion.input
+                  type="email"
+                  placeholder="Your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="flex-1 sm:w-72 px-4 py-3 rounded-xl text-white placeholder-gray-500 outline-none text-sm font-medium"
+                  style={{ background: 'rgba(13,31,60,0.8)', border: '1px solid rgba(245,200,66,0.2)' }}
+                  onFocus={(e) => { e.target.style.borderColor = 'rgba(245,200,66,0.5)'; e.target.style.boxShadow = '0 0 15px rgba(245,200,66,0.1)'; }}
+                  onBlur={(e) => { e.target.style.borderColor = 'rgba(245,200,66,0.2)'; e.target.style.boxShadow = 'none'; }}
+                />
+                <motion.button
+                  type="submit"
+                  className="gradient-button px-6 py-3 rounded-xl font-bold text-black whitespace-nowrap text-sm inline-flex items-center gap-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <BeeIcon size={18} />
+                    Subscribe
+                  </span>
+                </motion.button>
+              </motion.form>
+              {subscribeMessage && (
+                <motion.p
+                  className="text-yellow-400 mt-3 text-sm font-medium flex items-center gap-2"
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <BeeIcon size={16} />
+                  {subscribeMessage}
+                </motion.p>
+              )}
+            </div>
+          </div>
         </motion.div>
 
         {/* Footer Grid */}
@@ -85,34 +129,47 @@ export default function Footer() {
           viewport={{ once: true, margin: '-50px' }}
         >
           {/* Brand */}
-          <motion.div variants={itemVariants}>
-            <motion.div
-              className="flex items-center gap-2 mb-4"
-              whileHover={{ x: 5 }}
-            >
-              <motion.div
-                className="w-10 h-10 gradient-text font-bold text-2xl flex items-center justify-center"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-              >
-                Z
-              </motion.div>
-              <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">ZIRAMZIS</span>
+          <motion.div variants={itemVariants} className="md:col-span-1">
+            <motion.div className="flex items-center gap-3 mb-4 cursor-pointer" whileHover={{ x: 4 }}>
+              <div className="relative w-10 h-10 flex items-center justify-center">
+                <svg viewBox="0 0 40 46" className="w-10 h-10 absolute inset-0">
+                  <path d="M20 2 L38 12 L38 34 L20 44 L2 34 L2 12 Z"
+                    fill="none" stroke="url(#footerLogoGrad)" strokeWidth="1.5" />
+                  <defs>
+                    <linearGradient id="footerLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#F5C842" />
+                      <stop offset="100%" stopColor="#00F5FF" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span className="gradient-text font-black text-lg z-10">Z</span>
+              </div>
+              <div>
+                <div className="font-black text-lg gradient-text tracking-widest leading-none">ZIRAMZIS</div>
+                <div style={{ fontSize: '9px', color: 'rgba(0,245,255,0.6)', letterSpacing: '2px' }}>BUSY BEE STUDIO</div>
+              </div>
             </motion.div>
-            <p className="text-gray-400 text-sm">Building digital solutions that help businesses grow.</p>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              Building digital hives that help businesses grow. Based in Mombasa, Kenya — working with clients worldwide.
+            </p>
+            <div className="flex items-center gap-2 mt-3">
+              <GlobeIcon size={14} color="#4A5A78" />
+              <span className="text-gray-600 text-xs">Worldwide</span>
+            </div>
           </motion.div>
 
           {/* Quick Links */}
           <motion.div variants={itemVariants}>
-            <h4 className="font-bold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Quick Links</h4>
+            <ul className="space-y-3">
               {['Services', 'Work', 'Process', 'Contact'].map((link) => (
                 <li key={link}>
                   <motion.a
                     href={`#${link.toLowerCase()}`}
-                    className="hover:text-primary transition"
+                    className="text-gray-500 hover:text-yellow-400 transition-colors text-sm flex items-center gap-2 group"
                     whileHover={{ x: 5 }}
                   >
+                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/40 group-hover:bg-yellow-400 transition-colors flex-shrink-0" />
                     {link}
                   </motion.a>
                 </li>
@@ -122,90 +179,83 @@ export default function Footer() {
 
           {/* Contact */}
           <motion.div variants={itemVariants}>
-            <h4 className="font-bold mb-4">Contact</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>
-                <motion.a
-                  href="https://wa.me/254711410442"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary transition"
-                  whileHover={{ x: 5 }}
-                >
-                  WhatsApp: +254 711 410 442
-                </motion.a>
-              </li>
-              <li>
-                <motion.a
-                  href="mailto:hello@ziramzis.vercel.app"
-                  className="hover:text-primary transition"
-                  whileHover={{ x: 5 }}
-                >
-                  Email: hello@ziramzis.app
-                </motion.a>
-              </li>
-              <li>Location: Mombasa, Kenya</li>
+            <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Contact</h4>
+            <ul className="space-y-3">
+              {contactLinks.map((c) => (
+                <li key={c.label}>
+                  {c.href ? (
+                    <motion.a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined}
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-yellow-400 transition-colors text-sm flex items-center gap-2"
+                      whileHover={{ x: 5 }}>
+                      <c.Icon size={14} color={c.color} />
+                      {c.label}
+                    </motion.a>
+                  ) : (
+                    <span className="text-gray-500 text-sm flex items-center gap-2">
+                      <c.Icon size={14} color={c.color} />
+                      {c.label}
+                    </span>
+                  )}
+                </li>
+              ))}
             </ul>
           </motion.div>
 
           {/* Socials */}
           <motion.div variants={itemVariants}>
-            <h4 className="font-bold mb-4">Follow</h4>
-            <div className="flex gap-4">
-              {[
-                { name: 'LinkedIn', path: 'M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.39v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z' },
-                { name: 'Twitter', path: 'M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.691.188-1.456.188-2.228.064.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z' },
-                { name: 'GitHub', path: 'M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z' },
-              ].map((social, idx) => (
+            <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Follow the Bee</h4>
+            <div className="flex gap-3 flex-wrap">
+              {socials.map((social, idx) => (
                 <motion.a
                   key={social.name}
                   href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-dark border border-primary/20 flex items-center justify-center hover:border-primary hover:text-primary transition"
-                  whileHover={{ scale: 1.2, y: -5, backgroundColor: 'rgba(45, 212, 191, 0.1)' }}
+                  target="_blank" rel="noopener noreferrer"
+                  title={social.name}
+                  className="w-11 h-11 rounded-xl flex items-center justify-center relative overflow-hidden"
+                  style={{ background: 'rgba(13,31,60,0.8)', border: '1px solid rgba(245,200,66,0.15)' }}
+                  whileHover={{ scale: 1.15, y: -5, borderColor: social.color, boxShadow: `0 0 15px ${social.color}40` }}
                   whileTap={{ scale: 0.9 }}
                   animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, delay: idx * 0.1 }}
+                  transition={{ duration: 4, repeat: Infinity, delay: idx * 0.2 }}
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d={social.path} />
-                  </svg>
+                  <social.Icon size={18} color={social.color} />
                 </motion.a>
               ))}
             </div>
           </motion.div>
         </motion.div>
 
-        {/* Bottom */}
+        {/* Bottom Bar */}
         <motion.div
-          className="border-t border-primary/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400"
+          className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 text-sm text-gray-600"
+          style={{ borderTop: '1px solid rgba(245,200,66,0.08)' }}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
-          viewport={{ once: true, margin: '-50px' }}
+          viewport={{ once: true }}
         >
-          <motion.p whileHover={{ x: 5 }}>&copy; {currentYear} Ziramzis. All rights reserved.</motion.p>
-          <motion.div
-            className="flex gap-6 mt-4 md:mt-0"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <motion.div className="flex items-center gap-2" whileHover={{ x: 4 }}>
+            <span>© {currentYear}</span>
+            <span className="text-yellow-400/70">Ziramzis</span>
+            <span>— Built with</span>
+            <motion.span
+              animate={{ scale: [1, 1.3, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <BeeIcon size={16} />
+            </motion.span>
+            <span>love.</span>
+          </motion.div>
+          <div className="flex gap-6">
             {['Privacy Policy', 'Terms of Service'].map((link) => (
-              <motion.a
-                key={link}
-                href="#"
-                className="hover:text-primary transition"
-                whileHover={{ x: 5 }}
-                variants={itemVariants}
-              >
+              <motion.a key={link} href="#" className="hover:text-yellow-400 transition-colors" whileHover={{ x: 3 }}>
                 {link}
               </motion.a>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </footer>
-  )
+  );
 }
