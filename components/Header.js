@@ -19,7 +19,12 @@ export default function Header() {
     setIsOpen(false);
   };
 
-  const navItems = ['Services', 'Work', 'Process', 'Contact'];
+  const navItems = [
+    { label: 'What we build', id: 'services' },
+    { label: 'Meet the Bee', id: 'colony' },
+    { label: 'Website directions', id: 'work' },
+    { label: 'Start a brief', id: 'brief' },
+  ];
 
   return (
     <header
@@ -37,8 +42,10 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between relative">
 
         {/* Logo */}
-        <motion.div
-          className="flex items-center gap-3 cursor-pointer group"
+        <motion.button
+          type="button"
+          aria-label="Back to top"
+          className="flex items-center gap-3 cursor-pointer group text-left"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -64,7 +71,7 @@ export default function Header() {
             <span className="font-black text-lg tracking-widest gradient-text">ZIRAMZIS</span>
             <span style={{ fontSize: '9px', color: 'rgba(0,245,255,0.7)', letterSpacing: '3px' }}>BUSY BEE STUDIO</span>
           </div>
-        </motion.div>
+        </motion.button>
 
         {/* Desktop Nav */}
         <motion.div
@@ -74,10 +81,10 @@ export default function Header() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           {navItems.map((item, index) => (
-            item === 'Contact' ? (
+            item.id === 'brief' ? (
               <motion.button
-                key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
                 className="gradient-button px-6 py-2 rounded-lg font-bold text-black text-sm relative overflow-hidden flex items-center gap-2"
                 whileHover={{ scale: 1.08, y: -2 }}
                 whileTap={{ scale: 0.95 }}
@@ -87,20 +94,20 @@ export default function Header() {
               >
                 <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <BeeIcon size={16} />
-                  {item}
+                  {item.label}
                 </span>
               </motion.button>
             ) : (
               <motion.button
-                key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
                 className="relative text-gray-300 hover:text-yellow-400 transition-colors text-sm font-medium group"
                 whileHover={{ y: -2 }}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                {item}
+                {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-yellow-400 to-cyan-400 group-hover:w-full transition-all duration-300" />
               </motion.button>
             )
@@ -109,12 +116,17 @@ export default function Header() {
 
         {/* Mobile Menu Button */}
         <motion.button
+          type="button"
+          aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
           className="md:hidden flex flex-col gap-1.5 cursor-pointer p-2"
           onClick={() => setIsOpen(!isOpen)}
           whileTap={{ scale: 0.9 }}
         >
           {[0, 1, 2].map((i) => (
             <motion.div
+              id="mobile-navigation"
               key={i}
               className="h-0.5 bg-yellow-400 rounded"
               style={{ width: i === 1 ? '18px' : '24px' }}
@@ -144,18 +156,18 @@ export default function Header() {
               <div className="flex flex-col gap-2 p-4">
                 {navItems.map((item, index) => (
                   <motion.button
-                    key={item}
-                    onClick={() => scrollToSection(item.toLowerCase())}
-                    className={item === 'Contact'
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={item.id === 'brief'
                       ? 'gradient-button px-6 py-3 rounded-lg font-bold text-black w-full flex items-center justify-center gap-2'
                       : 'text-left py-3 px-2 text-gray-300 hover:text-yellow-400 transition border-b border-gray-800/50'}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.07 }}
                   >
-                    {item === 'Contact'
-                      ? <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}><BeeIcon size={18} />{item}</span>
-                      : item}
+                    {item.id === 'brief'
+                      ? <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}><BeeIcon size={18} />{item.label}</span>
+                      : item.label}
                   </motion.button>
                 ))}
               </div>

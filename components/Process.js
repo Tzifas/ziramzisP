@@ -95,14 +95,15 @@ export default function Process() {
                     viewport={{ once: true }}
                   />
                 )}
-                <div className="flex gap-6 md:gap-8">
+                <div className="process-step-row flex gap-6 md:gap-8">
                   <motion.div
+                    className="process-step-number"
                     animate={{ scale: [1, 1.08, 1] }}
                     transition={{ duration: 3, repeat: Infinity, delay: index * 0.3 }}
                   >
                     <HexStep number={step.number} accent={step.accent} />
                   </motion.div>
-                  <motion.div className="flex-1 pt-1"
+                  <motion.div className="process-step-card flex-1 pt-1"
                     whileHover={{ x: 8 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 10 }}>
                     <div className="honey-card p-6 rounded-2xl group cursor-pointer relative overflow-hidden">
@@ -110,9 +111,9 @@ export default function Process() {
                         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none"
                         style={{ background: `radial-gradient(ellipse at left center, ${step.accent}08, transparent 60%)` }}
                       />
-                      <div className="flex items-start gap-4">
+                      <div className="process-step-card__content flex items-start gap-4">
                         <motion.div
-                          className="flex-shrink-0 mt-1"
+                          className="step-icon flex-shrink-0 mt-1"
                           animate={{ rotate: [0, 10, -10, 0] }}
                           transition={{ duration: 4, repeat: Infinity, delay: index * 0.4 }}
                         >
@@ -146,7 +147,7 @@ export default function Process() {
           {summaryCards.map((item, idx) => (
             <motion.div
               key={item.title}
-              className="honey-card p-6 rounded-2xl text-center group cursor-pointer relative overflow-hidden"
+              className="process-summary-card honey-card p-6 rounded-2xl text-center group cursor-pointer relative overflow-hidden"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.15, duration: 0.6 }}

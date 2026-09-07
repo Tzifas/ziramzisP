@@ -18,10 +18,10 @@ const HexIcon = ({ children, glow = 'honey' }) => (
 );
 
 const services = [
-  { id: 1, Icon: GlobeIcon, title: 'Websites', description: 'Responsive, lightning-fast websites that attract visitors and convert them into customers.', glow: 'honey', iconColor: '#F5C842' },
-  { id: 2, Icon: MobileIcon, title: 'Web Apps', description: 'Custom web applications built to solve real problems and accelerate business growth.', glow: 'cyan', iconColor: '#00F5FF' },
-  { id: 3, Icon: BriefcaseIcon, title: 'Portfolios', description: 'Professional portfolios that showcase your best work and represent your unique brand.', glow: 'honey', iconColor: '#F5C842' },
-  { id: 4, Icon: WrenchIcon, title: 'Custom Solutions', description: 'POS Systems, Dashboards, Booking Systems — if you can dream it, I can build it.', glow: 'cyan', iconColor: '#00F5FF' },
+  { id: 1, Icon: GlobeIcon, title: 'Websites that sell the room', description: 'Fast, distinct websites that make a business feel credible before the first WhatsApp message.', glow: 'honey', iconColor: '#F5C842' },
+  { id: 2, Icon: MobileIcon, title: 'Useful digital products', description: 'Portals, booking flows, dashboards and tools that remove friction instead of adding features for show.', glow: 'cyan', iconColor: '#00F5FF' },
+  { id: 3, Icon: BriefcaseIcon, title: 'Brands with a point of view', description: 'From logo to type and a visual system, I make the identity match the ambition behind the work.', glow: 'honey', iconColor: '#F5C842' },
+  { id: 4, Icon: WrenchIcon, title: 'Custom growth systems', description: 'When the off-the-shelf route breaks: a tailored solution, built around how the business really runs.', glow: 'cyan', iconColor: '#00F5FF' },
 ];
 
 const industries = [
@@ -71,13 +71,13 @@ export default function Services() {
             transition={{ duration: 2.5, repeat: Infinity }}
           >
             <HoneycombIcon size={16} />
-            What the Bee Does
+            What the hive builds
           </motion.div>
           <h2 className="text-4xl sm:text-5xl font-black mb-4">
-            What I <span className="gradient-text">Do</span>
+            Built to be <span className="gradient-text">chosen.</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Like a busy bee building its hive, I craft digital solutions with precision and purpose — tailored for businesses that want to stand out.
+            Strategy, brand and build working together—so your site does more than sit pretty in a browser tab.
           </p>
         </motion.div>
 

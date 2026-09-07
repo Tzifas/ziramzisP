@@ -1,24 +1,10 @@
-'use client';
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  BeeIcon, HoneyJarIcon, PhoneIcon, EmailIcon, MapPinIcon,
-  GlobeIcon, LinkedInIcon, XIcon, GitHubIcon
+  BeeIcon, PhoneIcon, EmailIcon, MapPinIcon, GlobeIcon
 } from './Icons';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
-  const [subscribeMessage, setSubscribeMessage] = useState('');
   const currentYear = new Date().getFullYear();
-
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (email) {
-      setSubscribeMessage('Welcome to the hive!');
-      setEmail('');
-      setTimeout(() => setSubscribeMessage(''), 3500);
-    }
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -29,15 +15,9 @@ export default function Footer() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
-  const socials = [
-    { name: 'LinkedIn', Icon: LinkedInIcon, color: '#F5C842' },
-    { name: 'X', Icon: XIcon, color: '#00F5FF' },
-    { name: 'GitHub', Icon: GitHubIcon, color: '#F5C842' },
-  ];
-
   const contactLinks = [
     { Icon: PhoneIcon, href: 'https://wa.me/254711410442', label: 'WhatsApp: +254 711 410 442', color: '#F5C842' },
-    { Icon: EmailIcon, href: 'mailto:hello@ziramzis.vercel.app', label: 'Email: hello@ziramzis.app', color: '#00F5FF' },
+    { Icon: EmailIcon, href: 'mailto:hello@ziramzis.app', label: 'Email: hello@ziramzis.app', color: '#00F5FF' },
     { Icon: MapPinIcon, href: null, label: 'Location: Mombasa, Kenya', color: '#F5C842' },
   ];
 
@@ -57,72 +37,17 @@ export default function Footer() {
       <div className="h-px w-full"
         style={{ background: 'linear-gradient(90deg, transparent, rgba(245,200,66,0.4), rgba(0,245,255,0.2), transparent)' }} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+      <a href="#top" className="follow-bee" aria-label="Follow the Bee back to the top of the page">
+        <span className="follow-bee__trail" aria-hidden="true" />
+        <motion.span animate={{ y: [0, -6, 0], rotate: [-5, 5, -5] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}><BeeIcon size={34} /></motion.span>
+        <span>Follow the Bee</span><span className="follow-bee__arrow">↑</span>
+      </a>
 
-        {/* Newsletter */}
-        <motion.div
-          className="mb-16 pb-16"
-          style={{ borderBottom: '1px solid rgba(245,200,66,0.12)' }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true, margin: '-50px' }}
-        >
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <motion.div
-                  animate={{ rotate: [-10, 10, -10], y: [0, -4, 0] }}
-                  transition={{ duration: 2.5, repeat: Infinity }}
-                >
-                  <HoneyJarIcon size={28} />
-                </motion.div>
-                <h3 className="text-2xl font-black text-white">Join the Hive</h3>
-              </div>
-              <p className="text-gray-400 max-w-sm">Get insights on web design, development and digital solutions delivered to your inbox.</p>
-            </div>
-            <div className="w-full md:w-auto">
-              <motion.form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
-                <motion.input
-                  type="email"
-                  placeholder="Your email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="flex-1 sm:w-72 px-4 py-3 rounded-xl text-white placeholder-gray-500 outline-none text-sm font-medium"
-                  style={{ background: 'rgba(13,31,60,0.8)', border: '1px solid rgba(245,200,66,0.2)' }}
-                  onFocus={(e) => { e.target.style.borderColor = 'rgba(245,200,66,0.5)'; e.target.style.boxShadow = '0 0 15px rgba(245,200,66,0.1)'; }}
-                  onBlur={(e) => { e.target.style.borderColor = 'rgba(245,200,66,0.2)'; e.target.style.boxShadow = 'none'; }}
-                />
-                <motion.button
-                  type="submit"
-                  className="gradient-button px-6 py-3 rounded-xl font-bold text-black whitespace-nowrap text-sm inline-flex items-center gap-2"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <BeeIcon size={18} />
-                    Subscribe
-                  </span>
-                </motion.button>
-              </motion.form>
-              {subscribeMessage && (
-                <motion.p
-                  className="text-yellow-400 mt-3 text-sm font-medium flex items-center gap-2"
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <BeeIcon size={16} />
-                  {subscribeMessage}
-                </motion.p>
-              )}
-            </div>
-          </div>
-        </motion.div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
 
         {/* Footer Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12"
+          className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -202,27 +127,18 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          {/* Socials */}
+          {/* Availability */}
           <motion.div variants={itemVariants}>
-            <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Follow the Bee</h4>
-            <div className="flex gap-3 flex-wrap">
-              {socials.map((social, idx) => (
-                <motion.a
-                  key={social.name}
-                  href="#"
-                  target="_blank" rel="noopener noreferrer"
-                  title={social.name}
-                  className="w-11 h-11 rounded-xl flex items-center justify-center relative overflow-hidden"
-                  style={{ background: 'rgba(13,31,60,0.8)', border: '1px solid rgba(245,200,66,0.15)' }}
-                  whileHover={{ scale: 1.15, y: -5, borderColor: social.color, boxShadow: `0 0 15px ${social.color}40` }}
-                  whileTap={{ scale: 0.9 }}
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, delay: idx * 0.2 }}
-                >
-                  <social.Icon size={18} color={social.color} />
-                </motion.a>
-              ))}
-            </div>
+            <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Let's work together</h4>
+            <p className="text-gray-500 text-sm leading-relaxed mb-5">Have a project in mind? Start with a short message and I’ll get back to you with the right next step.</p>
+            <motion.a
+              href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%27d%20like%20to%20discuss%20a%20project"
+              target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-bold text-yellow-400 hover:text-yellow-300"
+              whileHover={{ x: 4 }}
+            >
+              <BeeIcon size={17} /> Start a conversation
+            </motion.a>
           </motion.div>
         </motion.div>
 
@@ -247,13 +163,7 @@ export default function Footer() {
             </motion.span>
             <span>love.</span>
           </motion.div>
-          <div className="flex gap-6">
-            {['Privacy Policy', 'Terms of Service'].map((link) => (
-              <motion.a key={link} href="#" className="hover:text-yellow-400 transition-colors" whileHover={{ x: 3 }}>
-                {link}
-              </motion.a>
-            ))}
-          </div>
+          <span>Designed and built from Mombasa, Kenya.</span>
         </motion.div>
       </div>
     </footer>

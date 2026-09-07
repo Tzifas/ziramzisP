@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import {
   BeeIcon, GlobeIcon, MobileIcon, BriefcaseIcon, BoltIcon,
-  BuildingsIcon, SmileIcon, StarIcon, HoneyJarIcon, WhatsAppIcon, EmailIcon
+  WhatsAppIcon
 } from './Icons';
 
 /* ── Animated Honeycomb Grid ──────────────────────────── */
@@ -49,7 +49,7 @@ const HoneycombGrid = () => {
 /* ── Animated Bee Character ──────────────────────────── */
 const BeeCharacter = () => (
   <motion.div
-    className="absolute pointer-events-none right-[4%] top-[12%] sm:right-[6%] sm:top-[18%] lg:right-[8%] lg:top-[25%] z-10 scale-[0.65] sm:scale-75 md:scale-90 lg:scale-100"
+    className="hero-busy-bee absolute pointer-events-none right-[-3%] top-[7%] sm:right-[6%] sm:top-[18%] lg:right-[8%] lg:top-[25%] z-10 scale-[0.45] sm:scale-75 md:scale-90 lg:scale-100"
     style={{ transformOrigin: 'top right' }}
     animate={{
       x: [0, 60, -30, 90, 20, 0],
@@ -244,9 +244,9 @@ const HoneyDrops = () => {
 
 /* ── Stat entry ──────────────────────────────────────── */
 const stats = [
-  { num: '50+', label: 'Projects Delivered', Icon: BuildingsIcon },
-  { num: '30+', label: 'Happy Clients', Icon: SmileIcon },
-  { num: '3+', label: 'Years Experience', Icon: StarIcon },
+  { num: '01', label: 'Creative lead, direct access', Icon: BeeIcon },
+  { num: '02', label: 'Strategy + brand + build', Icon: BoltIcon },
+  { num: '03', label: 'Based in Mombasa, made for anywhere', Icon: GlobeIcon },
 ];
 
 /* ── Orbiting icons ──────────────────────────────────── */
@@ -262,10 +262,10 @@ export default function Hero() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } },
   };
 
-  const [typedText, setTypedText] = useState('');
+  const [typedText, setTypedText] = useState('Websites.');
   const words = ['Websites.', 'Web Apps.', 'Portfolios.', 'Solutions.'];
   const [wordIdx, setWordIdx] = useState(0);
-  const [charIdx, setCharIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(9);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
@@ -294,7 +294,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center overflow-hidden"
+      className="hero-section relative pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center overflow-hidden"
       style={{ background: 'linear-gradient(160deg, #050A18 0%, #08122A 50%, #050A18 100%)' }}
     >
       <HoneycombGrid />
@@ -320,27 +320,13 @@ export default function Hero() {
         {/* Left */}
         <motion.div className="space-y-8" variants={containerVariants} initial="hidden" animate="visible">
 
-          {/* Badge */}
-          <motion.div variants={itemVariants}>
-            <motion.span
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
-              style={{ background: 'rgba(245,200,66,0.1)', border: '1px solid rgba(245,200,66,0.3)', color: '#F5C842' }}
-              whileHover={{ scale: 1.05 }}
-              animate={{ boxShadow: ['0 0 10px rgba(245,200,66,0.1)', '0 0 20px rgba(245,200,66,0.25)', '0 0 10px rgba(245,200,66,0.1)'] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <BeeIcon size={18} />
-              Busy Bee Studio — Mombasa, Kenya
-            </motion.span>
-          </motion.div>
-
           {/* Headline */}
           <motion.div variants={itemVariants}>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.07] sm:leading-tight">
               <motion.span className="block text-white"
                 animate={{ opacity: [0.8, 1, 0.8] }}
                 transition={{ duration: 3, repeat: Infinity }}>
-                I Build Digital
+                Make your next move
               </motion.span>
               <span className="block gradient-text mt-1">
                 {typedText}
@@ -351,53 +337,38 @@ export default function Hero() {
                   transition={{ duration: 0.6, repeat: Infinity }}
                 />
               </span>
-              <span className="block text-white mt-1">That Help Businesses</span>
-              <motion.span
-                className="block flex items-center gap-3"
+              <span className="block text-white mt-1">impossible to ignore.</span>
+              <span
+                className="block"
                 style={{ color: '#00F5FF' }}
-                animate={{ textShadow: ['0 0 10px rgba(0,245,255,0.3)', '0 0 30px rgba(0,245,255,0.7)', '0 0 10px rgba(0,245,255,0.3)'] }}
-                transition={{ duration: 2.5, repeat: Infinity }}
               >
-                Grow.
-                <motion.span animate={{ rotate: [-10, 10, -10], y: [0, -5, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-                  <HoneyJarIcon size={48} />
-                </motion.span>
-              </motion.span>
+                Let’s make it land.
+              </span>
             </h1>
             <p className="mt-5 text-gray-400 text-lg max-w-lg leading-relaxed">
-              Modern, fast and crafted with purpose — like a bee building its hive. Every pixel counts, every line of code matters.
+              A digital studio for businesses with real ambition. I combine brand thinking, sharp design and modern builds into work people remember—and act on.
             </p>
           </motion.div>
 
           {/* CTA Buttons */}
-          <motion.div className="flex flex-col sm:flex-row gap-4" variants={itemVariants}>
+          <motion.div className="flex flex-col items-start sm:flex-row gap-3 sm:gap-4" variants={itemVariants}>
             <motion.a
               href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%20want%20to%20discuss%20my%20project"
               target="_blank" rel="noopener noreferrer"
-              className="gradient-button px-8 py-4 rounded-xl font-bold text-black text-center inline-flex items-center justify-center gap-3"
+              className="gradient-button px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-black text-center text-sm sm:text-base inline-flex items-center justify-center gap-3"
               whileHover={{ scale: 1.06, y: -4 }}
               whileTap={{ scale: 0.97 }}
             >
               <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <WhatsAppIcon size={20} />
-                Chat on WhatsApp
+                Start a Hive Brief
               </span>
-            </motion.a>
-            <motion.a
-              href="#contact"
-              className="px-8 py-4 rounded-xl font-bold text-center border-2 transition inline-flex items-center justify-center gap-3"
-              style={{ borderColor: 'rgba(0,245,255,0.5)', color: '#00F5FF', background: 'rgba(0,245,255,0.05)' }}
-              whileHover={{ scale: 1.06, y: -4, borderColor: '#00F5FF', boxShadow: '0 0 25px rgba(0,245,255,0.4)', background: 'rgba(0,245,255,0.1)' }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <EmailIcon size={20} color="#00F5FF" />
-              Send a Message
             </motion.a>
           </motion.div>
 
           {/* Stats */}
           <motion.div
-            className="grid grid-cols-3 gap-6 pt-8"
+            className="hidden sm:grid grid-cols-3 gap-2 sm:gap-6 pt-6 sm:pt-8"
             variants={itemVariants}
             style={{ borderTop: '1px solid rgba(245,200,66,0.15)' }}
           >
@@ -415,7 +386,7 @@ export default function Hero() {
                 >
                   <stat.Icon size={22} color="#F5C842" />
                 </motion.div>
-                <p className="text-3xl font-black gradient-text">{stat.num}</p>
+                <p className="text-2xl sm:text-3xl font-black gradient-text">{stat.num}</p>
                 <p className="text-gray-500 text-xs mt-1">{stat.label}</p>
               </motion.div>
             ))}
@@ -497,29 +468,6 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-      >
-        <motion.span className="text-xs text-gray-500"
-          animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity }}>
-          Scroll to explore
-        </motion.span>
-        <motion.div
-          className="w-6 h-10 rounded-full border flex items-start justify-center pt-2"
-          style={{ borderColor: 'rgba(245,200,66,0.3)' }}
-        >
-          <motion.div
-            className="w-1.5 h-1.5 rounded-full"
-            style={{ background: '#F5C842' }}
-            animate={{ y: [0, 16, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }

@@ -56,11 +56,15 @@ export const BeeIcon = ({ size = 24, className = '' }) => {
           <feGaussianBlur in="SourceGraphic" stdDeviation="0.6" result="blur" />
           <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
+        <filter id="beeDepth" x="-35%" y="-35%" width="170%" height="180%">
+          <feDropShadow dx="0" dy="2" stdDeviation="1.5" floodColor="#000814" floodOpacity="0.58" />
+        </filter>
       </defs>
 
       {/* ── Upper wings ── */}
       {/* Left upper wing — swept-back teardrop */}
       <path
+        className="bee-wing bee-wing--left"
         d="M22 26 C14 22 4 16 2 10 C0 4 6 2 12 6 C18 10 22 20 22 26 Z"
         fill="url(#wingL1)"
         stroke="rgba(0,245,255,0.7)"
@@ -68,9 +72,11 @@ export const BeeIcon = ({ size = 24, className = '' }) => {
       />
       {/* Wing vein left upper */}
       <path d="M22 26 C16 18 8 10 4 7" stroke="rgba(0,245,255,0.4)" strokeWidth="0.4" strokeLinecap="round" filter="url(#beeGlow)" />
+      <path d="M17 22 L11 15 M19 25 L10 22" stroke="rgba(223,255,255,0.32)" strokeWidth="0.36" strokeLinecap="round" />
 
       {/* Right upper wing */}
       <path
+        className="bee-wing bee-wing--right"
         d="M30 26 C38 22 48 16 50 10 C52 4 46 2 40 6 C34 10 30 20 30 26 Z"
         fill="url(#wingR1)"
         stroke="rgba(0,245,255,0.7)"
@@ -78,10 +84,12 @@ export const BeeIcon = ({ size = 24, className = '' }) => {
       />
       {/* Wing vein right upper */}
       <path d="M30 26 C36 18 44 10 48 7" stroke="rgba(0,245,255,0.4)" strokeWidth="0.4" strokeLinecap="round" filter="url(#beeGlow)" />
+      <path d="M35 22 L41 15 M33 25 L42 22" stroke="rgba(223,255,255,0.32)" strokeWidth="0.36" strokeLinecap="round" />
 
       {/* ── Lower wings ── */}
       {/* Left lower wing — shorter, angled back */}
       <path
+        className="bee-wing bee-wing--left-lower"
         d="M22 30 C14 30 4 34 4 40 C4 44 10 45 16 42 C20 40 22 35 22 30 Z"
         fill="url(#wingL2)"
         stroke="rgba(0,245,255,0.45)"
@@ -89,6 +97,7 @@ export const BeeIcon = ({ size = 24, className = '' }) => {
       />
       {/* Right lower wing */}
       <path
+        className="bee-wing bee-wing--right-lower"
         d="M30 30 C38 30 48 34 48 40 C48 44 42 45 36 42 C32 40 30 35 30 30 Z"
         fill="url(#wingR2)"
         stroke="rgba(0,245,255,0.45)"
@@ -96,7 +105,7 @@ export const BeeIcon = ({ size = 24, className = '' }) => {
       />
 
       {/* ── Abdomen (main body, lower) ── */}
-      <ellipse cx="26" cy="50" rx="12" ry="18" fill="url(#beeAbd)" />
+      <ellipse cx="26" cy="50" rx="12" ry="18" fill="url(#beeAbd)" filter="url(#beeDepth)" />
 
       {/* Abdomen highlight sheen */}
       <ellipse cx="22" cy="40" rx="4" ry="6" fill="rgba(255,255,255,0.08)" transform="rotate(-10 22 40)" />
@@ -114,12 +123,17 @@ export const BeeIcon = ({ size = 24, className = '' }) => {
       <ellipse cx="26" cy="30" rx="9" ry="7" stroke="rgba(100,70,0,0.6)" strokeWidth="0.8" />
       {/* Thorax texture line */}
       <path d="M20 30 Q26 28 32 30" stroke="rgba(0,0,0,0.25)" strokeWidth="1" fill="none" />
+      <path d="M19.5 27 Q26 23 32.5 27 M19.5 31 Q26 27 32.5 31 M20.5 34 Q26 31 31.5 34" stroke="rgba(255,230,132,0.22)" strokeWidth="0.55" fill="none" strokeLinecap="round" />
 
       {/* ── Head ── */}
       <ellipse cx="26" cy="16" rx="8" ry="7" fill="url(#beeHead)" />
       <ellipse cx="26" cy="16" rx="8" ry="7" stroke="rgba(100,70,0,0.5)" strokeWidth="0.8" />
       {/* Head centre groove */}
       <path d="M26 10 L26 22" stroke="rgba(0,0,0,0.15)" strokeWidth="0.8" strokeLinecap="round" />
+      {/* Compound eyes and warm face sheen */}
+      <ellipse cx="22.2" cy="15.8" rx="2.15" ry="2.45" fill="#172632" stroke="rgba(0,245,255,0.45)" strokeWidth="0.42" />
+      <ellipse cx="29.8" cy="15.8" rx="2.15" ry="2.45" fill="#172632" stroke="rgba(0,245,255,0.45)" strokeWidth="0.42" />
+      <path d="M22 15.2 L23.2 14.5 M29 14.5 L30.2 15.2" stroke="rgba(218,255,255,0.55)" strokeWidth="0.42" strokeLinecap="round" />
 
       {/* ── Antennae — thin, precise, angular ── */}
       {/* Left antenna */}
@@ -131,6 +145,9 @@ export const BeeIcon = ({ size = 24, className = '' }) => {
       <path d="M30 10 L36 4" stroke="#D4A017" strokeWidth="1" strokeLinecap="round" />
       {/* Right bulb */}
       <circle cx="36.5" cy="3.5" r="1.6" fill="#FFD700" stroke="rgba(180,130,0,0.6)" strokeWidth="0.5" />
+
+      {/* Fine legs give the silhouette a less icon-like finish */}
+      <path d="M17 34 L11 39 M17 39 L10 45 M35 34 L41 39 M35 39 L42 45" stroke="#8B6914" strokeWidth="0.85" strokeLinecap="round" opacity="0.9" />
 
       {/* ── Stinger — sharp geometric point ── */}
       <path d="M26 68 L23 62 L29 62 Z" fill="#8B6914" stroke="rgba(100,70,0,0.5)" strokeWidth="0.5" strokeLinejoin="round" />
@@ -405,6 +422,15 @@ export const ImageIcon = ({ size = 24, className = '', color = 'currentColor' })
 export const LinkedInIcon = ({ size = 24, className = '', color = 'currentColor' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className={className} aria-label="LinkedIn">
     <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.39v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+  </svg>
+);
+
+/* ── Instagram ───────────────────────────────────────── */
+export const InstagramIcon = ({ size = 24, className = '', color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} className={className} aria-label="Instagram">
+    <rect x="3" y="3" width="18" height="18" rx="5" strokeWidth="1.7" />
+    <circle cx="12" cy="12" r="4.1" strokeWidth="1.7" />
+    <circle cx="17.5" cy="6.7" r="1" fill={color} stroke="none" />
   </svg>
 );
 
