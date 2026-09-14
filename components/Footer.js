@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import {
   BeeIcon, PhoneIcon, EmailIcon, MapPinIcon, GlobeIcon
 } from './Icons';
+import LogoMark from './LogoMark';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -17,7 +18,7 @@ export default function Footer() {
 
   const contactLinks = [
     { Icon: PhoneIcon, href: 'https://wa.me/254711410442', label: 'WhatsApp: +254 711 410 442', color: '#F5C842' },
-    { Icon: EmailIcon, href: 'mailto:hello@ziramzis.app', label: 'Email: hello@ziramzis.app', color: '#00F5FF' },
+    { Icon: EmailIcon, href: 'mailto:ziramzisfeis@gmail.com', label: 'Email: ziramzisfeis@gmail.com', color: '#00F5FF' },
     { Icon: MapPinIcon, href: null, label: 'Location: Mombasa, Kenya', color: '#F5C842' },
   ];
 
@@ -47,27 +48,17 @@ export default function Footer() {
 
         {/* Footer Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12"
+          className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 mb-12"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
         >
           {/* Brand */}
-          <motion.div variants={itemVariants} className="md:col-span-1">
+          <motion.div variants={itemVariants} className="col-span-2 md:col-span-1">
             <motion.div className="flex items-center gap-3 mb-4 cursor-pointer" whileHover={{ x: 4 }}>
               <div className="relative w-10 h-10 flex items-center justify-center">
-                <svg viewBox="0 0 40 46" className="w-10 h-10 absolute inset-0">
-                  <path d="M20 2 L38 12 L38 34 L20 44 L2 34 L2 12 Z"
-                    fill="none" stroke="url(#footerLogoGrad)" strokeWidth="1.5" />
-                  <defs>
-                    <linearGradient id="footerLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#F5C842" />
-                      <stop offset="100%" stopColor="#00F5FF" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <span className="gradient-text font-black text-lg z-10">Z</span>
+                <LogoMark size={38} id="flr" />
               </div>
               <div>
                 <div className="font-black text-lg gradient-text tracking-widest leading-none">ZIRAMZIS</div>
@@ -87,6 +78,16 @@ export default function Footer() {
           <motion.div variants={itemVariants}>
             <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Quick Links</h4>
             <ul className="space-y-3">
+              <li>
+                  <motion.a
+                    href="/keeper"
+                    className="text-gray-500 hover:text-yellow-400 transition-colors text-sm flex items-center gap-2 group"
+                    whileHover={{ x: 5 }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/40 group-hover:bg-yellow-400 transition-colors flex-shrink-0" />
+                    Meet the Keeper
+                  </motion.a>
+                </li>
               {['Services', 'Work', 'Process', 'Contact'].map((link) => (
                 <li key={link}>
                   <motion.a
@@ -128,7 +129,7 @@ export default function Footer() {
           </motion.div>
 
           {/* Availability */}
-          <motion.div variants={itemVariants}>
+          <motion.div variants={itemVariants} className="col-span-2 md:col-span-1">
             <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Let's work together</h4>
             <p className="text-gray-500 text-sm leading-relaxed mb-5">Have a project in mind? Start with a short message and I’ll get back to you with the right next step.</p>
             <motion.a
@@ -151,19 +152,11 @@ export default function Footer() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <motion.div className="flex items-center gap-2" whileHover={{ x: 4 }}>
-            <span>© {currentYear}</span>
-            <span className="text-yellow-400/70">Ziramzis</span>
-            <span>— Built with</span>
-            <motion.span
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <BeeIcon size={16} />
-            </motion.span>
-            <span>love.</span>
-          </motion.div>
-          <span>Designed and built from Mombasa, Kenya.</span>
+          <span>© {currentYear} Ziramzis — Busy Bee Studio, Mombasa, Kenya.</span>
+          <span className="flex items-center gap-5">
+            <a href="/terms" className="hover:text-yellow-400 transition-colors">Terms</a>
+            <a href="/privacy" className="hover:text-yellow-400 transition-colors">Privacy</a>
+          </span>
         </motion.div>
       </div>
     </footer>

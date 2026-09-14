@@ -21,7 +21,7 @@ const BeeFlyby = () => (
 const contactDetails = [
   { Icon: WhatsAppIcon, label: 'WhatsApp', value: 'Start a chat', href: 'https://wa.me/254711410442', color: '#F5C842' },
   { Icon: InstagramIcon, label: 'Instagram', value: '@ziramzis', href: 'https://www.instagram.com/ziramzis/', color: '#00F5FF' },
-  { Icon: MapPinIcon, label: 'Location', value: 'Mombasa, Kenya', href: null, color: '#F5C842' },
+  { Icon: MapPinIcon, label: 'Location', value: 'Mombasa, Kenya', href: null, color: '#F5C842', span: true },
 ];
 
 export default function CTA() {
@@ -51,12 +51,10 @@ export default function CTA() {
           transition={{ duration: 0.9 }}
           viewport={{ once: true, margin: '-80px' }}
         >
-          {/* Animated gradient border */}
-          <motion.div
+          {/* Gradient border */}
+          <div
             className="absolute inset-0 rounded-3xl"
-            style={{ background: 'linear-gradient(135deg, rgba(245,200,66,0.4), rgba(0,245,255,0.2), rgba(245,200,66,0.4))' }}
-            animate={{ opacity: [0.6, 1, 0.6] }}
-            transition={{ duration: 3, repeat: Infinity }}
+            style={{ background: 'linear-gradient(135deg, rgba(245,200,66,0.4), rgba(0,245,255,0.2), rgba(245,200,66,0.4))', opacity: 0.8 }}
           />
 
           <div className="relative rounded-3xl p-6 sm:p-14 text-center"
@@ -77,13 +75,9 @@ export default function CTA() {
             </div>
 
             {/* Big bee icon */}
-            <motion.div
-              className="flex justify-center mb-6"
-              animate={{ rotate: [-10, 10, -10], y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <PhoneBee size={92} />
-            </motion.div>
+            <div className="flex justify-center mb-6">
+              <PhoneBee size={92} still />
+            </div>
 
             <motion.h2
               className="text-3xl sm:text-5xl font-black mb-5 sm:mb-6"
@@ -102,7 +96,7 @@ export default function CTA() {
               whileInView="visible"
               viewport={{ once: true }}
             >
-              Have a project in mind? The busy bee is ready to get to work. Let's turn your vision into something sweet — reach out and let's build together.
+              Have a project in mind? I'm ready to get to work. Let's turn your vision into something worth remembering.
             </motion.p>
 
             {/* Buttons */}
@@ -117,7 +111,7 @@ export default function CTA() {
                 href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%20have%20a%20project%20idea%20I%27d%20like%20to%20discuss"
                 target="_blank" rel="noopener noreferrer"
                 className="gradient-button w-fit self-center px-5 sm:px-10 py-3.5 sm:py-4 rounded-xl font-bold text-black text-sm sm:text-base inline-flex items-center justify-center gap-3"
-                whileHover={{ scale: 1.06, y: -4 }}
+                whileHover={{ scale: 1.04, y: -3 }}
                 whileTap={{ scale: 0.97 }}
               >
                 <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -130,7 +124,7 @@ export default function CTA() {
                 href="tel:+254711410442"
                 className="w-fit self-center px-5 sm:px-10 py-3.5 sm:py-4 rounded-xl font-bold text-sm sm:text-base border-2 inline-flex items-center justify-center gap-3 transition"
                 style={{ borderColor: 'rgba(0,245,255,0.5)', color: '#00F5FF', background: 'rgba(0,245,255,0.05)' }}
-                whileHover={{ scale: 1.06, y: -4, borderColor: '#00F5FF', boxShadow: '0 0 25px rgba(0,245,255,0.3)', background: 'rgba(0,245,255,0.1)' }}
+                whileHover={{ scale: 1.04, y: -3, borderColor: '#00F5FF', boxShadow: '0 0 25px rgba(0,245,255,0.3)', background: 'rgba(0,245,255,0.1)' }}
                 whileTap={{ scale: 0.97 }}
               >
                 <PhoneIcon size={20} color="#00F5FF" />
@@ -140,27 +134,23 @@ export default function CTA() {
 
             {/* Contact Info */}
             <motion.div
-              className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6"
+              className="grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6"
               style={{ borderTop: '1px solid rgba(245,200,66,0.12)', paddingTop: '2rem' }}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.7 }}
               viewport={{ once: true }}
             >
-              {contactDetails.map((contact, idx) => (
+              {contactDetails.map((contact) => (
                 <motion.div
                   key={contact.label}
-                  className="text-center"
-                  whileHover={{ scale: 1.05, y: -4 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                  className={contact.span ? 'text-center col-span-2 sm:col-span-1' : 'text-center'}
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
                 >
-                  <motion.div
-                    className="flex justify-center mb-2"
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: idx * 0.5 }}
-                  >
+                  <div className="flex justify-center mb-2">
                     <contact.Icon size={24} color={contact.color} />
-                  </motion.div>
+                  </div>
                   <p className="text-gray-500 text-xs uppercase tracking-widest mb-1">{contact.label}</p>
                   {contact.href ? (
                     <motion.a href={contact.href} className="font-semibold text-sm transition-colors"

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Head from 'next/head';
 import {
   BeeIcon, GlobeIcon, BriefcaseIcon, ChartIcon, MapPinIcon,
   WhatsAppIcon, BoltIcon, ArrowRightIcon, CheckRocketIcon,
@@ -34,6 +35,10 @@ const briefs = [
 
 export default function AdminPage() {
   const [activeView, setActiveView] = useState('Overview');
+  const [dayLabel, setDayLabel] = useState('');
+  useEffect(() => {
+    setDayLabel(new Date().toLocaleDateString('en-US', { weekday: 'long' }));
+  }, []);
   const views = ['Overview', 'Business hunt', 'Bee roles', 'Briefs'];
   const viewCopy = {
     Overview: ['The hive has useful work to do.', 'One view for the leads, briefs and delivery signals that keep Ziramzis moving.'],
@@ -43,7 +48,12 @@ export default function AdminPage() {
   }[activeView];
 
   return (
-    <main className="admin-shell">
+    <>
+      <Head>
+        <title>Inner Hive - Ziramzis</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
+      <main className="admin-shell">
       <aside className="admin-sidebar">
         <a href="/" className="admin-brand" aria-label="Back to Ziramzis website">
           <span className="admin-brand__mark"><span>Z</span></span>
@@ -65,7 +75,7 @@ export default function AdminPage() {
 
       <section className="admin-main">
         <header className="admin-topbar">
-          <div><p className="admin-kicker">Tuesday · Mombasa, Kenya</p><h1>{activeView}</h1></div>
+          <div><p className="admin-kicker">{dayLabel ? `${dayLabel} · Mombasa, Kenya` : 'Mombasa, Kenya'}</p><h1>{activeView}</h1></div>
           <div className="admin-topbar__actions"><button className="admin-icon-button" aria-label="Notifications"><span>•</span><span>•</span><span>•</span></button><div className="admin-avatar">Z</div></div>
         </header>
 
@@ -90,5 +100,6 @@ export default function AdminPage() {
         <footer className="admin-footer"><span><span className="admin-footer__signal" /> Hive brief v0.1 · private workspace</span><span>Next: connect real lead data and auth</span></footer>
       </section>
     </main>
+    </>
   );
 }

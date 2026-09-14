@@ -26,9 +26,9 @@ export default function Work() {
       <div className="work-showcase__beam" aria-hidden="true" />
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div className="max-w-3xl" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <p className="eyebrow"><BeeIcon size={16} /> WEBSITE DIRECTIONS</p>
+          <p className="eyebrow"><BeeIcon size={16} /> <span style={{ color: 'var(--cyan-mid)' }}>WEBSITE DIRECTIONS</span></p>
           <h2 className="section-title mt-5">Your site can do more than <span className="gradient-text">look busy.</span></h2>
-          <p className="text-gray-400 text-lg leading-relaxed mt-5">Explore three real interface directions for the kinds of businesses Ziramzis can shape. Every screen is designed to give the visitor a feeling—and a next move.</p>
+          <p className="text-gray-400 text-lg leading-relaxed mt-5">Explore three real interface directions for the kinds of businesses I can shape. Every screen is designed to give the visitor a feeling—and a next move.</p>
         </motion.div>
         <div className="grid lg:grid-cols-[.7fr_1.3fr] gap-8 mt-12 items-start">
           <div className="sample-selector" role="tablist" aria-label="Website directions">

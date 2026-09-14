@@ -67,11 +67,9 @@ export default function Services() {
           <motion.div
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium mb-4"
             style={{ background: 'rgba(245,200,66,0.08)', border: '1px solid rgba(245,200,66,0.2)', color: '#F5C842' }}
-            animate={{ boxShadow: ['0 0 10px rgba(245,200,66,0.1)', '0 0 20px rgba(245,200,66,0.2)', '0 0 10px rgba(245,200,66,0.1)'] }}
-            transition={{ duration: 2.5, repeat: Infinity }}
           >
             <HoneycombIcon size={16} />
-            What the hive builds
+            <span style={{ color: 'var(--cyan-mid)' }}>WHAT I BUILD</span>
           </motion.div>
           <h2 className="text-4xl sm:text-5xl font-black mb-4">
             Built to be <span className="gradient-text">chosen.</span>
@@ -89,13 +87,13 @@ export default function Services() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
         >
-          {services.map((service, index) => (
+          {services.map((service) => (
             <motion.div
               key={service.id}
               className="honey-card p-6 rounded-2xl text-center cursor-pointer group relative overflow-hidden"
               variants={itemVariants}
-              whileHover={{ y: -10, scale: 1.03 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+              whileHover={{ y: -6 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
             >
               <div className="absolute top-0 right-0 opacity-20 pointer-events-none">
                 <svg width="40" height="46" viewBox="0 0 40 46">
@@ -108,12 +106,7 @@ export default function Services() {
                 style={{ background: service.glow === 'honey' ? 'radial-gradient(ellipse at center, rgba(245,200,66,0.06), transparent 70%)' : 'radial-gradient(ellipse at center, rgba(0,245,255,0.06), transparent 70%)' }}
               />
               <HexIcon glow={service.glow}>
-                <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, delay: index * 0.3 }}
-                >
-                  <service.Icon size={32} color={service.iconColor} />
-                </motion.div>
+                <service.Icon size={32} color={service.iconColor} />
               </HexIcon>
               <h3 className="text-xl font-bold mb-3 text-white">{service.title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">{service.description}</p>
@@ -135,7 +128,7 @@ export default function Services() {
             Industries I <span className="gradient-text">Serve</span>
           </h3>
           <p className="text-gray-400 text-center mb-10 max-w-xl mx-auto">
-            The busy bee pollinates every flower — I bring digital excellence to every industry.
+            From restaurants to law firms to startups — the goal is the same: a digital presence that works as hard as you do.
           </p>
           <motion.div
             className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
@@ -149,20 +142,15 @@ export default function Services() {
                 key={industry.label}
                 className="honey-card p-4 rounded-xl text-center font-semibold text-sm cursor-pointer relative overflow-hidden group"
                 variants={itemVariants}
-                whileHover={{ scale: 1.05, y: -4 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
               >
                 <motion.div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
                   style={{ background: 'linear-gradient(135deg, rgba(245,200,66,0.08), rgba(0,245,255,0.04))' }}
                 />
                 <div className="relative z-10 flex flex-col items-center gap-2">
-                  <motion.div
-                    animate={{ rotate: [0, 8, -8, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, delay: index * 0.25 }}
-                  >
-                    <industry.Icon size={24} color={index % 2 === 0 ? '#F5C842' : '#00F5FF'} />
-                  </motion.div>
+                  <industry.Icon size={24} color={index % 2 === 0 ? '#F5C842' : '#00F5FF'} />
                   <span className="text-gray-300 group-hover:text-yellow-400 transition-colors duration-300">
                     {industry.label}
                   </span>

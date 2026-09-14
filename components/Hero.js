@@ -6,17 +6,8 @@ import {
   WhatsAppIcon
 } from './Icons';
 
-/* ── Animated Honeycomb Grid ──────────────────────────── */
+/* ── Static Honeycomb Grid ──────────────────────────── */
 const HoneycombGrid = () => {
-  const hexes = Array.from({ length: 24 }, (_, i) => ({
-    id: i,
-    x: (i % 6) * 90 + (Math.floor(i / 6) % 2 === 0 ? 0 : 45),
-    y: Math.floor(i / 6) * 78,
-    delay: i * 0.08,
-    size: 35 + (i % 3) * 10,
-    opacity: 0.04 + (i % 4) * 0.02,
-  }));
-
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <svg className="w-full h-full absolute inset-0 opacity-30" xmlns="http://www.w3.org/2000/svg">
@@ -28,34 +19,20 @@ const HoneycombGrid = () => {
         </defs>
         <rect width="100%" height="100%" fill="url(#hex-pattern)" />
       </svg>
-      {hexes.map((hex) => (
-        <motion.div
-          key={hex.id}
-          className="absolute"
-          style={{ left: `${hex.x}px`, top: `${hex.y}px` }}
-          animate={{ opacity: [hex.opacity, hex.opacity * 3, hex.opacity], scale: [1, 1.1, 1] }}
-          transition={{ duration: 3 + hex.delay * 2, repeat: Infinity, delay: hex.delay, ease: 'easeInOut' }}
-        >
-          <svg width={hex.size} height={hex.size * 1.15} viewBox="0 0 40 46">
-            <path d="M20 2 L38 11.6 L38 34.4 L20 44 L2 34.4 L2 11.6 Z"
-              fill="rgba(245,200,66,0.05)" stroke="rgba(245,200,66,0.18)" strokeWidth="1" />
-          </svg>
-        </motion.div>
-      ))}
     </div>
   );
 };
 
 /* ── Animated Bee Character ──────────────────────────── */
-const BeeCharacter = () => (
+const BeeCharacter = ({ className = '', style: extraStyle, drift = true }) => (
   <motion.div
-    className="hero-busy-bee absolute pointer-events-none right-[-3%] top-[7%] sm:right-[6%] sm:top-[18%] lg:right-[8%] lg:top-[25%] z-10 scale-[0.45] sm:scale-75 md:scale-90 lg:scale-100"
-    style={{ transformOrigin: 'top right' }}
-    animate={{
+    className={'absolute pointer-events-none z-10 ' + className}
+    style={{ transformOrigin: 'top right', ...extraStyle }}
+    animate={drift ? {
       x: [0, 60, -30, 90, 20, 0],
       y: [0, -50, -90, -60, -20, 0],
       rotate: [-10, 15, -8, 20, -12, -10],
-    }}
+    } : undefined}
     transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
   >
     <motion.div animate={{ scale: [1, 1.03, 1] }} transition={{ duration: 0.4, repeat: Infinity, ease: 'easeInOut' }}>
@@ -213,35 +190,6 @@ const BeeCharacter = () => (
   </motion.div>
 );
 
-/* ── Floating Honey Drops ────────────────────────────── */
-const HoneyDrops = () => {
-  const drops = [
-    { id: 0, x: '10%', delay: 0, color: 'rgba(245,200,66,0.6)' },
-    { id: 1, x: '75%', delay: 1.5, color: 'rgba(0,245,255,0.5)' },
-    { id: 2, x: '40%', delay: 3, color: 'rgba(245,200,66,0.4)' },
-    { id: 3, x: '88%', delay: 4.5, color: 'rgba(255,241,118,0.5)' },
-    { id: 4, x: '22%', delay: 6, color: 'rgba(0,245,255,0.4)' },
-  ];
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {drops.map((drop) => (
-        <motion.div
-          key={drop.id}
-          className="absolute"
-          style={{ left: drop.x, bottom: '-10px' }}
-          animate={{ y: [0, -800], opacity: [0, 0.8, 0.4, 0] }}
-          transition={{ duration: 8 + drop.delay, delay: drop.delay, repeat: Infinity, ease: 'easeOut' }}
-        >
-          <svg width="12" height="16" viewBox="0 0 12 16">
-            <path d="M6 0 C6 0 0 8 0 11 C0 14.3 2.7 16 6 16 C9.3 16 12 14.3 12 11 C12 8 6 0 6 0 Z"
-              fill={drop.color} />
-          </svg>
-        </motion.div>
-      ))}
-    </div>
-  );
-};
-
 /* ── Stat entry ──────────────────────────────────────── */
 const stats = [
   { num: '01', label: 'Creative lead, direct access', Icon: BeeIcon },
@@ -251,6 +199,8 @@ const stats = [
 
 /* ── Orbiting icons ──────────────────────────────────── */
 const orbitIcons = [GlobeIcon, MobileIcon, BriefcaseIcon, BoltIcon];
+
+export { BeeCharacter };
 
 export default function Hero() {
   const containerVariants = {
@@ -262,33 +212,37 @@ export default function Hero() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } },
   };
 
-  const [typedText, setTypedText] = useState('Websites.');
-  const words = ['Websites.', 'Web Apps.', 'Portfolios.', 'Solutions.'];
+  const [typedText, setTypedText] = useState('');
+  const words = ['Websites.', 'Booking Systems.', 'Brand Design.', 'Web Apps.'];
   const [wordIdx, setWordIdx] = useState(0);
-  const [charIdx, setCharIdx] = useState(9);
+  const [charIdx, setCharIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const current = words[wordIdx];
-    const timeout = setTimeout(() => {
-      if (!deleting) {
-        setTypedText(current.slice(0, charIdx + 1));
-        if (charIdx + 1 === current.length) {
-          setTimeout(() => setDeleting(true), 1800);
-        } else {
+    let timeout;
+    if (!deleting) {
+      if (charIdx < current.length) {
+        timeout = setTimeout(() => {
+          setTypedText(current.slice(0, charIdx + 1));
           setCharIdx(charIdx + 1);
-        }
+        }, 85);
       } else {
-        setTypedText(current.slice(0, charIdx - 1));
-        if (charIdx - 1 === 0) {
+        timeout = setTimeout(() => setDeleting(true), 2000);
+      }
+    } else {
+      if (charIdx > 0) {
+        timeout = setTimeout(() => {
+          setTypedText(current.slice(0, charIdx - 1));
+          setCharIdx(charIdx - 1);
+        }, 45);
+      } else {
+        timeout = setTimeout(() => {
           setDeleting(false);
           setWordIdx((wordIdx + 1) % words.length);
-          setCharIdx(0);
-        } else {
-          setCharIdx(charIdx - 1);
-        }
+        }, 400);
       }
-    }, deleting ? 60 : 100);
+    }
     return () => clearTimeout(timeout);
   }, [charIdx, deleting, wordIdx]);
 
@@ -298,20 +252,12 @@ export default function Hero() {
       style={{ background: 'linear-gradient(160deg, #050A18 0%, #08122A 50%, #050A18 100%)' }}
     >
       <HoneycombGrid />
-      <HoneyDrops />
-      <BeeCharacter />
+      <BeeCharacter className="hero-busy-bee right-[-3%] top-[7%] sm:right-[6%] sm:top-[18%] lg:right-[8%] lg:top-[25%] scale-[0.45] sm:scale-75 md:scale-90 lg:scale-100" />
 
-      {/* Radial glows */}
+      {/* Radial glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <motion.div className="absolute rounded-full"
+        <div className="absolute rounded-full"
           style={{ width: '600px', height: '600px', background: 'radial-gradient(ellipse, rgba(245,200,66,0.08) 0%, transparent 70%)', left: '-100px', top: '10%' }}
-          animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 6, repeat: Infinity }}
-        />
-        <motion.div className="absolute rounded-full"
-          style={{ width: '400px', height: '400px', background: 'radial-gradient(ellipse, rgba(0,245,255,0.06) 0%, transparent 70%)', right: '-50px', bottom: '10%' }}
-          animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.9, 0.4] }}
-          transition={{ duration: 8, repeat: Infinity, delay: 2 }}
         />
       </div>
 
@@ -323,11 +269,7 @@ export default function Hero() {
           {/* Headline */}
           <motion.div variants={itemVariants}>
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.07] sm:leading-tight">
-              <motion.span className="block text-white"
-                animate={{ opacity: [0.8, 1, 0.8] }}
-                transition={{ duration: 3, repeat: Infinity }}>
-                Make your next move
-              </motion.span>
+              <span className="block text-white">Make your next move</span>
               <span className="block gradient-text mt-1">
                 {typedText}
                 <motion.span
@@ -338,12 +280,6 @@ export default function Hero() {
                 />
               </span>
               <span className="block text-white mt-1">impossible to ignore.</span>
-              <span
-                className="block"
-                style={{ color: '#00F5FF' }}
-              >
-                Let’s make it land.
-              </span>
             </h1>
             <p className="mt-5 text-gray-400 text-lg max-w-lg leading-relaxed">
               A digital studio for businesses with real ambition. I combine brand thinking, sharp design and modern builds into work people remember—and act on.
@@ -364,6 +300,9 @@ export default function Hero() {
                 Start a Hive Brief
               </span>
             </motion.a>
+            <p className="flex items-center gap-2 text-sm font-medium mt-2" style={{ color: 'var(--cyan-mid)' }}>
+              <BeeIcon size={14} color="#F5C842" /> Let's make it land.
+            </p>
           </motion.div>
 
           {/* Stats */}
@@ -372,20 +311,16 @@ export default function Hero() {
             variants={itemVariants}
             style={{ borderTop: '1px solid rgba(245,200,66,0.15)' }}
           >
-            {stats.map((stat, i) => (
+            {stats.map((stat) => (
               <motion.div
                 key={stat.label}
                 className="text-center"
-                whileHover={{ scale: 1.08 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                whileHover={{ scale: 1.04 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
               >
-                <motion.div
-                  className="flex justify-center mb-2"
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}
-                >
+                <div className="flex justify-center mb-2">
                   <stat.Icon size={22} color="#F5C842" />
-                </motion.div>
+                </div>
                 <p className="text-2xl sm:text-3xl font-black gradient-text">{stat.num}</p>
                 <p className="text-gray-500 text-xs mt-1">{stat.label}</p>
               </motion.div>
@@ -401,11 +336,9 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.4 }}
         >
           <div className="relative w-96 h-96">
-            {/* Rotating outer hex */}
-            <motion.div
+            {/* Static outer hex */}
+            <div
               className="absolute inset-0 flex items-center justify-center"
-              animate={{ rotate: [0, 360] }}
-              transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
             >
               <svg viewBox="0 0 200 230" className="w-full h-full">
                 <path d="M100 10 L190 55 L190 175 L100 220 L10 175 L10 55 Z"
@@ -413,18 +346,16 @@ export default function Hero() {
                 <path d="M100 30 L175 68 L175 162 L100 200 L25 162 L25 68 Z"
                   fill="rgba(245,200,66,0.04)" stroke="rgba(245,200,66,0.25)" strokeWidth="1" />
               </svg>
-            </motion.div>
+            </div>
 
             {/* Center */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <motion.div
+              <div
                 className="w-24 h-24 flex items-center justify-center rounded-full mb-4"
-                style={{ background: 'radial-gradient(circle, rgba(245,200,66,0.2), rgba(245,200,66,0.05))' }}
-                animate={{ boxShadow: ['0 0 20px rgba(245,200,66,0.2)', '0 0 60px rgba(245,200,66,0.5)', '0 0 20px rgba(245,200,66,0.2)'] }}
-                transition={{ duration: 2.5, repeat: Infinity }}
+                style={{ background: 'radial-gradient(circle, rgba(245,200,66,0.2), rgba(245,200,66,0.05))', boxShadow: '0 0 35px rgba(245,200,66,0.3)' }}
               >
                 <BeeIcon size={52} />
-              </motion.div>
+              </div>
               <h3 className="text-xl font-black gradient-text">Busy Bee</h3>
               <p className="text-gray-400 text-sm text-center mt-1">Building your digital hive</p>
             </div>
@@ -443,27 +374,12 @@ export default function Hero() {
                     background: 'rgba(13, 31, 60, 0.9)',
                     border: '1px solid rgba(245,200,66,0.25)',
                   }}
-                  animate={{ rotate: [0, -360] }}
-                  transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-                  whileHover={{ scale: 1.2, zIndex: 20 }}
+                  whileHover={{ scale: 1.15 }}
                 >
-                  <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}>
-                    <IconComp size={22} color="#F5C842" />
-                  </motion.div>
+                  <IconComp size={22} color="#F5C842" />
                 </motion.div>
               );
             })}
-
-            {/* Floating dots */}
-            {[...Array(8)].map((_, i) => (
-              <motion.div key={i} className="absolute pointer-events-none"
-                style={{ left: `${10 + (i * 11) % 80}%`, top: `${10 + (i * 17) % 80}%` }}
-                animate={{ opacity: [0, 0.6, 0], scale: [0, 1, 0], y: [0, -30] }}
-                transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.4, ease: 'easeOut' }}
-              >
-                <div className="w-2 h-2 rounded-full" style={{ background: i % 2 === 0 ? '#F5C842' : '#00F5FF' }} />
-              </motion.div>
-            ))}
           </div>
         </motion.div>
       </div>

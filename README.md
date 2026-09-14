@@ -1,133 +1,71 @@
-# Ziramzis - Digital Creator Portfolio
+# Ziramzis - The Digital Hive
 
-A modern, responsive portfolio website built with Next.js and Tailwind CSS for Ziramzis, a digital creator offering websites, web apps, and portfolio solutions.
+One-page portfolio for Ziramzis, a digital studio based in Mombasa, Kenya.
+Dark navy + honey gold + cyan neon palette, bee/hexagon motif, animated bee
+characters, and a WhatsApp-first conversion flow.
 
-## 🚀 Features
+## Sections (single page)
 
-- **Responsive Design**: Mobile-first approach for all devices
-- **Modern Aesthetics**: Dark theme with vibrant purple and blue gradients
-- **Performance Optimized**: Built with Next.js for fast load times
-- **SEO Ready**: Meta tags and structured data for search engines
-- **WhatsApp Integration**: Direct messaging integration
-- **Smooth Animations**: Interactive elements with hover effects
-- **One-Page Layout**: Single page with smooth scrolling navigation
+- Header - fixed nav with mobile menu
+- Hero - typewriter headline, cyber-bee mascot, orbit visual
+- Services - "What the hive builds" cards + industries grid
+- HiveRoles - "The Idea Hive", animated WhatsApp-style conversation
+- Work - "Website directions": three interactive browser-frame design directions
+- Process - five steps + summary cards
+- HiveBrief - package picker (KSh ranges), idea box, budget slider, prefilled WhatsApp message
+- CTA - contact grid with WhatsApp and call buttons
+- Footer - quick links, contact, "Follow the Bee" back-to-top
+- WhatsAppWidget - floating chat button
 
-## 📋 Sections
+## Admin route
 
-1. **Header** - Navigation with mobile menu
-2. **Hero** - Eye-catching introduction with CTAs
-3. **Services** - Four main service offerings
-4. **Work** - Featured project showcase
-5. **Process** - 5-step workflow visualization
-6. **CTA** - Call-to-action section
-7. **Footer** - Newsletter signup and links
+/admin - "The Inner Hive": a static mock CRM dashboard (leads, roles, briefs,
+pipeline) with mock data only. No auth yet; marked noindex and disallowed in
+robots.txt. Next step noted in-app: connect real lead data and auth.
 
-## 🛠️ Tech Stack
+## Tech stack
 
-- **Framework**: Next.js 14
-- **Styling**: Tailwind CSS
-- **Language**: JavaScript/JSX
-- **Deployment Ready**: Vercel optimized
+- Next.js 14 (Pages Router), React 18
+- Tailwind CSS 3 + custom design tokens in styles/globals.css
+- framer-motion 12 (reduced-motion aware via MotionConfig)
+- Static pages, deployed on Vercel: https://ziramzis.vercel.app
 
-## 📦 Installation
+## Getting started
 
-1. Clone the repository:
-```bash
-git clone https://github.com/Tzifas/ziramzis-portfolio.git
-cd ziramzis-portfolio
-```
-
-2. Install dependencies:
 ```bash
 npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm start        # serve the production build
 ```
 
-3. Run development server:
-```bash
-npm run dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## 🏗️ Project Structure
+## Project structure
 
 ```
 ziramzis-portfolio/
-├── components/        # Reusable React components
-│   ├── Header.js
-│   ├── Hero.js
-│   ├── Services.js
-│   ├── Work.js
-│   ├── Process.js
-│   ├── CTA.js
-│   └── Footer.js
-├── pages/            # Next.js pages
-│   ├── _app.js
-│   ├── _document.js
-│   └── index.js
-├── styles/          # Global styles
-│   └── globals.css
-├── public/          # Static assets
-├── tailwind.config.js
-├── next.config.js
-└── package.json
+  components/   Header, Hero, Services, HiveRoles, Work, Process,
+                HiveBrief, CTA, Footer, WhatsAppWidget, BeeScenes, Icons
+  pages/        _app, _document, index, admin/
+  styles/       globals.css (design tokens + custom classes)
+  public/       robots.txt, sitemap.xml, favicon.svg
 ```
 
-## 🎨 Customization
+## Customization
 
-### Update Contact Information
+- WhatsApp number (wa.me/254711410442): Hero, Header, Footer, CTA,
+  WhatsAppWidget and the HiveBrief message builder
+- Packages and KSh price ranges: `packages` array in components/HiveBrief.js
+- Industries grid: components/Services.js
+- Sample website directions: components/Work.js
+- Admin mock data (leads, roles, briefs, pipeline): pages/admin/index.js
+- Colors and tokens: tailwind.config.js and the :root block at the top of
+  styles/globals.css
 
-Edit `components/Header.js`, `components/Hero.js`, `components/CTA.js`, and `components/Footer.js` to update:
-- WhatsApp number
-- Email address
-- Location
+## Deployment
 
-### Modify Colors
+Push to GitHub, import the repo on Vercel, and it deploys on every push.
+`npm run build` produces fully prerendered static pages.
 
-Update the color scheme in `tailwind.config.js`:
-```javascript
-colors: {
-  primary: '#7C3AED',    // Purple
-  secondary: '#3B82F6',  // Blue
-  dark: '#0F172A',
-  'dark-card': '#1E293B',
-}
-```
+## Contact
 
-### Add Your Projects
-
-Edit the `workSamples` array in `components/Work.js` to showcase your portfolio pieces.
-
-## 📱 Responsive Breakpoints
-
-- Mobile: 320px and up
-- Tablet: 768px and up (md)
-- Desktop: 1024px and up (lg)
-
-## 🚀 Deployment
-
-Deploy to Vercel with one click:
-
-```bash
-vercel
-```
-
-Or manually:
-
-1. Push to GitHub
-2. Connect repository to Vercel
-3. Vercel automatically deploys on each push
-
-## 📞 Contact
-
-- **WhatsApp**: +254 711 410 442
-- **Location**: Mombasa, Kenya
-- **Website**: https://ziramzis.vercel.app
-
-## 📄 License
-
-© 2025 Ziramzis. All rights reserved.
-
-## 🤝 Contributing
-
-Feel free to fork this repository and customize it for your needs!
+WhatsApp +254 711 410 442 | Mombasa, Kenya | hello@ziramzis.app

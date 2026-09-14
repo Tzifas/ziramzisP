@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BeeIcon } from './Icons';
+import LogoMark from './LogoMark';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +21,8 @@ export default function Header() {
   };
 
   const navItems = [
-    { label: 'What we build', id: 'services' },
-    { label: 'Meet the Bee', id: 'colony' },
+    { label: 'What I build', id: 'services' },
+    { label: 'Idea Bee', id: 'colony' },
     { label: 'Website directions', id: 'work' },
     { label: 'Start a brief', id: 'brief' },
   ];
@@ -52,20 +53,10 @@ export default function Header() {
         >
           <motion.div
             className="relative w-10 h-10 flex items-center justify-center"
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+            whileHover={{ rotate: 360 }}
+            transition={{ duration: 1.2, ease: 'easeInOut' }}
           >
-            <svg viewBox="0 0 40 46" className="w-10 h-10 absolute inset-0">
-              <path d="M20 2 L38 12 L38 34 L20 44 L2 34 L2 12 Z"
-                fill="none" stroke="url(#logoGrad)" strokeWidth="2" />
-              <defs>
-                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#F5C842" />
-                  <stop offset="100%" stopColor="#00F5FF" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <span className="gradient-text font-black text-lg z-10">Z</span>
+            <LogoMark size={38} id="hdr" />
           </motion.div>
           <div className="flex flex-col leading-none">
             <span className="font-black text-lg tracking-widest gradient-text">ZIRAMZIS</span>
@@ -126,7 +117,6 @@ export default function Header() {
         >
           {[0, 1, 2].map((i) => (
             <motion.div
-              id="mobile-navigation"
               key={i}
               className="h-0.5 bg-yellow-400 rounded"
               style={{ width: i === 1 ? '18px' : '24px' }}
@@ -143,6 +133,7 @@ export default function Header() {
         <AnimatePresence>
           {isOpen && (
             <motion.div
+              id="mobile-navigation"
               className="absolute top-full left-0 right-0 md:hidden"
               style={{
                 background: 'rgba(5, 10, 24, 0.98)',
