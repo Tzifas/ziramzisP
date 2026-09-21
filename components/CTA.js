@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { BeeIcon, WhatsAppIcon, PhoneIcon, MapPinIcon, InstagramIcon } from './Icons';
+import { PhoneBee } from './BeeScenes';
 
 /* ── Bee Flyby ────────────────────────────────────────── */
 const BeeFlyby = () => (
@@ -75,14 +76,7 @@ export default function CTA() {
 
             {/* Big bee icon */}
             <div className="flex justify-center mb-6">
-              <img
-                src="/brand/contact-bee.jpeg"
-                alt="Ziramzis 3D bee mascot — Busy Bee Studio"
-                width="180"
-                height="180"
-                loading="lazy"
-                style={{ width: 180, height: 180, objectFit: 'cover', borderRadius: 22, border: '1px solid rgba(245,200,66,0.35)', boxShadow: '0 22px 55px rgba(0,0,0,0.45)' }}
-              />
+              <PhoneBee size={92} />
             </div>
 
             <motion.h2
