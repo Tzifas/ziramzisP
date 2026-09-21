@@ -5,7 +5,8 @@ import {
   MapPinIcon, ChartIcon, BriefcaseIcon, HoneycombIcon, ClockIcon,
   ScaleIcon, CheckRocketIcon, GlobeIcon,
 } from '../components/Icons'
-import LogoMark from '../components/LogoMark'
+import BrandLockup from '../components/BrandLockup'
+import { absoluteUrl } from '../lib/site'
 
 const cardStyle = {
   background: 'linear-gradient(135deg, rgba(13,31,60,0.9), rgba(10,22,40,0.95))',
@@ -85,15 +86,15 @@ export default function Keeper() {
       <Head>
         <title>Meet the Keeper — Ziramzis | Brand, Web Design & Development in Mombasa</title>
         <meta name="description" content="Meet Ramadhan “Ziramzis” — a Mombasa web designer and developer building brand identities, websites and web apps with a colony of AI assistants. Blueprint before code, from KSh 25k." />
-        <link rel="canonical" href="https://ziramzis.vercel.app/keeper/" />
+        <link rel="canonical" href={absoluteUrl('/keeper/')} />
         <meta name="theme-color" content="#050A18" />
         <meta property="og:title" content="Meet the Keeper — Ziramzis" />
         <meta property="og:description" content="The person and the process behind Ziramzis — brand, web design and development from Mombasa, Kenya, with AI bee helpers." />
         <meta property="og:type" content="profile" />
-        <meta property="og:url" content="https://ziramzis.vercel.app/keeper/" />
-        <meta property="og:image" content="https://ziramzis.vercel.app/og-image.png" />
+        <meta property="og:url" content={absoluteUrl('/keeper/')} />
+        <meta property="og:image" content={absoluteUrl('/brand/campaign.jpg')} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://ziramzis.vercel.app/og-image.png" />
+        <meta name="twitter:image" content={absoluteUrl('/brand/campaign.jpg')} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([
@@ -103,8 +104,8 @@ export default function Keeper() {
               name: 'Ramadhan',
               alternateName: 'Ziramzis',
               jobTitle: 'Web designer and developer',
-              url: 'https://ziramzis.vercel.app/keeper/',
-              image: 'https://ziramzis.vercel.app/images/keeper-hero.jpeg',
+              url: absoluteUrl('/keeper/'),
+              image: absoluteUrl('/images/keeper-hero.jpeg'),
               address: { '@type': 'PostalAddress', addressLocality: 'Mombasa', addressCountry: 'KE' },
               knowsAbout: ['Web design', 'Web development', 'Brand identity', 'Web applications', 'AI agents'],
             },
@@ -127,8 +128,7 @@ export default function Keeper() {
         <header className="sticky top-0 z-40" style={{ background: 'rgba(5,10,24,0.92)', backdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(245,200,66,0.14)' }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3" aria-label="Back to the Ziramzis home page">
-              <LogoMark size={36} id="kprhdr" />
-              <span className="font-black tracking-widest gradient-text">ZIRAMZIS</span>
+              <BrandLockup priority className="h-10 w-auto" />
             </a>
             <a href="/" className="inline-flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--cyan-mid)' }}>
               Back to the hive <ArrowRightIcon size={15} />

@@ -2,7 +2,9 @@ import { motion } from 'framer-motion';
 import {
   BeeIcon, PhoneIcon, EmailIcon, MapPinIcon, GlobeIcon
 } from './Icons';
-import LogoMark from './LogoMark';
+import BrandLockup from './BrandLockup';
+import { site } from '../lib/site';
+import ShareSite from './ShareSite';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -17,8 +19,8 @@ export default function Footer() {
   };
 
   const contactLinks = [
-    { Icon: PhoneIcon, href: 'https://wa.me/254711410442', label: 'WhatsApp: +254 711 410 442', color: '#F5C842' },
-    { Icon: EmailIcon, href: 'mailto:ziramzisfeis@gmail.com', label: 'Email: ziramzisfeis@gmail.com', color: '#00F5FF' },
+    { Icon: PhoneIcon, href: `https://wa.me/${site.whatsapp}`, label: `WhatsApp: ${site.phone}`, color: '#F5C842' },
+    { Icon: EmailIcon, href: `mailto:${site.email}`, label: `Email: ${site.email}`, color: '#00F5FF' },
     { Icon: MapPinIcon, href: null, label: 'Location: Mombasa, Kenya', color: '#F5C842' },
   ];
 
@@ -56,14 +58,8 @@ export default function Footer() {
         >
           {/* Brand */}
           <motion.div variants={itemVariants} className="col-span-2 md:col-span-1">
-            <motion.div className="flex items-center gap-3 mb-4 cursor-pointer" whileHover={{ x: 4 }}>
-              <div className="relative w-10 h-10 flex items-center justify-center">
-                <LogoMark size={38} id="flr" />
-              </div>
-              <div>
-                <div className="font-black text-lg gradient-text tracking-widest leading-none">ZIRAMZIS</div>
-                <div style={{ fontSize: '9px', color: 'rgba(0,245,255,0.6)', letterSpacing: '2px' }}>BUSY BEE STUDIO</div>
-              </div>
+            <motion.div className="mb-4 cursor-pointer" whileHover={{ x: 4 }}>
+              <BrandLockup className="h-11 w-auto" />
             </motion.div>
             <p className="text-gray-500 text-sm leading-relaxed">
               Building digital hives that help businesses grow. Based in Mombasa, Kenya — working with clients worldwide.
@@ -140,6 +136,7 @@ export default function Footer() {
             >
               <BeeIcon size={17} /> Start a conversation
             </motion.a>
+            <ShareSite />
           </motion.div>
         </motion.div>
 

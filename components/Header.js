@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BeeIcon } from './Icons';
-import LogoMark from './LogoMark';
+import BrandLockup from './BrandLockup';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,22 +46,12 @@ export default function Header() {
         <motion.button
           type="button"
           aria-label="Back to top"
-          className="flex items-center gap-3 cursor-pointer group text-left"
+          className="flex items-center cursor-pointer group text-left"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <motion.div
-            className="relative w-10 h-10 flex items-center justify-center"
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 1.2, ease: 'easeInOut' }}
-          >
-            <LogoMark size={38} id="hdr" />
-          </motion.div>
-          <div className="flex flex-col leading-none">
-            <span className="font-black text-lg tracking-widest gradient-text">ZIRAMZIS</span>
-            <span style={{ fontSize: '9px', color: 'rgba(0,245,255,0.7)', letterSpacing: '3px' }}>BUSY BEE STUDIO</span>
-          </div>
+          <BrandLockup priority className="h-9 sm:h-10 w-auto" />
         </motion.button>
 
         {/* Desktop Nav */}

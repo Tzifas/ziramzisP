@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { ArrowRightIcon } from '../components/Icons'
-import LogoMark from '../components/LogoMark'
+import BrandLockup from '../components/BrandLockup'
+import { absoluteUrl, site } from '../lib/site'
 
 export default function Page() {
   return (
@@ -8,7 +9,7 @@ export default function Page() {
       <Head>
         <title>Terms of Service — Ziramzis</title>
         <meta name="description" content="Terms of Service for Ziramzis — Busy Bee Studio, a web design and development studio in Mombasa, Kenya." />
-        <link rel="canonical" href="https://ziramzis.vercel.app/terms of service/" />
+        <link rel="canonical" href={absoluteUrl('/terms/')} />
         <meta name="theme-color" content="#050A18" />
         <meta name="robots" content="index, follow" />
       </Head>
@@ -17,8 +18,7 @@ export default function Page() {
         <header className="sticky top-0 z-40" style={{ background: 'rgba(5,10,24,0.92)', backdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(245,200,66,0.14)' }}>
           <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3" aria-label="Back to the Ziramzis home page">
-              <LogoMark size={34} id="lgterms of service" />
-              <span className="font-black tracking-widest gradient-text">ZIRAMZIS</span>
+              <BrandLockup priority className="h-9 w-auto" />
             </a>
             <a href="/" className="inline-flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--cyan-mid)' }}>
               Back to the hive <ArrowRightIcon size={15} />
@@ -59,7 +59,7 @@ export default function Page() {
           <div className="mt-14 pt-8" style={{ borderTop: '1px solid rgba(245,200,66,0.15)' }}>
             <p className="text-gray-400 text-sm">
               Questions? WhatsApp <a href="https://wa.me/254711410442" className="font-semibold" style={{ color: 'var(--cyan-mid)' }}>+254 711 410 442</a> or email{' '}
-              <a href="mailto:ziramzisfeis@gmail.com" className="font-semibold" style={{ color: 'var(--cyan-mid)' }}>ziramzisfeis@gmail.com</a>.
+              <a href={`mailto:${site.email}`} className="font-semibold" style={{ color: 'var(--cyan-mid)' }}>{site.email}</a>.
             </p>
           </div>
         </main>

@@ -1,71 +1,72 @@
-# Ziramzis - The Digital Hive
+# Ziramzis — Busy Bee Studio
 
-One-page portfolio for Ziramzis, a digital studio based in Mombasa, Kenya.
-Dark navy + honey gold + cyan neon palette, bee/hexagon motif, animated bee
-characters, and a WhatsApp-first conversion flow.
+Ziramzis is a Mombasa-based brand, web design and development studio. The public site introduces the studio, captures project briefs through WhatsApp, and explains the Bee/Colony way of working. The private-facing product in progress is **The Inner Hive**: an operations workspace for the bees, their skills, assignments and reports.
 
-## Sections (single page)
+## Live site and hosting
 
-- Header - fixed nav with mobile menu
-- Hero - typewriter headline, cyber-bee mascot, orbit visual
-- Services - "What the hive builds" cards + industries grid
-- HiveRoles - "The Idea Hive", animated WhatsApp-style conversation
-- Work - "Website directions": three interactive browser-frame design directions
-- Process - five steps + summary cards
-- HiveBrief - package picker (KSh ranges), idea box, budget slider, prefilled WhatsApp message
-- CTA - contact grid with WhatsApp and call buttons
-- Footer - quick links, contact, "Follow the Bee" back-to-top
-- WhatsAppWidget - floating chat button
+- Host: Vercel
+- Current Vercel URL: `https://ziramzis-p.vercel.app`
+- Contact email: `ziramzisfeis@gmail.com`
+- WhatsApp: `+254 711 410 442`
+- Location: Mombasa, Kenya
 
-## Admin route
+Set `NEXT_PUBLIC_SITE_URL` in Vercel when a custom domain is ready. The code falls back to the current Vercel URL in `lib/site.js`.
 
-/admin - "The Inner Hive": a static mock CRM dashboard (leads, roles, briefs,
-pipeline) with mock data only. No auth yet; marked noindex and disallowed in
-robots.txt. Next step noted in-app: connect real lead data and auth.
+## Routes
 
-## Tech stack
+- `/` — Public studio landing page
+- `/keeper` — Meet the Keeper: person, process and working principles
+- `/terms` and `/privacy` — Legal pages
+- `/admin` — Inner Hive prototype. It is intentionally `noindex` and disallowed in `robots.txt`.
 
-- Next.js 14 (Pages Router), React 18
-- Tailwind CSS 3 + custom design tokens in styles/globals.css
-- framer-motion 12 (reduced-motion aware via MotionConfig)
-- Static pages, deployed on Vercel: https://ziramzis.vercel.app
+## Brand assets
 
-## Getting started
+Source brand artwork lives in `Assets/`. Deployment-ready copies live in `public/brand/`:
+
+- `wordmark.jpg` — primary Ziramzis Busy Bee Studio lockup
+- `mark.jpg` — Z bee mark
+- `campaign.jpg` — landscape campaign/social card
+- `campaign-square.jpg` — square campaign asset
+
+The visible site lockup is provided by `components/BrandLockup.js`. The code-native `components/LogoMark.js` remains available for places that need a lightweight SVG mark.
+
+## Inner Hive direction
+
+`/admin` is not a CRM yet. It is a visual foundation for the real Inner Hive. The architecture should grow around these roles:
+
+- **Managing Bee / Queen’s Secretary** — receives reports, delegates work, flags blockers and gives the owner a concise daily summary.
+- **Lead Management Bees** — Scout/Hunting Bees find local business signals, qualify them and move them into outreach.
+- **Landing Page Bee** — handles the first visitor conversation and turns useful context into a Hive Brief.
+- **Research and Planning Bees** — competitor research, opportunity mapping, PRDs, scope, roadmap and architecture.
+- **Creation Bees** — design, branding, content, marketing and build work, each with explicit skills and assignments.
+- **Care Bee** — follow-ups, launch checks, client updates and long-term relationship care.
+
+Before adding a backend, define the data model for bees, skills, tasks, leads, briefs, reports, approvals and activity history. The current admin numbers and cards are mock data only.
+
+## Stack
+
+- Next.js 14, Pages Router, React 18
+- Tailwind CSS 3 plus `styles/globals.css` design tokens
+- Framer Motion with user reduced-motion support
+- Static Vercel deployment
+
+## Local development
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build
-npm start        # serve the production build
+npm run dev
+npm run build
+npm start
 ```
 
-## Project structure
+## Content and configuration
 
-```
-ziramzis-portfolio/
-  components/   Header, Hero, Services, HiveRoles, Work, Process,
-                HiveBrief, CTA, Footer, WhatsAppWidget, BeeScenes, Icons
-  pages/        _app, _document, index, admin/
-  styles/       globals.css (design tokens + custom classes)
-  public/       robots.txt, sitemap.xml, favicon.svg
-```
-
-## Customization
-
-- WhatsApp number (wa.me/254711410442): Hero, Header, Footer, CTA,
-  WhatsAppWidget and the HiveBrief message builder
-- Packages and KSh price ranges: `packages` array in components/HiveBrief.js
-- Industries grid: components/Services.js
-- Sample website directions: components/Work.js
-- Admin mock data (leads, roles, briefs, pipeline): pages/admin/index.js
-- Colors and tokens: tailwind.config.js and the :root block at the top of
-  styles/globals.css
+- Site URL and contact constants: `lib/site.js`
+- Public page metadata: `pages/index.js`, `pages/keeper.js`, `pages/terms.js`, `pages/privacy.js`
+- Sitemap and crawl rules: `public/sitemap.xml`, `public/robots.txt`
+- Public site sections: `components/`
+- Inner Hive prototype: `pages/admin/index.js`
 
 ## Deployment
 
-Push to GitHub, import the repo on Vercel, and it deploys on every push.
-`npm run build` produces fully prerendered static pages.
-
-## Contact
-
-WhatsApp +254 711 410 442 | Mombasa, Kenya | hello@ziramzis.app
+Push to the connected GitHub repository. Vercel deploys the production build from `main`.
