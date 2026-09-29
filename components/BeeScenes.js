@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import BeeAvatar from './BeeAvatar';
+import { BeeIcon } from './Icons';
 
 const glow = 'drop-shadow(0 12px 12px rgba(0,0,0,.34)) drop-shadow(0 0 15px rgba(0,245,255,.28))';
 
@@ -19,7 +19,7 @@ export function NoteBee({ size = 122, className = '', still = false }) {
         style={{ filter: glow }}
         {...(!still && { animate: { rotate: [-2, 1, -2] }, transition: { duration: 1.8, repeat: Infinity, ease: 'easeInOut' } })}
       >
-        <BeeAvatar size={size} />
+        <BeeIcon size={size} />
       </motion.div>
       <motion.span
         className="bee-scene__pencil"
@@ -39,7 +39,7 @@ export function PhoneBee({ size = 94, className = '', still = false }) {
       {...(!still && { animate: { y: [0, -6, 0], rotate: [-2, 2, -2] }, transition: { duration: 2.8, repeat: Infinity, ease: 'easeInOut' } })}
     >
       <div className="bee-scene__phone-glow" />
-      <motion.div className="bee-scene__body" style={{ filter: glow }}><BeeAvatar size={size} /></motion.div>
+      <motion.div className="bee-scene__body" style={{ filter: glow }}><BeeIcon size={size} /></motion.div>
       <motion.div
         className="bee-scene__phone"
         {...(!still && { animate: { rotate: [-3, 3, -3] }, transition: { duration: 1.8, repeat: Infinity, ease: 'easeInOut' } })}
