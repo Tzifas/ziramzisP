@@ -1,12 +1,10 @@
 import Head from 'next/head'
 import { motion } from 'framer-motion'
 import {
-  BeeIcon, BulbIcon, PencilIcon, HammerIcon, WhatsAppIcon, ArrowRightIcon,
-  MapPinIcon, ChartIcon, BriefcaseIcon, HoneycombIcon, ClockIcon,
-  ScaleIcon, CheckRocketIcon, GlobeIcon,
+  BulbIcon, PencilIcon, HammerIcon, WhatsAppIcon, ArrowRightIcon,
+  MapPinIcon, ChartIcon, BriefcaseIcon, CheckRocketIcon,
 } from '../components/Icons'
-import BrandLockup from '../components/BrandLockup'
-import { absoluteUrl } from '../lib/site'
+import LogoMark from '../components/LogoMark'
 
 const cardStyle = {
   background: 'linear-gradient(135deg, rgba(13,31,60,0.9), rgba(10,22,40,0.95))',
@@ -21,25 +19,29 @@ const fadeUp = {
   transition: { duration: 0.55, ease: 'easeOut' },
 }
 
-const short = [
-  { title: 'One keeper. Zero handoffs.', body: 'You talk to the person doing the work — every message, every revision.' },
-  { title: 'Brand to build, one line.', body: 'Identity, assets, design and code come from the same head.' },
-  { title: 'AI-assisted, human-signed.', body: 'The bees draft and speed things up; I decide what actually ships.' },
-]
+const SectionHead = ({ index, eyebrow, title }) => (
+  <motion.div {...fadeUp} className="mb-10 sm:mb-14">
+    <p className="eyebrow">
+      <span className="mr-2 font-black" style={{ color: 'var(--cyan-mid)' }}>{index}</span>
+      {eyebrow}
+    </p>
+    <h2 className="section-title mt-4">{title}</h2>
+  </motion.div>
+)
 
 const crafts = [
-  { Icon: BulbIcon, title: 'Brand from scratch', body: 'Logo, colour, type and a visual system with a point of view — then the complete asset kit: every file, format and size your brand needs to show up consistently anywhere.' },
-  { Icon: PencilIcon, title: 'Design with intent', body: 'Interfaces that make a business feel credible before the first message. Layout, copy and motion working together — every screen earning its place.' },
-  { Icon: HammerIcon, title: 'Build & launch', body: 'Modern, fast websites and web apps, developed clean and deployed ready. No template smell, no loose ends — and I stay close after launch.' },
+  { n: '01', Icon: BulbIcon, title: 'Brand from scratch', body: 'Logo, colour, type and a visual system with a point of view — then the complete asset kit: every file, format and size your brand needs to show up consistently anywhere.' },
+  { n: '02', Icon: PencilIcon, title: 'Design with intent', body: 'Interfaces that make a business feel credible before the first message. Layout, copy and motion working together — every screen earning its place.' },
+  { n: '03', Icon: HammerIcon, title: 'Build & launch', body: 'Modern, fast websites and web apps, developed clean and deployed ready. No template smell, no loose ends — and I stay close after launch.' },
 ]
 
 const pipeline = ['Brand', 'Asset kit', 'Design', 'Build', 'Launch', 'Care']
 
 const bees = [
-  { Icon: MapPinIcon, name: 'Scout Bee', job: 'Finds the signal.', accent: '#F5C842', line: 'Research, market scans, competitor sweeps — and the questions worth asking before we build.' },
-  { Icon: ChartIcon, name: 'Strategy Bee', job: 'Shapes the brief.', accent: '#00F5FF', line: 'Turns a rough idea into a clear problem, offer and next best action — so we build the right thing.' },
-  { Icon: BriefcaseIcon, name: 'Build Bee', job: 'Does the heavy lifting.', accent: '#F5C842', line: 'Drafts code, layouts and assets at speed — under my direction and review, never on its own.' },
-  { Icon: WhatsAppIcon, name: 'Care Bee', job: 'Keeps clients close.', accent: '#00F5FF', line: 'Follow-ups, launch checks and the next useful touch, on time every time.' },
+  { Icon: MapPinIcon, name: 'Scout Bee', job: 'Finds the signal', accent: '#F5C842', line: 'Research, market scans, competitor sweeps — and the questions worth asking before we build.' },
+  { Icon: ChartIcon, name: 'Strategy Bee', job: 'Shapes the brief', accent: '#00F5FF', line: 'Turns a rough idea into a clear problem, offer and next best action — so we build the right thing.' },
+  { Icon: BriefcaseIcon, name: 'Build Bee', job: 'Does the heavy lifting', accent: '#F5C842', line: 'Drafts code, layouts and assets at speed — under my direction and review, never on its own.' },
+  { Icon: WhatsAppIcon, name: 'Care Bee', job: 'Keeps clients close', accent: '#00F5FF', line: 'Follow-ups, launch checks and the next useful touch, on time every time.' },
 ]
 
 const blueprint = [
@@ -51,6 +53,8 @@ const blueprint = [
   { n: '06', title: 'Build & launch', body: 'Now the code. Fast, clean, tested and deployed — because every decision was already made. Launch day is calm by design.' },
 ]
 
+const handover = ['Working code & repo', 'Design files', 'Full asset kit', 'Documentation']
+
 const toolbox = [
   { label: 'Frontend', items: ['Next.js', 'React', 'Tailwind CSS', 'Motion'] },
   { label: 'Backend & data', items: ['Node.js', 'APIs', 'Databases', 'Integrations'] },
@@ -59,11 +63,11 @@ const toolbox = [
   { label: 'Delivery', items: ['Git', 'Vercel', 'Analytics', 'SEO basics'] },
 ]
 
-const ways = [
-  { Icon: WhatsAppIcon, title: 'A direct line', body: 'You talk to me — the keeper — not an account manager. WhatsApp is usually the fastest way to reach me.' },
-  { Icon: ClockIcon, title: 'Clear checkpoints', body: 'You see the blueprint, the designs and the build at agreed points. Feedback lands early, while it is still cheap.' },
-  { Icon: ScaleIcon, title: 'Honest scope', body: 'If something is not worth building, I will say so. A smaller thing that works beats a bigger thing that does not.' },
-  { Icon: CheckRocketIcon, title: 'Yours to keep', body: 'Code, files and assets hand over completely at the end. No lock-in, no hostage-taking, no mystery invoices.' },
+const principles = [
+  { n: '01', title: 'A direct line', body: 'You talk to me — the keeper — not an account manager. WhatsApp is usually the fastest way to reach me.' },
+  { n: '02', title: 'Clear checkpoints', body: 'You see the blueprint, the designs and the build at agreed points. Feedback lands early, while it is still cheap.' },
+  { n: '03', title: 'Honest scope', body: 'If something is not worth building, I will say so. A smaller thing that works beats a bigger thing that does not.' },
+  { n: '04', title: 'Yours to keep', body: 'Code, files and assets hand over completely at the end. No lock-in, no hostage-taking, no mystery invoices.' },
 ]
 
 const needs = [
@@ -86,15 +90,15 @@ export default function Keeper() {
       <Head>
         <title>Meet the Keeper — Ziramzis | Brand, Web Design & Development in Mombasa</title>
         <meta name="description" content="Meet Ramadhan “Ziramzis” — a Mombasa web designer and developer building brand identities, websites and web apps with a colony of AI assistants. Blueprint before code, from KSh 25k." />
-        <link rel="canonical" href={absoluteUrl('/keeper/')} />
+        <link rel="canonical" href="https://ziramzis-p.vercel.app/keeper/" />
         <meta name="theme-color" content="#050A18" />
         <meta property="og:title" content="Meet the Keeper — Ziramzis" />
         <meta property="og:description" content="The person and the process behind Ziramzis — brand, web design and development from Mombasa, Kenya, with AI bee helpers." />
         <meta property="og:type" content="profile" />
-        <meta property="og:url" content={absoluteUrl('/keeper/')} />
-        <meta property="og:image" content={absoluteUrl('/brand/campaign.jpg')} />
+        <meta property="og:url" content="https://ziramzis-p.vercel.app/keeper/" />
+        <meta property="og:image" content="https://ziramzis-p.vercel.app/og-image.png" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={absoluteUrl('/brand/campaign.jpg')} />
+        <meta name="twitter:image" content="https://ziramzis-p.vercel.app/og-image.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([
@@ -104,8 +108,8 @@ export default function Keeper() {
               name: 'Ramadhan',
               alternateName: 'Ziramzis',
               jobTitle: 'Web designer and developer',
-              url: absoluteUrl('/keeper/'),
-              image: absoluteUrl('/images/keeper-hero.jpeg'),
+              url: 'https://ziramzis-p.vercel.app/keeper/',
+              image: 'https://ziramzis-p.vercel.app/images/keeper-hero.jpeg',
               address: { '@type': 'PostalAddress', addressLocality: 'Mombasa', addressCountry: 'KE' },
               knowsAbout: ['Web design', 'Web development', 'Brand identity', 'Web applications', 'AI agents'],
             },
@@ -128,7 +132,8 @@ export default function Keeper() {
         <header className="sticky top-0 z-40" style={{ background: 'rgba(5,10,24,0.92)', backdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(245,200,66,0.14)' }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
             <a href="/" className="flex items-center gap-3" aria-label="Back to the Ziramzis home page">
-              <BrandLockup priority className="h-10 w-auto" />
+              <LogoMark size={36} id="kprhdr" />
+              <span className="font-black tracking-widest gradient-text">ZIRAMZIS</span>
             </a>
             <a href="/" className="inline-flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--cyan-mid)' }}>
               Back to the hive <ArrowRightIcon size={15} />
@@ -137,63 +142,82 @@ export default function Keeper() {
         </header>
 
         <main>
-          {/* HERO */}
-          <section className="pt-14 pb-14 sm:pt-20 sm:pb-20 px-4 sm:px-6 lg:px-8 relative" style={{ background: 'linear-gradient(160deg, #050A18 0%, #08122A 60%, #050A18 100%)' }}>
-            <motion.div {...fadeUp} className="mt-10 lg:mt-0 lg:absolute lg:right-0 lg:top-6 lg:w-[34%]">
-              <img src="/images/keeper-hero.jpeg" alt="Illustration of a glowing honeycomb hive with a stylised bee — the Ziramzis digital studio, Mombasa" className="w-full h-auto rounded-2xl" style={{ border: '1px solid rgba(245,200,66,0.25)', boxShadow: '0 24px 60px rgba(0,0,0,0.45)' }} />
-            </motion.div>
-            <div className="max-w-6xl mx-auto relative">
-              <motion.p {...fadeUp} className="eyebrow"><BeeIcon size={16} /> THE KEEPER</motion.p>
-              <motion.h1 {...fadeUp} className="text-4xl sm:text-6xl font-black leading-[1.05] mt-5 max-w-2xl" style={{ letterSpacing: '-0.04em' }}>
-                The person behind <span className="gradient-text">the hive.</span>
-              </motion.h1>
-              <motion.p {...fadeUp} className="text-gray-400 text-lg leading-relaxed mt-6 max-w-2xl">
-                I am Ziramzis — a nickname that grew out of Ramadhan, and it stuck. I am a tech enthusiast from Mombasa who designs brands
-                from scratch, produces the full asset kit, and designs &amp; develops the websites that carry them. Full-time, on time, with energy to spare.
-              </motion.p>
-              <motion.p {...fadeUp} className="text-gray-400 text-lg leading-relaxed mt-4 max-w-2xl">
-                A hive works because every part serves the whole. That is the idea here: one keeper, a colony of AI helpers, and your project at the centre.
-              </motion.p>
-              <motion.div {...fadeUp} className="flex flex-wrap gap-3 mt-8">
-                {['Brand from scratch', 'Design + Development', 'Based in Mombasa, working worldwide'].map((chip) => (
-                  <span key={chip} className="text-sm font-semibold px-4 py-2 rounded-full"
-                    style={{ background: 'rgba(245,200,66,0.08)', border: '1px solid rgba(245,200,66,0.25)', color: '#F5C842' }}>
-                    {chip}
-                  </span>
-                ))}
+          {/* 01 HERO */}
+          <section className="pt-12 pb-16 sm:pt-16 sm:pb-24 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(160deg, #050A18 0%, #08122A 60%, #050A18 100%)' }}>
+            <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
+              <div>
+                <motion.p {...fadeUp} className="eyebrow"><span className="mr-2 font-black" style={{ color: 'var(--cyan-mid)' }}>01</span>THE KEEPER</motion.p>
+                <motion.h1 {...fadeUp} className="text-4xl sm:text-5xl font-black leading-[1.04] mt-5" style={{ letterSpacing: '-0.04em' }}>
+                  The person behind <span className="gradient-text">the hive.</span>
+                </motion.h1>
+                <motion.p {...fadeUp} className="text-gray-400 text-lg leading-relaxed mt-6">
+                  Ziramzis is the hive name — Ramadhan is the person. A tech enthusiast from Mombasa who designs brands from scratch,
+                  produces the full asset kit, and designs &amp; develops the websites that carry them. Full-time. On time. With energy to spare.
+                </motion.p>
+                <motion.p {...fadeUp} className="text-gray-400 text-lg leading-relaxed mt-4">
+                  A hive works because every part serves the whole. One keeper, a colony of AI helpers, your project at the centre.
+                </motion.p>
+                <motion.div {...fadeUp} className="flex flex-wrap gap-3 mt-8">
+                  {['Brand from scratch', 'Design + Development', 'Mombasa · working worldwide'].map((chip) => (
+                    <span key={chip} className="text-sm font-semibold px-4 py-2 rounded-full"
+                      style={{ background: 'rgba(245,200,66,0.08)', border: '1px solid rgba(245,200,66,0.25)', color: '#F5C842' }}>
+                      {chip}
+                    </span>
+                  ))}
+                </motion.div>
+              </div>
+              <motion.div {...fadeUp} className="relative">
+                <div className="absolute -top-4 -left-4 z-10 hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-2xl"
+                  style={{ background: 'rgba(5,10,24,0.9)', border: '1px solid rgba(245,200,66,0.3)' }}>
+                  <LogoMark size={30} id="kprbadge" />
+                  <span className="text-xs font-black tracking-[0.2em] gradient-text">KEEPER</span>
+                </div>
+                <img src="/images/keeper-hero.jpeg" alt="Illustration of a glowing honeycomb hive with a stylised bee — Ziramzis, digital studio in Mombasa"
+                  className="w-full h-auto rounded-2xl" style={{ border: '1px solid rgba(245,200,66,0.25)', boxShadow: '0 24px 60px rgba(0,0,0,0.45)' }} />
+                <div className="absolute -bottom-3 right-4 text-xs font-bold px-3 py-1.5 rounded-full"
+                  style={{ background: 'rgba(5,10,24,0.92)', border: '1px solid rgba(0,245,255,0.35)', color: 'var(--cyan-mid)' }}>
+                  Mombasa, Kenya
+                </div>
               </motion.div>
             </div>
           </section>
 
-          {/* THE SHORT VERSION */}
-          <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8" style={{ background: '#050A18' }}>
-            <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
-              {short.map((s) => (
-                <motion.div key={s.title} {...fadeUp} className="p-6" style={{ ...cardStyle, borderColor: 'rgba(0,245,255,0.18)' }}>
-                  <h2 className="text-lg font-black text-white">{s.title}</h2>
-                  <p className="text-gray-400 text-sm leading-relaxed mt-2">{s.body}</p>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-
-          {/* WHAT I DO */}
-          <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(180deg, #050A18, #08122A 50%, #050A18)' }}>
+          {/* 02 THE DEAL */}
+          <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: '#050A18' }}>
             <div className="max-w-6xl mx-auto">
-              <motion.p {...fadeUp} className="eyebrow"><HoneycombIcon size={16} /> THE CRAFT</motion.p>
-              <motion.h2 {...fadeUp} className="section-title mt-5">One line, <span className="gradient-text">three crafts.</span></motion.h2>
-              <div className="grid md:grid-cols-3 gap-6 mt-12">
-                {crafts.map((c) => (
-                  <motion.div key={c.title} {...fadeUp} whileHover={{ y: -4 }} transition={{ duration: 0.2, ease: 'easeOut' }}
-                    className="p-6" style={cardStyle}>
-                    <div className="flex items-center gap-3 mb-4">
-                      <c.Icon size={26} color="#F5C842" />
-                      <h3 className="text-lg font-bold text-white">{c.title}</h3>
-                    </div>
-                    <p className="text-gray-400 text-sm leading-relaxed">{c.body}</p>
+              <SectionHead index="02" eyebrow="THE DEAL" title={<>What you are really <span className="gradient-text">hiring.</span></>} />
+              <div className="grid md:grid-cols-3 gap-x-10 gap-y-10">
+                {[
+                  ['One keeper. Zero handoffs.', 'You talk to the person doing the work — every message, every revision. No middle layer, no telephone game.'],
+                  ['Brand to build, one line.', 'Identity, assets, design and code from the same head — so the site thinks like the logo and the logo thinks like the business.'],
+                  ['AI-assisted, human-signed.', 'The bees draft and accelerate; I judge and finish. What reaches you always passes one standard: mine.'],
+                ].map(([t, b], i) => (
+                  <motion.div key={t} {...fadeUp}>
+                    <div className="text-4xl font-black mb-4" style={{ color: 'rgba(245,200,66,0.3)', letterSpacing: '-0.02em' }}>0{i + 1}</div>
+                    <h3 className="text-xl font-black text-white">{t}</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed mt-3">{b}</p>
                   </motion.div>
                 ))}
               </div>
+            </div>
+          </section>
+
+          {/* 03 THE CRAFT */}
+          <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(180deg, #050A18, #08122A 50%, #050A18)' }}>
+            <div className="max-w-5xl mx-auto">
+              <SectionHead index="03" eyebrow="THE CRAFT" title={<>One line, <span className="gradient-text">three crafts.</span></>} />
+              {crafts.map((c) => (
+                <motion.div key={c.n} {...fadeUp} className="flex gap-6 sm:gap-12 py-8" style={{ borderTop: '1px solid rgba(245,200,66,0.18)' }}>
+                  <span className="font-black text-2xl sm:text-3xl flex-shrink-0" style={{ color: '#F5C842', letterSpacing: '0.06em' }}>{c.n}</span>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3">
+                      <c.Icon size={22} color="#F5C842" />
+                      <h3 className="text-xl font-bold text-white">{c.title}</h3>
+                    </div>
+                    <p className="text-gray-400 text-sm sm:text-base leading-relaxed mt-2.5 max-w-2xl">{c.body}</p>
+                  </div>
+                </motion.div>
+              ))}
               <motion.div {...fadeUp} className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2">
                 {pipeline.map((step, i) => (
                   <span key={step} className="inline-flex items-center gap-3">
@@ -207,122 +231,125 @@ export default function Keeper() {
             </div>
           </section>
 
-          {/* THE BEES */}
+          {/* 04 THE COLONY */}
           <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: '#050A18' }}>
             <div className="max-w-6xl mx-auto">
-              <motion.p {...fadeUp} className="eyebrow"><HoneycombIcon size={16} /> THE HIVE, EXPLAINED</motion.p>
-              <motion.h2 {...fadeUp} className="section-title mt-5">
-                Yes, the bees are AI. <span className="gradient-text">Here is how we work.</span>
-              </motion.h2>
-              <motion.p {...fadeUp} className="text-gray-400 text-lg leading-relaxed mt-6 max-w-2xl">
-                Around my studio you will meet bees. They are my AI helpers — each one wears a role, like a colony with a job for everyone.
-                You see them working in the open, never behind your back.
-              </motion.p>
-              <motion.div {...fadeUp} className="mt-10">
-                <img src="/images/keeper-bees.jpeg" alt="Four AI bee assistants — Scout, Strategy, Build and Care — working together on a client project" className="w-full h-auto rounded-2xl" style={{ border: '1px solid rgba(245,200,66,0.2)', boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }} />
-              </motion.div>
-              <div className="grid sm:grid-cols-2 gap-6 mt-12">
-                {bees.map((b) => (
-                  <motion.div key={b.name} {...fadeUp} className="p-6" style={cardStyle}>
-                    <div className="flex items-center gap-3">
-                      <span className="w-11 h-11 flex items-center justify-center rounded-xl" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(245,200,66,0.2)' }}>
+              <SectionHead index="04" eyebrow="THE HIVE, EXPLAINED" title={<>Yes, the bees are AI. <span className="gradient-text">Here is how we work.</span></>} />
+              <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14">
+                <div className="lg:sticky lg:top-24 self-start">
+                  <motion.img {...fadeUp} src="/images/keeper-bees.jpeg"
+                    alt="Four AI bee assistants — Scout, Strategy, Build and Care — working together on a client project"
+                    className="w-full h-auto rounded-2xl" style={{ border: '1px solid rgba(245,200,66,0.2)', boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }} />
+                  <motion.p {...fadeUp} className="text-gray-500 text-xs leading-relaxed mt-4">
+                    Working in the open: every bee has a role, and every role answers to the keeper.
+                  </motion.p>
+                </div>
+                <div>
+                  {bees.map((b) => (
+                    <motion.div key={b.name} {...fadeUp} className="flex gap-5 py-6" style={{ borderTop: '1px solid rgba(245,200,66,0.14)' }}>
+                      <span className="w-12 h-12 flex items-center justify-center rounded-xl flex-shrink-0" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(245,200,66,0.2)' }}>
                         <b.Icon size={22} color={b.accent} />
                       </span>
                       <div>
-                        <h3 className="font-bold text-white">{b.name}</h3>
-                        <p className="text-xs font-semibold" style={{ color: 'var(--cyan-mid)' }}>{b.job}</p>
+                        <h3 className="font-bold text-white">{b.name} <span className="text-xs font-semibold ml-2" style={{ color: 'var(--cyan-mid)' }}>{b.job}</span></h3>
+                        <p className="text-gray-400 text-sm leading-relaxed mt-1.5">{b.line}</p>
                       </div>
-                    </div>
-                    <p className="text-gray-400 text-sm leading-relaxed mt-4">{b.line}</p>
+                    </motion.div>
+                  ))}
+                  <motion.div {...fadeUp} className="p-6 mt-2" style={{ ...cardStyle, borderColor: 'rgba(0,245,255,0.2)' }}>
+                    <h3 className="font-bold text-white">How I direct them</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed mt-2">
+                      I set the brief, review the drafts, correct the taste and sign off the quality. What reaches you is my standard — the bees just get us there faster.
+                    </p>
                   </motion.div>
-                ))}
+                  <motion.p {...fadeUp} className="text-gray-300 text-base leading-relaxed mt-8" style={{ borderLeft: '2px solid rgba(245,200,66,0.5)', paddingLeft: '1.25rem' }}>
+                    The innovative part: a one-person studio that runs like a team. Ideas, judgment and taste are mine; speed and tireless drafting are theirs.
+                  </motion.p>
+                </div>
               </div>
-              <motion.div {...fadeUp} className="mt-10 p-6" style={{ ...cardStyle, borderColor: 'rgba(0,245,255,0.2)' }}>
-                <h3 className="font-bold text-white">How I direct them</h3>
-                <p className="text-gray-400 text-sm leading-relaxed mt-2">
-                  Every bee answers to the keeper. I set the brief, review the drafts, correct the taste and sign off the quality.
-                  What reaches you is my standard — the bees just get us there faster.
-                </p>
-              </motion.div>
-              <motion.p {...fadeUp} className="text-gray-300 text-base sm:text-lg leading-relaxed mt-10 max-w-3xl" style={{ borderLeft: '2px solid rgba(245,200,66,0.5)', paddingLeft: '1.25rem' }}>
-                This is the innovative part of working with me: a one-person studio that runs like a team. I bring the ideas, judgment and taste;
-                the bees bring speed and tireless drafting. We evolve with the tech — using it where it values us, never as a shortcut past craft.
-              </motion.p>
             </div>
           </section>
 
-          {/* BLUEPRINT */}
+          {/* 05 BLUEPRINT */}
           <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(180deg, #050A18, #08122A 50%, #050A18)' }}>
-            <div className="max-w-4xl mx-auto">
-              <motion.p {...fadeUp} className="eyebrow"><BulbIcon size={16} color="#F5C842" /> THE BLUEPRINT</motion.p>
-              <motion.h2 {...fadeUp} className="section-title mt-5">
-                Blueprint <span className="gradient-text">before code.</span>
-              </motion.h2>
-              <motion.p {...fadeUp} className="text-gray-400 text-lg leading-relaxed mt-6 max-w-2xl">
-                After we agree on the brief and the downpayment lands, the build starts on paper — not in code. Six documents decide
-                everything before a single line is written, so the code becomes the easy part.
-              </motion.p>
-              <motion.div {...fadeUp} className="mt-10">
-                <img src="/images/keeper-blueprint.jpeg" alt="Blueprint diagram of a web project plan: brief, PRD, MVP scope, architecture, roadmap and launch" className="w-full h-auto rounded-2xl" style={{ border: '1px solid rgba(0,245,255,0.2)', boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }} />
-              </motion.div>
-              <div className="mt-12 relative" style={{ paddingLeft: '1.75rem' }}>
-                <div className="absolute" style={{ left: 6, top: 8, bottom: 8, width: 1, background: 'linear-gradient(180deg, rgba(245,200,66,0.55), rgba(0,245,255,0.35))' }} />
-                {blueprint.map((step) => (
-                  <motion.div key={step.n} {...fadeUp} className="relative pb-9">
-                    <span className="absolute rounded-full" style={{ left: '-1.75rem', top: 4, width: 13, height: 13, background: '#0A1628', border: '2px solid #F5C842' }} />
-                    <div className="flex gap-5">
-                      <span className="font-black text-lg flex-shrink-0" style={{ color: '#F5C842', letterSpacing: '0.08em', width: 34 }}>{step.n}</span>
-                      <div>
-                        <h3 className="text-lg font-bold text-white">{step.title}</h3>
-                        <p className="text-gray-400 text-sm leading-relaxed mt-1.5">{step.body}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-              <p className="text-gray-500 italic text-sm">Every project gets this treatment — from a one-page site to a full web product.</p>
-            </div>
-          </section>
-
-          {/* TOOLBOX */}
-          <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8" style={{ background: '#050A18' }}>
-            <div className="max-w-6xl mx-auto">
-              <motion.p {...fadeUp} className="eyebrow"><BriefcaseIcon size={16} /> THE TOOLBOX</motion.p>
-              <motion.h2 {...fadeUp} className="section-title mt-5">What I build <span className="gradient-text">with.</span></motion.h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
-                {toolbox.map((group) => (
-                  <motion.div key={group.label} {...fadeUp} className="p-5" style={cardStyle}>
-                    <h3 className="text-xs font-black tracking-[0.18em]" style={{ color: 'var(--cyan-mid)' }}>{group.label.toUpperCase()}</h3>
-                    <div className="flex flex-wrap gap-2 mt-3.5">
-                      {group.items.map((item) => (
-                        <span key={item} className="text-xs font-semibold px-3 py-1.5 rounded-full" style={{ background: 'rgba(245,200,66,0.07)', border: '1px solid rgba(245,200,66,0.2)', color: '#E8D9A8' }}>
-                          {item}
-                        </span>
+            <div className="max-w-5xl mx-auto">
+              <SectionHead index="05" eyebrow="THE BLUEPRINT" title={<>Blueprint <span className="gradient-text">before code.</span></>} />
+              <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14">
+                <div>
+                  <motion.p {...fadeUp} className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8 max-w-xl">
+                    After we agree on the brief and the downpayment lands, the build starts on paper — not in code. Six documents decide
+                    everything before a single line is written, so the code becomes the easy part.
+                  </motion.p>
+                  <div className="relative" style={{ paddingLeft: '1.75rem' }}>
+                    <div className="absolute" style={{ left: 6, top: 8, bottom: 8, width: 1, background: 'linear-gradient(180deg, rgba(245,200,66,0.55), rgba(0,245,255,0.35))' }} />
+                    {blueprint.map((step) => (
+                      <motion.div key={step.n} {...fadeUp} className="relative pb-8">
+                        <span className="absolute rounded-full" style={{ left: '-1.75rem', top: 4, width: 13, height: 13, background: '#0A1628', border: '2px solid #F5C842' }} />
+                        <div className="flex gap-5">
+                          <span className="font-black text-lg flex-shrink-0" style={{ color: '#F5C842', letterSpacing: '0.08em', width: 34 }}>{step.n}</span>
+                          <div>
+                            <h3 className="text-lg font-bold text-white">{step.title}</h3>
+                            <p className="text-gray-400 text-sm leading-relaxed mt-1.5">{step.body}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <motion.img {...fadeUp} src="/images/keeper-blueprint.jpeg"
+                    alt="Blueprint diagram of a web project plan: brief, PRD, MVP scope, architecture, roadmap and launch"
+                    className="w-full h-auto rounded-2xl" style={{ border: '1px solid rgba(0,245,255,0.2)', boxShadow: '0 20px 50px rgba(0,0,0,0.4)' }} />
+                  <motion.div {...fadeUp} className="mt-8 p-6" style={cardStyle}>
+                    <h3 className="text-xs font-black tracking-[0.18em]" style={{ color: 'var(--cyan-mid)' }}>WHAT YOU END UP WITH</h3>
+                    <ul className="mt-4 space-y-2.5">
+                      {handover.map((item) => (
+                        <li key={item} className="text-gray-300 text-sm flex items-center gap-3">
+                          <CheckRocketIcon size={15} color="#F5C842" />{item}
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </motion.div>
-                ))}
+                </div>
               </div>
             </div>
           </section>
 
-          {/* HOW WE WORK */}
+          {/* 06 TOOLKIT */}
+          <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: '#050A18' }}>
+            <div className="max-w-5xl mx-auto">
+              <SectionHead index="06" eyebrow="THE TOOLKIT" title={<>What I build <span className="gradient-text">with.</span></>} />
+              {toolbox.map((group) => (
+                <motion.div key={group.label} {...fadeUp} className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-10 py-5" style={{ borderTop: '1px solid rgba(245,200,66,0.18)' }}>
+                  <span className="text-xs font-black tracking-[0.18em] sm:w-44 flex-shrink-0" style={{ color: 'var(--cyan-mid)' }}>{group.label.toUpperCase()}</span>
+                  <div className="flex flex-wrap gap-2">
+                    {group.items.map((item) => (
+                      <span key={item} className="text-xs font-semibold px-3 py-1.5 rounded-full" style={{ background: 'rgba(245,200,66,0.07)', border: '1px solid rgba(245,200,66,0.2)', color: '#E8D9A8' }}>
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* 07 THE STANDARD */}
           <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(180deg, #050A18, #08122A 50%, #050A18)' }}>
-            <div className="max-w-6xl mx-auto">
-              <motion.p {...fadeUp} className="eyebrow"><GlobeIcon size={16} /> WORKING WITH ME</motion.p>
-              <motion.h2 {...fadeUp} className="section-title mt-5">What you can <span className="gradient-text">count on.</span></motion.h2>
-              <div className="grid sm:grid-cols-2 gap-6 mt-12">
-                {ways.map((w) => (
-                  <motion.div key={w.title} {...fadeUp} className="p-6" style={cardStyle}>
-                    <div className="flex items-center gap-3 mb-3">
-                      <w.Icon size={22} color="#F5C842" />
+            <div className="max-w-5xl mx-auto">
+              <SectionHead index="07" eyebrow="WORKING WITH ME" title={<>What you can <span className="gradient-text">count on.</span></>} />
+              <div className="grid sm:grid-cols-2 gap-x-10 gap-y-9">
+                {principles.map((w) => (
+                  <motion.div key={w.n} {...fadeUp} className="flex gap-5">
+                    <span className="font-black text-xl flex-shrink-0" style={{ color: 'rgba(245,200,66,0.4)' }}>{w.n}</span>
+                    <div>
                       <h3 className="font-bold text-white">{w.title}</h3>
+                      <p className="text-gray-400 text-sm leading-relaxed mt-2">{w.body}</p>
                     </div>
-                    <p className="text-gray-400 text-sm leading-relaxed">{w.body}</p>
                   </motion.div>
                 ))}
               </div>
-              <motion.div {...fadeUp} className="mt-10 p-6" style={{ ...cardStyle, borderColor: 'rgba(0,245,255,0.2)' }}>
+              <motion.div {...fadeUp} className="mt-12 p-6" style={{ ...cardStyle, borderColor: 'rgba(0,245,255,0.2)' }}>
                 <h3 className="font-bold text-white">What I need from you</h3>
                 <ul className="mt-3 grid sm:grid-cols-3 gap-3">
                   {needs.map((n) => (
@@ -336,28 +363,29 @@ export default function Keeper() {
             </div>
           </section>
 
-          {/* FAQ */}
+          {/* 08 FAQ */}
           <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: '#050A18' }}>
             <div className="max-w-3xl mx-auto">
-              <motion.p {...fadeUp} className="eyebrow"><ScaleIcon size={16} /> STRAIGHT ANSWERS</motion.p>
-              <motion.h2 {...fadeUp} className="section-title mt-5">Questions, <span className="gradient-text">answered.</span></motion.h2>
-              <div className="mt-10">
-                {faq.map((f) => (
-                  <motion.details key={f.q} {...fadeUp} className="group py-5" style={{ borderTop: '1px solid rgba(245,200,66,0.18)' }}>
-                    <summary className="cursor-pointer list-none flex items-center justify-between gap-4 text-white font-bold">
-                      <span>{f.q}</span>
-                      <span className="group-open:rotate-45 transition-transform flex-shrink-0" style={{ color: '#F5C842', fontSize: 20, lineHeight: 1 }}>+</span>
-                    </summary>
-                    <p className="text-gray-400 text-sm leading-relaxed mt-3 max-w-2xl">{f.a}</p>
-                  </motion.details>
-                ))}
-              </div>
+              <SectionHead index="08" eyebrow="STRAIGHT ANSWERS" title={<>Questions, <span className="gradient-text">answered.</span></>} />
+              {faq.map((f, i) => (
+                <motion.details key={f.q} {...fadeUp} className="group py-5" style={{ borderTop: '1px solid rgba(245,200,66,0.18)' }}>
+                  <summary className="cursor-pointer list-none flex items-center justify-between gap-4 text-white font-bold">
+                    <span className="flex items-center gap-4">
+                      <span className="text-sm font-black flex-shrink-0" style={{ color: 'rgba(245,200,66,0.45)' }}>0{i + 1}</span>
+                      {f.q}
+                    </span>
+                    <span className="group-open:rotate-45 transition-transform flex-shrink-0" style={{ color: '#F5C842', fontSize: 20, lineHeight: 1 }}>+</span>
+                  </summary>
+                  <p className="text-gray-400 text-sm leading-relaxed mt-3 max-w-2xl pl-8">{f.a}</p>
+                </motion.details>
+              ))}
             </div>
           </section>
 
           {/* CTA */}
           <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(180deg, #050A18, #0A1628)' }}>
             <div className="max-w-3xl mx-auto text-center">
+              <motion.div {...fadeUp} className="flex justify-center mb-6"><LogoMark size={54} id="kprcta" /></motion.div>
               <motion.h2 {...fadeUp} className="text-3xl sm:text-5xl font-black" style={{ letterSpacing: '-0.04em' }}>
                 Bring the spark. <span className="gradient-text">I will bring the hive.</span>
               </motion.h2>
