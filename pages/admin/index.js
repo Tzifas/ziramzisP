@@ -32,11 +32,50 @@ export default function AdminPage() {
   const [skillDraft, setSkillDraft] = useState('');
   const [keyFor, setKeyFor] = useState(null);
   const [keyVal, setKeyVal] = useState('');
+  const [runnerChain, setRunnerChain] = useState('chat');
+  const [runnerPrompt, setRunnerPrompt] = useState('');
+  const [runnerBusy, setRunnerBusy] = useState(false);
+  const [runnerResult, setRunnerResult] = useState(null);
+  const [envKeys, setEnvKeys] = useState(null);
 
   useEffect(() => {
     setDayLabel(new Date().toLocaleDateString('en-US', { weekday: 'long' }));
     setColony(loadColony());
   }, []);
+
+  useEffect(() => {
+    fetch('/api/ai/run').then((r) => r.json()).then((j) => setEnvKeys(j.env || null)).catch(() => setEnvKeys(null));
+  }, []);
+
+  async function runTest() {
+    if (!runnerPrompt.trim() || runnerBusy) return;
+    setRunnerBusy(true);
+    setRunnerResult(null);
+    try {
+      const res = await fetch('/api/ai/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chainId: runnerChain, prompt: runnerPrompt }),
+      });
+      const j = await res.json();
+      setRunnerResult(j);
+      if (j.ok && j.usedModel) {
+        update((c) => {
+          c.runs.push({
+            id: nextId('r'), taskId: null, beeId: 'secretary',
+            modelId: j.usedModel.id, providerId: j.usedModel.providerId,
+            durationMs: j.durationMs || 0,
+            outcome: j.fallbackUsed ? 'fallback' : 'ok',
+            fallbackUsed: !!j.fallbackUsed,
+            at: new Date().toISOString(),
+          });
+        });
+      }
+    } catch (e) {
+      setRunnerResult({ ok: false, error: String((e && e.message) || e) });
+    }
+    setRunnerBusy(false);
+  }
 
   function update(mutator) {
     setColony((prev) => {
@@ -498,7 +537,7 @@ export default function AdminPage() {
                     )}
                   </div>
                 ))}
-                <p className="hive-sub" style={{ marginTop: '.6rem' }}>Keys are placeholders for now — they will be stored server-side (never in the browser) once the backend lands.</p>
+                <p className="hive-sub" style={{ marginTop: '.6rem' }}>Keys live server-side in environment variables (Vercel → Settings → Environment Variables). The connect buttons below are a preview of the in-panel key flow to come.</p>
               </section>
 
               <section className="admin-panel">
@@ -531,6 +570,41 @@ export default function AdminPage() {
                 ))}
               </section>
 
+              <section className="admin-panel" style={{ gridColumn: '1 / -1' }}>
+                <div className="admin-panel__head">
+                  <div><span className="admin-panel__eyebrow"><CheckRocketIcon size={14} /> Runner</span><h3>Test the fallback chain</h3></div>
+                </div>
+                <p className="hive-sub">One prompt goes through the selected chain. If the first model fails, the next takes over — with the same context. Every attempt is logged below.</p>
+                <div className="hive-actions" style={{ marginTop: '.6rem' }}>
+                  <select className="hive-select" style={{ maxWidth: 260 }} value={runnerChain} onChange={(e) => setRunnerChain(e.target.value)}>
+                    {colony.chains.map((ch) => <option key={ch.id} value={ch.id}>{ch.name}</option>)}
+                  </select>
+                  <input className="hive-input" style={{ maxWidth: 340 }} placeholder="Ask the hive something…" value={runnerPrompt} onChange={(e) => setRunnerPrompt(e.target.value)} />
+                  <button className="hive-btn hive-btn--primary" onClick={runTest} disabled={runnerBusy}>{runnerBusy ? 'Running…' : 'Run'}</button>
+                </div>
+                {envKeys && (
+                  <p className="hive-sub" style={{ marginTop: '.5rem' }}>Env keys — Gemini: {envKeys.gemini ? 'detected' : 'not set'} · OpenRouter: {envKeys.openrouter ? 'detected' : 'not set'}</p>
+                )}
+                {runnerResult && (
+                  <div className="hive-card" style={{ marginTop: '.6rem' }}>
+                    {runnerResult.ok ? (
+                      <div>
+                        <p className="hive-sub">Answered by <strong style={{ color: '#fff' }}>{runnerResult.usedModel && runnerResult.usedModel.name}</strong>{runnerResult.fallbackUsed ? ' · fallback used' : ''} · {runnerResult.durationMs}ms</p>
+                        <p style={{ color: '#e8eef7', fontSize: '.88rem', marginTop: '.4rem', whiteSpace: 'pre-wrap' }}>{runnerResult.output}</p>
+                        <div style={{ marginTop: '.5rem' }}>
+                          {(runnerResult.attempts || []).map((a, i) => (
+                            <span key={i} className={'hive-pill ' + (a.ok ? 'hive-pill--active' : 'hive-pill--rejected')} style={{ marginRight: '.35rem' }}>
+                              {a.stepId}: {a.ok ? 'ok' : 'failed'}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="hive-sub" style={{ color: '#ff8a8a' }}>{runnerResult.error}</p>
+                    )}
+                  </div>
+                )}
+              </section>
               <section className="admin-panel" style={{ gridColumn: '1 / -1' }}>
                 <div className="admin-panel__head">
                   <div><span className="admin-panel__eyebrow"><ChartIcon size={14} /> Run log</span><h3>Every model call, audited</h3></div>
