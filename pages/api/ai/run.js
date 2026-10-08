@@ -1,5 +1,6 @@
 import { seedColony } from '../../../lib/hive';
 import { runChain } from '../../../lib/runner.mjs';
+import { isAdminRequest } from '../../../lib/adminAuth';
 
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
@@ -32,6 +33,7 @@ async function callOpenRouter(model, prompt, apiKey) {
 }
 
 export default async function handler(req, res) {
+  if (!isAdminRequest(req)) return res.status(401).json({ ok: false, error: 'Keeper authentication required.' });
   if (req.method === 'GET') {
     return res.status(200).json({ env: { gemini: !!process.env.GEMINI_API_KEY, openrouter: !!process.env.OPENROUTER_API_KEY } });
   }
@@ -40,6 +42,7 @@ export default async function handler(req, res) {
     const body = req.body || {};
     const prompt = body.prompt;
     if (!prompt || !String(prompt).trim()) return res.status(400).json({ ok: false, error: 'Prompt is required' });
+    if (String(prompt).length > 6000) return res.status(400).json({ ok: false, error: 'Prompt is too long.' });
     const chain = seedColony.chains.find((c) => c.id === body.chainId);
     if (!chain) return res.status(400).json({ ok: false, error: 'Unknown chain: ' + body.chainId });
     const steps = chain.steps.map((mid) => seedColony.models.find((m) => m.id === mid)).filter(Boolean);

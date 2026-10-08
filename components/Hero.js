@@ -2,9 +2,11 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import {
-  BeeIcon, GlobeIcon, MobileIcon, BriefcaseIcon, BoltIcon,
+  BeeIcon,
   WhatsAppIcon
 } from './Icons';
+import { seedColony, summarizeColony } from '../lib/hive';
+import { site } from '../lib/site';
 
 /* ── Static Honeycomb Grid ──────────────────────────── */
 const HoneycombGrid = () => {
@@ -192,198 +194,101 @@ const BeeCharacter = ({ className = '', style: extraStyle, drift = true }) => (
 
 /* ── Stat entry ──────────────────────────────────────── */
 const stats = [
-  { num: '01', label: 'Creative lead, direct access', Icon: BeeIcon },
-  { num: '02', label: 'Strategy + brand + build', Icon: BoltIcon },
-  { num: '03', label: 'Based in Mombasa, made for anywhere', Icon: GlobeIcon },
+  { num: 'KSh 25k', label: 'Starting price' },
+  { num: 'Blueprint first', label: 'Always, no exceptions' },
+  { num: 'Mombasa', label: 'Working worldwide' },
 ];
 
-/* ── Orbiting icons ──────────────────────────────────── */
-const orbitIcons = [GlobeIcon, MobileIcon, BriefcaseIcon, BoltIcon];
+/* ── Colony Live Panel ───────────────────────────────── */
+function ColonyLive() {
+  const [time, setTime] = useState('');
+
+  useEffect(() => {
+    const fmt = () => new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    setTime(fmt());
+    const t = setInterval(() => setTime(fmt()), 60000);
+    return () => clearInterval(t);
+  }, []);
+
+  const summary = summarizeColony(seedColony);
+  const topBees = seedColony.bees.slice(0, 4);
+
+  return (
+    <div className="honey-card hidden lg:block" style={{
+      border: '1px solid rgba(0,245,255,0.25)',
+      boxShadow: '0 0 40px rgba(0,245,255,0.07)',
+      borderRadius: '1.25rem',
+      padding: '1.25rem',
+    }}>
+      {/* Top bar */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span style={{ width: '0.45rem', height: '0.45rem', borderRadius: '50%', background: '#5ad9bd', boxShadow: '0 0 8px #5ad9bd', display: 'inline-block', animation: 'glowPulse 2.5s ease-in-out infinite' }} />
+          <span className="eyebrow" style={{ fontSize: '0.65rem' }}>COLONY · LIVE</span>
+        </div>
+        <span style={{ color: 'var(--gray-muted)', fontSize: '0.65rem', fontFamily: "'Space Grotesk', sans-serif" }}>{time}</span>
+      </div>
+
+      {/* Secretary digest */}
+      <p style={{ color: 'var(--gray-text)', fontSize: '0.72rem', lineHeight: 1.5, marginBottom: '0.85rem', paddingBottom: '0.85rem', borderBottom: '1px solid rgba(245,200,66,0.1)' }}>
+        {summary.digest[0]}
+      </p>
+
+      {/* Bee rows */}
+      <div style={{ display: 'grid', gap: '0.5rem', marginBottom: '0.85rem' }}>
+        {topBees.map((bee) => (
+          <div key={bee.id} style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', padding: '0.5rem 0.6rem', borderRadius: '0.6rem', background: 'rgba(5,14,25,0.5)', border: '1px solid rgba(145,168,178,0.09)' }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ margin: 0, color: '#eef0e8', fontSize: '0.76rem', fontWeight: 700 }}>{bee.name}</p>
+              <p style={{ margin: 0, color: 'var(--gray-text)', fontSize: '0.66rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{bee.task}</p>
+            </div>
+            <span className={`hive-pill hive-pill--${bee.status}`} style={{ flexShrink: 0 }}>{bee.status}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom strip */}
+      <p style={{ margin: 0, color: 'var(--gray-muted)', fontSize: '0.62rem', fontWeight: 800, letterSpacing: '0.14em', textTransform: 'uppercase', paddingTop: '0.75rem', borderTop: '1px solid rgba(245,200,66,0.08)' }}>
+        {seedColony.bees.length} bees · {summary.activeBees} active
+      </p>
+    </div>
+  );
+}
 
 export { BeeCharacter };
 
 export default function Hero() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
+  const rise = {
+    hidden: { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
   };
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } },
-  };
-
-  const [typedText, setTypedText] = useState('');
-  const words = ['Websites.', 'Booking Systems.', 'Brand Design.', 'Web Apps.'];
-  const [wordIdx, setWordIdx] = useState(0);
-  const [charIdx, setCharIdx] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    const current = words[wordIdx];
-    let timeout;
-    if (!deleting) {
-      if (charIdx < current.length) {
-        timeout = setTimeout(() => {
-          setTypedText(current.slice(0, charIdx + 1));
-          setCharIdx(charIdx + 1);
-        }, 85);
-      } else {
-        timeout = setTimeout(() => setDeleting(true), 2000);
-      }
-    } else {
-      if (charIdx > 0) {
-        timeout = setTimeout(() => {
-          setTypedText(current.slice(0, charIdx - 1));
-          setCharIdx(charIdx - 1);
-        }, 45);
-      } else {
-        timeout = setTimeout(() => {
-          setDeleting(false);
-          setWordIdx((wordIdx + 1) % words.length);
-        }, 400);
-      }
-    }
-    return () => clearTimeout(timeout);
-  }, [charIdx, deleting, wordIdx]);
 
   return (
-    <section
-      className="hero-section relative pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, #050A18 0%, #08122A 50%, #050A18 100%)' }}
-    >
+    <section className="hero-section hero-v2">
       <HoneycombGrid />
-      <BeeCharacter className="hero-busy-bee right-[-3%] top-[7%] sm:right-[6%] sm:top-[18%] lg:right-[8%] lg:top-[25%] scale-[0.45] sm:scale-75 md:scale-90 lg:scale-100" />
-
-      {/* Radial glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute rounded-full"
-          style={{ width: '600px', height: '600px', background: 'radial-gradient(ellipse, rgba(245,200,66,0.08) 0%, transparent 70%)', left: '-100px', top: '10%' }}
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto w-full relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
-        {/* Left */}
-        <motion.div className="space-y-8" variants={containerVariants} initial="hidden" animate="visible">
-
-          {/* Headline */}
-          <motion.div variants={itemVariants}>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-[1.07] sm:leading-tight">
-              <span className="block text-white">Make your next move</span>
-              <span className="block gradient-text mt-1">
-                {typedText}
-                <motion.span
-                  className="inline-block w-0.5 h-12 ml-1 align-middle"
-                  style={{ background: '#F5C842' }}
-                  animate={{ opacity: [1, 0, 1] }}
-                  transition={{ duration: 0.6, repeat: Infinity }}
-                />
-              </span>
-              <span className="block text-white mt-1">impossible to ignore.</span>
-            </h1>
-            <p className="mt-5 text-gray-400 text-lg max-w-lg leading-relaxed">
-              A digital studio for businesses with real ambition. I combine brand thinking, sharp design and modern builds into work people remember—and act on.
-            </p>
+      <div className="hero-v2__glow" aria-hidden="true" />
+      <div className="hero-v2__inner">
+        <motion.div className="hero-v2__copy" initial="hidden" animate="visible" variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}>
+          <motion.h1 variants={rise}>Digital work with<br /><em>a real point of view.</em></motion.h1>
+          <motion.p variants={rise} className="hero-v2__intro">Ziramzis shapes brand identities, websites and useful web products for businesses ready to look as serious as their ambition.</motion.p>
+          <motion.div variants={rise} className="hero-v2__actions">
+            <a href={'https://wa.me/' + site.whatsapp + '?text=Hi%20Ziramzis%2C%20I%20want%20to%20discuss%20my%20project'} target="_blank" rel="noopener noreferrer" className="hero-v2__primary"><WhatsAppIcon size={18} /> Start a project</a>
+            <a href="#work" className="hero-v2__secondary">See directions <span>↓</span></a>
           </motion.div>
-
-          {/* CTA Buttons */}
-          <motion.div className="flex flex-col items-start sm:flex-row gap-3 sm:gap-4" variants={itemVariants}>
-            <motion.a
-              href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%20want%20to%20discuss%20my%20project"
-              target="_blank" rel="noopener noreferrer"
-              className="gradient-button px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-black text-center text-sm sm:text-base inline-flex items-center justify-center gap-3"
-              whileHover={{ scale: 1.06, y: -4 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <WhatsAppIcon size={20} />
-                Start a Hive Brief
-              </span>
-            </motion.a>
-            <p className="flex items-center gap-2 text-sm font-medium mt-2" style={{ color: 'var(--cyan-mid)' }}>
-              <BeeIcon size={14} color="#F5C842" /> Let's make it land.
-            </p>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            className="hidden sm:grid grid-cols-3 gap-2 sm:gap-6 pt-6 sm:pt-8"
-            variants={itemVariants}
-            style={{ borderTop: '1px solid rgba(245,200,66,0.15)' }}
-          >
-            {stats.map((stat) => (
-              <motion.div
-                key={stat.label}
-                className="text-center"
-                whileHover={{ scale: 1.04 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
-              >
-                <div className="flex justify-center mb-2">
-                  <stat.Icon size={22} color="#F5C842" />
-                </div>
-                <p className="text-2xl sm:text-3xl font-black gradient-text">{stat.num}</p>
-                <p className="text-gray-500 text-xs mt-1">{stat.label}</p>
-              </motion.div>
-            ))}
+          <motion.div variants={rise} className="hero-v2__proof" aria-label="Studio principles">
+            <span>Blueprint first</span><i /> <span>Human-led</span><i /> <span>Built to last</span>
           </motion.div>
         </motion.div>
 
-        {/* Right — Visual Hive */}
-        <motion.div
-          className="hidden lg:flex items-center justify-center"
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-        >
-          <div className="relative w-96 h-96">
-            {/* Static outer hex */}
-            <div
-              className="absolute inset-0 flex items-center justify-center"
-            >
-              <svg viewBox="0 0 200 230" className="w-full h-full">
-                <path d="M100 10 L190 55 L190 175 L100 220 L10 175 L10 55 Z"
-                  fill="none" stroke="rgba(245,200,66,0.15)" strokeWidth="2" />
-                <path d="M100 30 L175 68 L175 162 L100 200 L25 162 L25 68 Z"
-                  fill="rgba(245,200,66,0.04)" stroke="rgba(245,200,66,0.25)" strokeWidth="1" />
-              </svg>
-            </div>
-
-            {/* Center */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div
-                className="w-24 h-24 flex items-center justify-center rounded-full mb-4"
-                style={{ background: 'radial-gradient(circle, rgba(245,200,66,0.2), rgba(245,200,66,0.05))', boxShadow: '0 0 35px rgba(245,200,66,0.3)' }}
-              >
-                <BeeIcon size={52} />
-              </div>
-              <h3 className="text-xl font-black gradient-text">Busy Bee</h3>
-              <p className="text-gray-400 text-sm text-center mt-1">Building your digital hive</p>
-            </div>
-
-            {/* Orbiting Icons */}
-            {orbitIcons.map((IconComp, i) => {
-              const angle = (i * 90) * (Math.PI / 180);
-              return (
-                <motion.div
-                  key={i}
-                  className="absolute w-14 h-14 flex items-center justify-center rounded-lg"
-                  style={{
-                    left: `${50 + Math.cos(angle) * 40}%`,
-                    top: `${50 + Math.sin(angle) * 40}%`,
-                    transform: 'translate(-50%, -50%)',
-                    background: 'rgba(13, 31, 60, 0.9)',
-                    border: '1px solid rgba(245,200,66,0.25)',
-                  }}
-                  whileHover={{ scale: 1.15 }}
-                >
-                  <IconComp size={22} color="#F5C842" />
-                </motion.div>
-              );
-            })}
+        <motion.div className="hero-v2__art" initial={{ opacity: 0, scale: 0.96, y: 22 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}>
+          <BeeCharacter className="hero-v2__bee" style={{ scale: 0.76 }} />
+          <div className="hero-v2__art-frame">
+            <img src="/brand/campaign.jpg" alt="Ziramzis campaign artwork: a digital hive, bee and laptop" />
           </div>
+          <div className="hero-v2__art-label"><span>01</span><p>Brand<br />to build</p></div>
+          <div className="hero-v2__art-note"><strong>Busy Bee Studio</strong><span>Ideas deserve a proper home.</span></div>
         </motion.div>
       </div>
-
     </section>
   );
 }

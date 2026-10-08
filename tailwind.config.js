@@ -35,6 +35,10 @@ module.exports = {
         'navy-gradient':  'linear-gradient(135deg, #050A18 0%, #0A1628 100%)',
         'glow-honey':     'radial-gradient(ellipse at center, rgba(245,200,66,0.3), transparent)',
       },
+      spacing: {
+        'section': '6rem',
+        'section-sm': '4rem',
+      },
     },
   },
   plugins: [],

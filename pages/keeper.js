@@ -5,6 +5,9 @@ import {
   MapPinIcon, ChartIcon, BriefcaseIcon, CheckRocketIcon,
 } from '../components/Icons'
 import LogoMark from '../components/LogoMark'
+import BrandLockup from '../components/BrandLockup'
+import BeeAvatar from '../components/BeeAvatar'
+import { absoluteUrl, site } from '../lib/site'
 
 const cardStyle = {
   background: 'linear-gradient(135deg, rgba(13,31,60,0.9), rgba(10,22,40,0.95))',
@@ -25,7 +28,7 @@ const SectionHead = ({ index, eyebrow, title }) => (
       <span className="mr-2 font-black" style={{ color: 'var(--cyan-mid)' }}>{index}</span>
       {eyebrow}
     </p>
-    <h2 className="section-title mt-4">{title}</h2>
+    <h2 className="section-title--md mt-4">{title}</h2>
   </motion.div>
 )
 
@@ -90,15 +93,15 @@ export default function Keeper() {
       <Head>
         <title>Meet the Keeper — Ziramzis | Brand, Web Design & Development in Mombasa</title>
         <meta name="description" content="Meet Ramadhan “Ziramzis” — a Mombasa web designer and developer building brand identities, websites and web apps with a colony of AI assistants. Blueprint before code, from KSh 25k." />
-        <link rel="canonical" href="https://ziramzis-p.vercel.app/keeper/" />
+        <link rel="canonical" href={absoluteUrl('/keeper/')} />
         <meta name="theme-color" content="#050A18" />
         <meta property="og:title" content="Meet the Keeper — Ziramzis" />
         <meta property="og:description" content="The person and the process behind Ziramzis — brand, web design and development from Mombasa, Kenya, with AI bee helpers." />
         <meta property="og:type" content="profile" />
-        <meta property="og:url" content="https://ziramzis-p.vercel.app/keeper/" />
-        <meta property="og:image" content="https://ziramzis-p.vercel.app/og-image.png" />
+        <meta property="og:url" content={absoluteUrl('/keeper/')} />
+        <meta property="og:image" content={absoluteUrl('/og-image.png')} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://ziramzis-p.vercel.app/og-image.png" />
+        <meta name="twitter:image" content={absoluteUrl('/og-image.png')} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([
@@ -108,8 +111,8 @@ export default function Keeper() {
               name: 'Ramadhan',
               alternateName: 'Ziramzis',
               jobTitle: 'Web designer and developer',
-              url: 'https://ziramzis-p.vercel.app/keeper/',
-              image: 'https://ziramzis-p.vercel.app/images/keeper-hero.jpeg',
+              url: absoluteUrl('/keeper/'),
+              image: absoluteUrl('/images/keeper-hero.jpeg'),
               address: { '@type': 'PostalAddress', addressLocality: 'Mombasa', addressCountry: 'KE' },
               knowsAbout: ['Web design', 'Web development', 'Brand identity', 'Web applications', 'AI agents'],
             },
@@ -128,15 +131,14 @@ export default function Keeper() {
         />
       </Head>
 
-      <div className="bg-dark text-white overflow-hidden">
+      <div className="bg-dark text-white overflow-hidden keeper-page">
         <header className="sticky top-0 z-40" style={{ background: 'rgba(5,10,24,0.92)', backdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(245,200,66,0.14)' }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-            <a href="/" className="flex items-center gap-3" aria-label="Back to the Ziramzis home page">
-              <LogoMark size={36} id="kprhdr" />
-              <span className="font-black tracking-widest gradient-text">ZIRAMZIS</span>
+            <a href="/" className="flex items-center" aria-label="Back to the Ziramzis home page">
+              <BrandLockup priority className="w-[154px] sm:w-[176px]" />
             </a>
             <a href="/" className="inline-flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--cyan-mid)' }}>
-              Back to the hive <ArrowRightIcon size={15} />
+              ← Back to the hive
             </a>
           </div>
         </header>
@@ -144,20 +146,20 @@ export default function Keeper() {
         <main>
           {/* 01 HERO */}
           <section className="pt-12 pb-16 sm:pt-16 sm:pb-24 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(160deg, #050A18 0%, #08122A 60%, #050A18 100%)' }}>
-            <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-center">
+            <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-center">
               <div>
                 <motion.p {...fadeUp} className="eyebrow"><span className="mr-2 font-black" style={{ color: 'var(--cyan-mid)' }}>01</span>THE KEEPER</motion.p>
-                <motion.h1 {...fadeUp} className="text-4xl sm:text-5xl font-black leading-[1.04] mt-5" style={{ letterSpacing: '-0.04em' }}>
+                <motion.h1 {...fadeUp} className="text-[2.45rem] sm:text-5xl lg:text-[3.45rem] font-black leading-[1.04] mt-5" style={{ letterSpacing: '-0.04em' }}>
                   The person behind <span className="gradient-text">the hive.</span>
                 </motion.h1>
-                <motion.p {...fadeUp} className="text-gray-400 text-lg leading-relaxed mt-6">
+                <motion.p {...fadeUp} className="text-gray-400 text-base sm:text-lg leading-relaxed mt-6 max-w-xl">
                   Ziramzis is the hive name — Ramadhan is the person. A tech enthusiast from Mombasa who designs brands from scratch,
                   produces the full asset kit, and designs &amp; develops the websites that carry them. Full-time. On time. With energy to spare.
                 </motion.p>
-                <motion.p {...fadeUp} className="text-gray-400 text-lg leading-relaxed mt-4">
+                <motion.p {...fadeUp} className="text-gray-400 text-base sm:text-lg leading-relaxed mt-4 max-w-xl">
                   A hive works because every part serves the whole. One keeper, a colony of AI helpers, your project at the centre.
                 </motion.p>
-                <motion.div {...fadeUp} className="flex flex-wrap gap-3 mt-8">
+                <motion.div {...fadeUp} className="flex flex-wrap gap-2.5 mt-8">
                   {['Brand from scratch', 'Design + Development', 'Mombasa · working worldwide'].map((chip) => (
                     <span key={chip} className="text-sm font-semibold px-4 py-2 rounded-full"
                       style={{ background: 'rgba(245,200,66,0.08)', border: '1px solid rgba(245,200,66,0.25)', color: '#F5C842' }}>
@@ -172,8 +174,21 @@ export default function Keeper() {
                   <LogoMark size={30} id="kprbadge" />
                   <span className="text-xs font-black tracking-[0.2em] gradient-text">KEEPER</span>
                 </div>
-                <img src="/images/keeper-hero.jpeg" alt="Illustration of a glowing honeycomb hive with a stylised bee — Ziramzis, digital studio in Mombasa"
-                  className="w-full h-auto rounded-2xl" style={{ border: '1px solid rgba(245,200,66,0.25)', boxShadow: '0 24px 60px rgba(0,0,0,0.45)' }} />
+                {/* BeeAvatar — first wired use of this component */}
+                <div className="absolute -top-4 -right-4 z-10 hidden sm:block" style={{ width: 56, height: 56 }}>
+                  <BeeAvatar size={56} />
+                </div>
+                <div style={{ clipPath: 'polygon(0 0, 92% 0, 100% 8%, 100% 100%, 8% 100%, 0 92%)' }}>
+                  <img src="/images/keeper-hero.jpeg" alt="Illustration of a glowing honeycomb hive with a stylised bee — Ziramzis, digital studio in Mombasa"
+                    className="w-full h-auto" style={{ border: '1px solid rgba(245,200,66,0.25)', boxShadow: '0 24px 60px rgba(0,0,0,0.45)' }} />
+                </div>
+                {/* Vertical side label */}
+                <span style={{
+                  position: 'absolute', right: '-1.2rem', top: '50%',
+                  transform: 'translateY(-50%) rotate(90deg)',
+                  color: 'rgba(245,200,66,0.45)', fontSize: '0.5rem',
+                  fontWeight: 800, letterSpacing: '0.28em', whiteSpace: 'nowrap',
+                }}>MOMBASA · KENYA · 2026</span>
                 <div className="absolute -bottom-3 right-4 text-xs font-bold px-3 py-1.5 rounded-full"
                   style={{ background: 'rgba(5,10,24,0.92)', border: '1px solid rgba(0,245,255,0.35)', color: 'var(--cyan-mid)' }}>
                   Mombasa, Kenya
@@ -184,49 +199,65 @@ export default function Keeper() {
 
           {/* 02 THE DEAL */}
           <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: '#050A18' }}>
-            <div className="max-w-6xl mx-auto">
-              <SectionHead index="02" eyebrow="THE DEAL" title={<>What you are really <span className="gradient-text">hiring.</span></>} />
-              <div className="grid md:grid-cols-3 gap-x-10 gap-y-10">
+            <div className="max-w-6xl mx-auto grid lg:grid-cols-[0.58fr_1.42fr] gap-10 lg:gap-20 items-start">
+              <div className="lg:sticky lg:top-28">
+                <SectionHead index="02" eyebrow="THE DEAL" title={<>A studio with <span className="gradient-text">a name and a face.</span></>} />
+                <p className="text-gray-400 text-base leading-relaxed -mt-5 max-w-sm">
+                  You are not hiring a chain of handovers. You are hiring one accountable creative partner, with a hive built to support the work.
+                </p>
+                <div className="mt-7 pt-5" style={{ borderTop: '1px solid rgba(245,200,66,0.2)' }}>
+                  <p className="text-xs font-black tracking-[0.18em]" style={{ color: 'var(--cyan-mid)' }}>RAMADHAN / ZIRAMZIS</p>
+                  <p className="text-sm text-gray-500 mt-2">Creative direction, design and development - from Mombasa.</p>
+                </div>
+              </div>
+              <div style={{ display: 'grid', gap: 0 }}>
                 {[
-                  ['One keeper. Zero handoffs.', 'You talk to the person doing the work — every message, every revision. No middle layer, no telephone game.'],
-                  ['Brand to build, one line.', 'Identity, assets, design and code from the same head — so the site thinks like the logo and the logo thinks like the business.'],
-                  ['AI-assisted, human-signed.', 'The bees draft and accelerate; I judge and finish. What reaches you always passes one standard: mine.'],
-                ].map(([t, b], i) => (
-                  <motion.div key={t} {...fadeUp}>
-                    <div className="text-4xl font-black mb-4" style={{ color: 'rgba(245,200,66,0.3)', letterSpacing: '-0.02em' }}>0{i + 1}</div>
-                    <h3 className="text-xl font-black text-white">{t}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed mt-3">{b}</p>
+                  { n: '01', title: 'One keeper. The work is mine.', body: 'You speak to the person building it. Not a manager, not a relay - the actual hand doing the work. Every message, every decision, every revision.' },
+                  { n: '02', title: 'Brand and build, same mind.', body: 'Logo, colour, layout, code - drawn from one head so every part of your presence thinks together. The site looks like the brand because both came from the same place.' },
+                  { n: '03', title: 'AI works. I sign.', body: 'The colony drafts at speed. I judge every output before it reaches you. What you receive always passed one standard - mine.' },
+                ].map((item) => (
+                  <motion.div key={item.n} {...fadeUp} style={{ display: 'grid', gridTemplateColumns: 'clamp(3.6rem, 8vw, 5rem) 1fr', gap: '1.25rem', alignItems: 'start', padding: '2.35rem 0', borderTop: '1px solid rgba(245,200,66,0.18)' }}>
+                    <span style={{ fontSize: 'clamp(3.1rem, 6vw, 4.75rem)', fontWeight: 900, lineHeight: 1, color: 'rgba(245,200,66,0.16)', letterSpacing: '-0.04em', userSelect: 'none', fontFamily: "'Space Grotesk', sans-serif" }}>{item.n}</span>
+                    <div className="pt-1">
+                      <h3 className="section-title--sm" style={{ marginBottom: '0.65rem' }}>{item.title}</h3>
+                      <p style={{ color: 'var(--gray-text)', fontSize: '0.95rem', lineHeight: 1.65, maxWidth: '42rem' }}>{item.body}</p>
+                    </div>
                   </motion.div>
                 ))}
+                <div style={{ borderTop: '1px solid rgba(245,200,66,0.18)' }} />
               </div>
             </div>
           </section>
 
           {/* 03 THE CRAFT */}
           <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(180deg, #050A18, #08122A 50%, #050A18)' }}>
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               <SectionHead index="03" eyebrow="THE CRAFT" title={<>One line, <span className="gradient-text">three crafts.</span></>} />
-              {crafts.map((c) => (
-                <motion.div key={c.n} {...fadeUp} className="flex gap-6 sm:gap-12 py-8" style={{ borderTop: '1px solid rgba(245,200,66,0.18)' }}>
-                  <span className="font-black text-2xl sm:text-3xl flex-shrink-0" style={{ color: '#F5C842', letterSpacing: '0.06em' }}>{c.n}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3">
-                      <c.Icon size={22} color="#F5C842" />
-                      <h3 className="text-xl font-bold text-white">{c.title}</h3>
-                    </div>
-                    <p className="text-gray-400 text-sm sm:text-base leading-relaxed mt-2.5 max-w-2xl">{c.body}</p>
-                  </div>
-                </motion.div>
-              ))}
-              <motion.div {...fadeUp} className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-2">
+              <div className="grid sm:grid-cols-3" style={{ borderTop: '1px solid rgba(245,200,66,0.2)', borderBottom: '1px solid rgba(245,200,66,0.2)' }}>
+                {crafts.map((c, idx) => (
+                  <motion.article key={c.n} {...fadeUp} className="relative py-8 sm:py-10 px-1 sm:px-7 sm:first:pl-1 sm:last:pr-1" style={idx ? { borderLeft: '1px solid rgba(245,200,66,0.16)' } : undefined}>
+                    <span className="block text-xs font-black tracking-[0.18em]" style={{ color: '#F5C842' }}>{c.n}</span>
+                    <c.Icon size={25} color={idx === 1 ? '#00F5FF' : '#F5C842'} className="mt-8" />
+                    <h3 className="text-xl font-bold text-white mt-5">{c.title}</h3>
+                    <p className="text-gray-400 text-sm leading-relaxed mt-3 max-w-sm">{c.body}</p>
+                  </motion.article>
+                ))}
+              </div>
+              <motion.div {...fadeUp} className="mt-8 sm:mt-10 flex flex-wrap items-center gap-x-3 gap-y-2">
                 {pipeline.map((step, i) => (
                   <span key={step} className="inline-flex items-center gap-3">
-                    <span className="text-xs font-black tracking-[0.18em]" style={{ color: i === pipeline.length - 1 ? 'var(--cyan-mid)' : '#F5C842' }}>
-                      {step.toUpperCase()}
-                    </span>
+                    <span className="text-xs font-black tracking-[0.18em]" style={{ color: i === pipeline.length - 1 ? 'var(--cyan-mid)' : '#F5C842' }}>{step.toUpperCase()}</span>
                     {i < pipeline.length - 1 && <ArrowRightIcon size={14} color="rgba(245,200,66,0.5)" />}
                   </span>
                 ))}
+              </motion.div>
+              <motion.div {...fadeUp} className="mt-9 pt-6 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8" style={{ borderTop: '1px solid rgba(0,245,255,0.17)' }}>
+                <span className="text-xs font-black tracking-[0.18em] shrink-0" style={{ color: 'var(--cyan-mid)' }}>HIVE MATERIALS</span>
+                <div className="flex flex-wrap gap-2">
+                  {toolbox.flatMap((group) => group.items).map((item) => (
+                    <span key={item} className="text-xs font-semibold px-3 py-1.5 rounded-full" style={{ background: 'rgba(245,200,66,0.07)', border: '1px solid rgba(245,200,66,0.18)', color: '#E8D9A8' }}>{item}</span>
+                  ))}
+                </div>
               </motion.div>
             </div>
           </section>
@@ -245,18 +276,23 @@ export default function Keeper() {
                   </motion.p>
                 </div>
                 <div>
-                  {bees.map((b) => (
-                    <motion.div key={b.name} {...fadeUp} className="flex gap-5 py-6" style={{ borderTop: '1px solid rgba(245,200,66,0.14)' }}>
-                      <span className="w-12 h-12 flex items-center justify-center rounded-xl flex-shrink-0" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(245,200,66,0.2)' }}>
-                        <b.Icon size={22} color={b.accent} />
-                      </span>
-                      <div>
-                        <h3 className="font-bold text-white">{b.name} <span className="text-xs font-semibold ml-2" style={{ color: 'var(--cyan-mid)' }}>{b.job}</span></h3>
-                        <p className="text-gray-400 text-sm leading-relaxed mt-1.5">{b.line}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                  <motion.div {...fadeUp} className="p-6 mt-2" style={{ ...cardStyle, borderColor: 'rgba(0,245,255,0.2)' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
+                    {bees.map((b) => (
+                      <motion.div key={b.name} {...fadeUp} className="honey-card" style={{ padding: '1.25rem', borderRadius: '1rem', borderColor: `${b.accent}33` }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                          <span style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.65rem', background: 'rgba(255,255,255,0.05)', border: `1px solid ${b.accent}33`, flexShrink: 0 }}>
+                            <b.Icon size={20} color={b.accent} />
+                          </span>
+                          <div>
+                            <p style={{ margin: 0, color: 'white', fontWeight: 700, fontSize: '0.88rem' }}>{b.name}</p>
+                            <p style={{ margin: 0, color: b.accent, fontSize: '0.7rem', fontWeight: 600 }}>{b.job}</p>
+                          </div>
+                        </div>
+                        <p style={{ margin: 0, color: 'var(--gray-text)', fontSize: '0.8rem', lineHeight: 1.55 }}>{b.line}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <motion.div {...fadeUp} className="p-6 mt-4" style={{ ...cardStyle, borderColor: 'rgba(0,245,255,0.2)' }}>
                     <h3 className="font-bold text-white">How I direct them</h3>
                     <p className="text-gray-400 text-sm leading-relaxed mt-2">
                       I set the brief, review the drafts, correct the taste and sign off the quality. What reaches you is my standard — the bees just get us there faster.
@@ -315,43 +351,23 @@ export default function Keeper() {
             </div>
           </section>
 
-          {/* 06 TOOLKIT */}
-          <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: '#050A18' }}>
-            <div className="max-w-5xl mx-auto">
-              <SectionHead index="06" eyebrow="THE TOOLKIT" title={<>What I build <span className="gradient-text">with.</span></>} />
-              {toolbox.map((group) => (
-                <motion.div key={group.label} {...fadeUp} className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-10 py-5" style={{ borderTop: '1px solid rgba(245,200,66,0.18)' }}>
-                  <span className="text-xs font-black tracking-[0.18em] sm:w-44 flex-shrink-0" style={{ color: 'var(--cyan-mid)' }}>{group.label.toUpperCase()}</span>
-                  <div className="flex flex-wrap gap-2">
-                    {group.items.map((item) => (
-                      <span key={item} className="text-xs font-semibold px-3 py-1.5 rounded-full" style={{ background: 'rgba(245,200,66,0.07)', border: '1px solid rgba(245,200,66,0.2)', color: '#E8D9A8' }}>
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-
-          {/* 07 THE STANDARD */}
+          {/* 06 THE STANDARD */}
           <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: 'linear-gradient(180deg, #050A18, #08122A 50%, #050A18)' }}>
-            <div className="max-w-5xl mx-auto">
-              <SectionHead index="07" eyebrow="WORKING WITH ME" title={<>What you can <span className="gradient-text">count on.</span></>} />
-              <div className="grid sm:grid-cols-2 gap-x-10 gap-y-9">
+            <div className="max-w-6xl mx-auto">
+              <SectionHead index="06" eyebrow="WORKING WITH ME" title={<>What you can <span className="gradient-text">count on.</span></>} />
+              <div className="grid sm:grid-cols-2" style={{ borderTop: '1px solid rgba(245,200,66,0.16)', borderLeft: '1px solid rgba(245,200,66,0.16)' }}>
                 {principles.map((w) => (
-                  <motion.div key={w.n} {...fadeUp} className="flex gap-5">
-                    <span className="font-black text-xl flex-shrink-0" style={{ color: 'rgba(245,200,66,0.4)' }}>{w.n}</span>
-                    <div>
-                      <h3 className="font-bold text-white">{w.title}</h3>
-                      <p className="text-gray-400 text-sm leading-relaxed mt-2">{w.body}</p>
-                    </div>
-                  </motion.div>
+                  <motion.article key={w.n} {...fadeUp} className="relative p-6 sm:p-8" style={{ borderRight: '1px solid rgba(245,200,66,0.16)', borderBottom: '1px solid rgba(245,200,66,0.16)', minHeight: '12.5rem' }}>
+                    <span className="absolute top-5 right-6 text-4xl font-black" style={{ color: 'rgba(245,200,66,0.13)', letterSpacing: '-0.05em' }}>{w.n}</span>
+                    <span className="block w-8 h-px mb-7" style={{ background: w.n === '02' || w.n === '04' ? 'var(--cyan-mid)' : '#F5C842' }} />
+                    <h3 className="text-lg font-extrabold text-white max-w-[14rem]">{w.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed max-w-md" style={{ color: 'var(--gray-text)' }}>{w.body}</p>
+                  </motion.article>
                 ))}
               </div>
-              <motion.div {...fadeUp} className="mt-12 p-6" style={{ ...cardStyle, borderColor: 'rgba(0,245,255,0.2)' }}>
+              <motion.div {...fadeUp} className="mt-8 px-5 py-5 sm:px-7 sm:py-6 grid sm:grid-cols-[11rem_1fr] gap-5 sm:gap-8" style={{ background: 'rgba(245,200,66,0.06)', border: '1px solid rgba(245,200,66,0.3)', borderRadius: '1rem' }}>
                 <h3 className="font-bold text-white">What I need from you</h3>
-                <ul className="mt-3 grid sm:grid-cols-3 gap-3">
+                <ul className="grid sm:grid-cols-3 gap-3">
                   {needs.map((n) => (
                     <li key={n} className="text-gray-400 text-sm flex items-start gap-2.5">
                       <span className="mt-1.5 flex-shrink-0" style={{ width: 6, height: 6, borderRadius: 999, background: '#F5C842', boxShadow: '0 0 10px rgba(245,200,66,0.9)' }} />
@@ -363,12 +379,12 @@ export default function Keeper() {
             </div>
           </section>
 
-          {/* 08 FAQ */}
+          {/* 07 FAQ */}
           <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8" style={{ background: '#050A18' }}>
             <div className="max-w-3xl mx-auto">
-              <SectionHead index="08" eyebrow="STRAIGHT ANSWERS" title={<>Questions, <span className="gradient-text">answered.</span></>} />
+              <SectionHead index="07" eyebrow="STRAIGHT ANSWERS" title={<>Questions, <span className="gradient-text">answered.</span></>} />
               {faq.map((f, i) => (
-                <motion.details key={f.q} {...fadeUp} className="group py-5" style={{ borderTop: '1px solid rgba(245,200,66,0.18)' }}>
+                <motion.details key={f.q} {...fadeUp} className="faq-item group py-5" style={{ borderTop: '1px solid rgba(245,200,66,0.18)' }}>
                   <summary className="cursor-pointer list-none flex items-center justify-between gap-4 text-white font-bold">
                     <span className="flex items-center gap-4">
                       <span className="text-sm font-black flex-shrink-0" style={{ color: 'rgba(245,200,66,0.45)' }}>0{i + 1}</span>
@@ -393,7 +409,7 @@ export default function Keeper() {
                 Start with a short message. I will answer with the right next step — no hard sell, no jargon.
               </motion.p>
               <motion.div {...fadeUp} className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-                <a href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%20got%20your%20message%20from%20the%20Keeper%20page"
+                <a href={`https://wa.me/${site.whatsapp}?text=Hi%20Ziramzis%2C%20I%20got%20your%20message%20from%20the%20Keeper%20page`}
                   target="_blank" rel="noopener noreferrer"
                   className="gradient-button px-8 py-4 rounded-xl font-bold text-black text-sm sm:text-base inline-flex items-center justify-center gap-3">
                   <WhatsAppIcon size={20} /> Start a Hive Brief

@@ -1,164 +1,80 @@
 'use client';
-import { motion } from 'framer-motion';
-import {
-  HoneycombIcon, GlobeIcon, MobileIcon, BriefcaseIcon, WrenchIcon,
-  ForkKnifeIcon, ScaleIcon, ToothIcon, CartIcon, RocketIcon, BrushIcon
-} from './Icons';
 
-const HexIcon = ({ children, glow = 'honey' }) => (
-  <div className="relative w-20 h-20 mx-auto mb-5 flex items-center justify-center">
-    <svg viewBox="0 0 80 92" className="absolute inset-0 w-full h-full">
-      <path d="M40 4 L76 23 L76 69 L40 88 L4 69 L4 23 Z"
-        fill={glow === 'honey' ? 'rgba(245,200,66,0.08)' : 'rgba(0,245,255,0.08)'}
-        stroke={glow === 'honey' ? 'rgba(245,200,66,0.4)' : 'rgba(0,245,255,0.4)'}
-        strokeWidth="1.5" />
-    </svg>
-    <div className="relative z-10">{children}</div>
-  </div>
-);
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 const services = [
-  { id: 1, Icon: GlobeIcon, title: 'Websites that sell the room', description: 'Fast, distinct websites that make a business feel credible before the first WhatsApp message.', glow: 'honey', iconColor: '#F5C842' },
-  { id: 2, Icon: MobileIcon, title: 'Useful digital products', description: 'Portals, booking flows, dashboards and tools that remove friction instead of adding features for show.', glow: 'cyan', iconColor: '#00F5FF' },
-  { id: 3, Icon: BriefcaseIcon, title: 'Brands with a point of view', description: 'From logo to type and a visual system, I make the identity match the ambition behind the work.', glow: 'honey', iconColor: '#F5C842' },
-  { id: 4, Icon: WrenchIcon, title: 'Custom growth systems', description: 'When the off-the-shelf route breaks: a tailored solution, built around how the business really runs.', glow: 'cyan', iconColor: '#00F5FF' },
+  {
+    id: 'brand',
+    label: 'Brand systems',
+    eyebrow: '01 · BRAND',
+    title: 'Make the business recognisable before the conversation begins.',
+    body: 'A clear identity system that gives the business a face, a voice and the practical assets to show up consistently.',
+    includes: ['Logo direction', 'Type + colour system', 'Practical brand kit'],
+  },
+  {
+    id: 'website',
+    label: 'Websites',
+    eyebrow: '02 · WEBSITE',
+    title: 'Turn a first look into a useful next move.',
+    body: 'Fast, focused pages that make the offer clear and guide people toward a booking, enquiry, order or call.',
+    includes: ['Content structure', 'Responsive build', 'Conversion paths'],
+  },
+  {
+    id: 'product',
+    label: 'Web products',
+    eyebrow: '03 · PRODUCT',
+    title: 'Remove friction from the work people actually do.',
+    body: 'Portals, booking flows and lightweight tools shaped around a real task—not features for their own sake.',
+    includes: ['User journeys', 'Useful dashboards', 'Custom flows'],
+  },
+  {
+    id: 'growth',
+    label: 'Growth work',
+    eyebrow: '04 · GROWTH',
+    title: 'Give a good business room to keep moving.',
+    body: 'Campaign pages and focused improvements that make a working business easier to find, trust and choose.',
+    includes: ['Campaign pages', 'Content direction', 'Ongoing refinement'],
+  },
 ];
 
-const industries = [
-  { label: 'Restaurants', Icon: ForkKnifeIcon },
-  { label: 'Law Firms', Icon: ScaleIcon },
-  { label: 'Dental Clinics', Icon: ToothIcon },
-  { label: 'E-Commerce', Icon: CartIcon },
-  { label: 'Tech Startups', Icon: RocketIcon },
-  { label: 'Creative Agencies', Icon: BrushIcon },
-];
+function ServiceVisual({ type }) {
+  if (type === 'brand') return <div className="service-viewer__visual service-viewer__visual--brand" aria-hidden="true"><b>Zi</b><span /><i /><i /><i /><em>identity / system</em></div>;
+  if (type === 'website') return <div className="service-viewer__visual service-viewer__visual--website" aria-hidden="true"><div><i /><i /><i /><b>Make it<br />matter.</b><span /></div></div>;
+  if (type === 'product') return <div className="service-viewer__visual service-viewer__visual--product" aria-hidden="true"><b>Today</b><i /><i /><i /><i /></div>;
+  return <div className="service-viewer__visual service-viewer__visual--growth" aria-hidden="true"><i /><i /><i /><i /><b>↗</b><span>momentum</span></div>;
+}
 
 export default function Services() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
-  };
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-  };
+  const [activeId, setActiveId] = useState(services[0].id);
+  const active = services.find((service) => service.id === activeId) || services[0];
 
   return (
-    <section id="services" className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #050A18 0%, #08122A 50%, #050A18 100%)' }}>
-
-      <div className="absolute inset-0 opacity-40 pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpath d='M40 4 L76 23 L76 69 L40 88 L4 69 L4 23 Z' fill='none' stroke='%23F5C842' stroke-width='0.4' opacity='0.08'/%3E%3C/svg%3E")`,
-          backgroundSize: '80px 92px',
-        }}
-      />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse, rgba(245,200,66,0.06) 0%, transparent 70%)' }} />
-
-      <div className="max-w-7xl mx-auto relative z-10">
-
-        {/* Header */}
-        <motion.div className="text-center mb-16"
-          initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true, margin: '-80px' }}>
-          <motion.div
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium mb-4"
-            style={{ background: 'rgba(245,200,66,0.08)', border: '1px solid rgba(245,200,66,0.2)', color: '#F5C842' }}
-          >
-            <HoneycombIcon size={16} />
-            <span style={{ color: 'var(--cyan-mid)' }}>WHAT I BUILD</span>
-          </motion.div>
-          <h2 className="text-4xl sm:text-5xl font-black mb-4">
-            Built to be <span className="gradient-text">chosen.</span>
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Strategy, brand and build working together—so your site does more than sit pretty in a browser tab.
-          </p>
+    <section id="services" className="landing-section landing-services">
+      <div className="landing-shell">
+        <motion.div className="landing-heading landing-heading--split" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <div><p className="landing-kicker">What I build</p><h2>Work that earns its <em>place in the business.</em></h2></div>
+          <p>Brand, website and product work are connected. Pick a lane to see exactly what that means for your business.</p>
         </motion.div>
 
-        {/* Services Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-        >
-          {services.map((service) => (
-            <motion.div
-              key={service.id}
-              className="honey-card p-6 rounded-2xl text-center cursor-pointer group relative overflow-hidden"
-              variants={itemVariants}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-            >
-              <div className="absolute top-0 right-0 opacity-20 pointer-events-none">
-                <svg width="40" height="46" viewBox="0 0 40 46">
-                  <path d="M20 2 L38 11.5 L38 34.5 L20 44 L2 34.5 L2 11.5 Z"
-                    fill={service.glow === 'honey' ? 'rgba(245,200,66,0.3)' : 'rgba(0,245,255,0.3)'} />
-                </svg>
-              </div>
-              <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
-                style={{ background: service.glow === 'honey' ? 'radial-gradient(ellipse at center, rgba(245,200,66,0.06), transparent 70%)' : 'radial-gradient(ellipse at center, rgba(0,245,255,0.06), transparent 70%)' }}
-              />
-              <HexIcon glow={service.glow}>
-                <service.Icon size={32} color={service.iconColor} />
-              </HexIcon>
-              <h3 className="text-xl font-bold mb-3 text-white">{service.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{service.description}</p>
-              <motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{ background: `linear-gradient(90deg, transparent, ${service.glow === 'honey' ? '#F5C842' : '#00F5FF'}, transparent)` }}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Industries */}
-        <motion.div className="mt-24"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, margin: '-80px' }}>
-          <h3 className="text-3xl font-black text-center mb-4">
-            Industries I <span className="gradient-text">Serve</span>
-          </h3>
-          <p className="text-gray-400 text-center mb-10 max-w-xl mx-auto">
-            From restaurants to law firms to startups — the goal is the same: a digital presence that works as hard as you do.
-          </p>
-          <motion.div
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-          >
-            {industries.map((industry, index) => (
-              <motion.div
-                key={industry.label}
-                className="honey-card p-4 rounded-xl text-center font-semibold text-sm cursor-pointer relative overflow-hidden group"
-                variants={itemVariants}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
-              >
-                <motion.div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
-                  style={{ background: 'linear-gradient(135deg, rgba(245,200,66,0.08), rgba(0,245,255,0.04))' }}
-                />
-                <div className="relative z-10 flex flex-col items-center gap-2">
-                  <industry.Icon size={24} color={index % 2 === 0 ? '#F5C842' : '#00F5FF'} />
-                  <span className="text-gray-300 group-hover:text-yellow-400 transition-colors duration-300">
-                    {industry.label}
-                  </span>
-                </div>
-              </motion.div>
+        <div className="service-viewer">
+          <div className="service-viewer__nav" role="tablist" aria-label="What Ziramzis builds">
+            {services.map((service, index) => (
+              <button key={service.id} type="button" role="tab" aria-selected={activeId === service.id} onClick={() => setActiveId(service.id)} className={activeId === service.id ? 'is-active' : ''}>
+                <span>0{index + 1}</span>{service.label}
+              </button>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+          <motion.article key={active.id} className="service-viewer__stage" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .24 }}>
+            <div className="service-viewer__copy">
+              <p>{active.eyebrow}</p>
+              <h3>{active.title}</h3>
+              <span>{active.body}</span>
+              <div className="service-viewer__includes">{active.includes.map((item) => <i key={item}>{item}</i>)}</div>
+            </div>
+            <ServiceVisual type={active.id} />
+          </motion.article>
+        </div>
       </div>
     </section>
   );

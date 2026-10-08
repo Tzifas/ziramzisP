@@ -1,168 +1,40 @@
 'use client';
+
 import { motion } from 'framer-motion';
-import { BeeIcon, WhatsAppIcon, PhoneIcon, MapPinIcon, InstagramIcon } from './Icons';
-import { PhoneBee } from './BeeScenes';
+import { WhatsAppIcon, PhoneIcon, MapPinIcon, InstagramIcon } from './Icons';
+import { ContactBee } from './BeeScenes';
+import { site } from '../lib/site';
 
-/* ── Bee Flyby ────────────────────────────────────────── */
-const BeeFlyby = () => (
-  <motion.div
-    className="absolute pointer-events-none z-10"
-    style={{ top: '20%' }}
-    initial={{ left: '-80px' }}
-    animate={{ left: 'calc(100% + 80px)' }}
-    transition={{ duration: 8, repeat: Infinity, repeatDelay: 12, ease: 'easeInOut' }}
-  >
-    <motion.div animate={{ y: [0, -15, 10, -8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>
-      <BeeIcon size={48} />
-    </motion.div>
-  </motion.div>
-);
-
-const contactDetails = [
-  { Icon: WhatsAppIcon, label: 'WhatsApp', value: 'Start a chat', href: 'https://wa.me/254711410442', color: '#F5C842' },
-  { Icon: InstagramIcon, label: 'Instagram', value: '@ziramzis', href: 'https://www.instagram.com/ziramzis/', color: '#00F5FF' },
-  { Icon: MapPinIcon, label: 'Location', value: 'Mombasa, Kenya', href: null, color: '#F5C842', span: true },
+const contacts = [
+  { Icon: WhatsAppIcon, label: 'WhatsApp', value: 'Start a chat', href: `https://wa.me/${site.whatsapp}` },
+  { Icon: PhoneIcon, label: 'Call', value: 'Let’s discuss', href: `tel:${site.phone}` },
+  { Icon: InstagramIcon, label: 'Instagram', value: '@ziramzis', href: 'https://www.instagram.com/ziramzis/' },
+  { Icon: MapPinIcon, label: 'Based in', value: 'Mombasa, Kenya' },
 ];
 
 export default function CTA() {
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
   return (
-    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #050A18 0%, #0A1628 100%)' }}>
-
-      <div className="absolute inset-0 opacity-50 pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpath d='M40 4 L76 23 L76 69 L40 88 L4 69 L4 23 Z' fill='none' stroke='%23F5C842' stroke-width='0.4' opacity='0.09'/%3E%3C/svg%3E")`,
-          backgroundSize: '80px 92px',
-        }}
-      />
-
-      <BeeFlyby />
-
-      <div className="max-w-4xl mx-auto relative z-10">
-        <motion.div
-          className="relative rounded-3xl p-1 overflow-hidden"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9 }}
-          viewport={{ once: true, margin: '-80px' }}
-        >
-          {/* Gradient border */}
-          <div
-            className="absolute inset-0 rounded-3xl"
-            style={{ background: 'linear-gradient(135deg, rgba(245,200,66,0.4), rgba(0,245,255,0.2), rgba(245,200,66,0.4))', opacity: 0.8 }}
-          />
-
-          <div className="relative rounded-3xl p-6 sm:p-14 text-center"
-            style={{ background: 'linear-gradient(135deg, #050A18 0%, #0A1628 50%, #050A18 100%)' }}>
-
-            {/* Corner hex decorations */}
-            <div className="hidden sm:block absolute top-6 left-6 opacity-20">
-              <svg width="50" height="58" viewBox="0 0 50 58">
-                <path d="M25 3 L47 15.5 L47 42.5 L25 55 L3 42.5 L3 15.5 Z"
-                  fill="rgba(245,200,66,0.4)" stroke="rgba(245,200,66,0.6)" strokeWidth="1" />
-              </svg>
+    <section id="contact" className="landing-section landing-contact">
+      <div className="landing-shell">
+        <motion.div className="contact-v2" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: .6 }}>
+          <div className="contact-v2__copy">
+            <p className="landing-kicker">The next move</p>
+            <h2>Let’s give the idea<br /><em>a proper shape.</em></h2>
+            <p>You do not need a perfect brief. Start with the rough version, and we will work out what earns a place in the final one.</p>
+            <div className="contact-v2__actions">
+              <a href={`https://wa.me/${site.whatsapp}?text=Hi%20Ziramzis%2C%20I%20have%20a%20project%20idea%20I%27d%20like%20to%20discuss`} target="_blank" rel="noopener noreferrer" className="contact-v2__primary"><WhatsAppIcon size={18} /> Start on WhatsApp</a>
+              <a href={`tel:${site.phone}`} className="contact-v2__call"><PhoneIcon size={16} /> Call instead</a>
             </div>
-            <div className="hidden sm:block absolute top-6 right-6 opacity-20">
-              <svg width="40" height="46" viewBox="0 0 40 46">
-                <path d="M20 2 L38 11.5 L38 34.5 L20 44 L2 34.5 L2 11.5 Z"
-                  fill="rgba(0,245,255,0.4)" stroke="rgba(0,245,255,0.6)" strokeWidth="1" />
-              </svg>
-            </div>
-
-            {/* Big bee icon */}
-            <div className="flex justify-center mb-6">
-              <PhoneBee size={92} />
-            </div>
-
-            <motion.h2
-              className="text-3xl sm:text-5xl font-black mb-5 sm:mb-6"
-              variants={itemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              Let's Build Your <span className="gradient-text">Digital Hive</span>
-            </motion.h2>
-
-            <motion.p
-              className="text-gray-300 text-base sm:text-lg mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed"
-              variants={itemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-            >
-              Have a project in mind? I'm ready to get to work. Let's turn your vision into something worth remembering.
-            </motion.p>
-
-            {/* Buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-9 sm:mb-12"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <motion.a
-                href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%20have%20a%20project%20idea%20I%27d%20like%20to%20discuss"
-                target="_blank" rel="noopener noreferrer"
-                className="gradient-button w-fit self-center px-5 sm:px-10 py-3.5 sm:py-4 rounded-xl font-bold text-black text-sm sm:text-base inline-flex items-center justify-center gap-3"
-                whileHover={{ scale: 1.04, y: -3 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <span style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <WhatsAppIcon size={20} />
-                  Chat on WhatsApp
-                </span>
-              </motion.a>
-
-              <motion.a
-                href="tel:+254711410442"
-                className="w-fit self-center px-5 sm:px-10 py-3.5 sm:py-4 rounded-xl font-bold text-sm sm:text-base border-2 inline-flex items-center justify-center gap-3 transition"
-                style={{ borderColor: 'rgba(0,245,255,0.5)', color: '#00F5FF', background: 'rgba(0,245,255,0.05)' }}
-                whileHover={{ scale: 1.04, y: -3, borderColor: '#00F5FF', boxShadow: '0 0 25px rgba(0,245,255,0.3)', background: 'rgba(0,245,255,0.1)' }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <PhoneIcon size={20} color="#00F5FF" />
-                Call to discuss
-              </motion.a>
-            </motion.div>
-
-            {/* Contact Info */}
-            <motion.div
-              className="grid grid-cols-2 sm:grid-cols-3 gap-5 sm:gap-6"
-              style={{ borderTop: '1px solid rgba(245,200,66,0.12)', paddingTop: '2rem' }}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.7 }}
-              viewport={{ once: true }}
-            >
-              {contactDetails.map((contact) => (
-                <motion.div
-                  key={contact.label}
-                  className={contact.span ? 'text-center col-span-2 sm:col-span-1' : 'text-center'}
-                  whileHover={{ y: -3 }}
-                  transition={{ duration: 0.2, ease: 'easeOut' }}
-                >
-                  <div className="flex justify-center mb-2">
-                    <contact.Icon size={24} color={contact.color} />
-                  </div>
-                  <p className="text-gray-500 text-xs uppercase tracking-widest mb-1">{contact.label}</p>
-                  {contact.href ? (
-                    <motion.a href={contact.href} className="font-semibold text-sm transition-colors"
-                      style={{ color: contact.color }} whileHover={{ x: 3 }}>
-                      {contact.value}
-                    </motion.a>
-                  ) : (
-                    <p className="font-semibold text-sm text-white">{contact.value}</p>
-                  )}
-                </motion.div>
-              ))}
-            </motion.div>
+          </div>
+          <div className="contact-v2__side">
+            <div className="contact-v2__bee"><ContactBee size={76} /></div>
+            <p><strong>Direct line to the keeper.</strong><span>Fastest on WhatsApp. Real conversation, no hard sell.</span></p>
+          </div>
+          <div className="contact-v2__details">
+            {contacts.map(({ Icon, label, value, href }) => {
+              const content = <><Icon size={16} /><span><small>{label}</small><b>{value}</b></span></>;
+              return href ? <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">{content}</a> : <div key={label}>{content}</div>;
+            })}
           </div>
         </motion.div>
       </div>

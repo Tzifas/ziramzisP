@@ -9,15 +9,6 @@ import ShareSite from './ShareSite';
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-  };
-  const itemVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
-
   const contactLinks = [
     { Icon: PhoneIcon, href: `https://wa.me/${site.whatsapp}`, label: `WhatsApp: ${site.phone}`, color: '#F5C842' },
     { Icon: EmailIcon, href: `mailto:${site.email}`, label: `Email: ${site.email}`, color: '#00F5FF' },
@@ -25,136 +16,52 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative overflow-hidden"
-      style={{ background: '#030810', borderTop: '1px solid rgba(245,200,66,0.15)' }}>
+    <footer className="footer-v2 relative overflow-hidden" style={{ background: '#030810', borderTop: '1px solid rgba(245,200,66,0.15)' }}>
+      <div className="absolute inset-0 opacity-40 pointer-events-none hex-grid-bg" />
+      <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(245,200,66,0.4), rgba(0,245,255,0.2), transparent)' }} />
 
-      {/* Hex pattern */}
-      <div className="absolute inset-0 opacity-40 pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='92' viewBox='0 0 80 92'%3E%3Cpath d='M40 4 L76 23 L76 69 L40 88 L4 69 L4 23 Z' fill='none' stroke='%23F5C842' stroke-width='0.4' opacity='0.06'/%3E%3C/svg%3E")`,
-          backgroundSize: '80px 92px',
-        }}
-      />
-
-      {/* Top glow line */}
-      <div className="h-px w-full"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(245,200,66,0.4), rgba(0,245,255,0.2), transparent)' }} />
-
-      <a href="#top" className="follow-bee" aria-label="Follow the Bee back to the top of the page">
+      <a href="#top" className="follow-bee footer-v2__follow" aria-label="Follow the Bee back to the top of the page">
         <span className="follow-bee__trail" aria-hidden="true" />
-        <motion.span animate={{ y: [0, -6, 0], rotate: [-5, 5, -5] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}><BeeIcon size={34} /></motion.span>
+        <motion.span animate={{ y: [0, -4, 0], rotate: [-5, 5, -5] }} transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}><BeeIcon size={24} /></motion.span>
         <span>Follow the Bee</span><span className="follow-bee__arrow">↑</span>
       </a>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+      <div className="footer-v2__inner max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="footer-v2__main">
+          <div className="footer-v2__brand">
+            <BrandLockup className="h-9 w-auto" />
+            <p>Building digital hives that help businesses grow. Based in Mombasa, Kenya — working with clients worldwide.</p>
+            <div className="footer-v2__worldwide"><GlobeIcon size={14} color="#4A5A78" /><span>Worldwide</span></div>
+          </div>
 
-        {/* Footer Grid */}
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 mb-12"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
-        >
-          {/* Brand */}
-          <motion.div variants={itemVariants} className="col-span-2 md:col-span-1">
-            <motion.div className="mb-4 cursor-pointer" whileHover={{ x: 4 }}>
-              <BrandLockup className="h-11 w-auto" />
-            </motion.div>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Building digital hives that help businesses grow. Based in Mombasa, Kenya — working with clients worldwide.
-            </p>
-            <div className="flex items-center gap-2 mt-3">
-              <GlobeIcon size={14} color="#4A5A78" />
-              <span className="text-gray-600 text-xs">Worldwide</span>
-            </div>
-          </motion.div>
+          <nav className="footer-v2__links" aria-label="Footer navigation">
+            <h4>Quick Links</h4>
+            <a href="/keeper">Meet the Keeper</a>
+            {['Services', 'Work', 'Process', 'Contact'].map((link) => <a key={link} href={`#${link.toLowerCase()}`}>{link}</a>)}
+          </nav>
 
-          {/* Quick Links */}
-          <motion.div variants={itemVariants}>
-            <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Quick Links</h4>
-            <ul className="space-y-3">
-              <li>
-                  <motion.a
-                    href="/keeper"
-                    className="text-gray-500 hover:text-yellow-400 transition-colors text-sm flex items-center gap-2 group"
-                    whileHover={{ x: 5 }}
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/40 group-hover:bg-yellow-400 transition-colors flex-shrink-0" />
-                    Meet the Keeper
-                  </motion.a>
-                </li>
-              {['Services', 'Work', 'Process', 'Contact'].map((link) => (
-                <li key={link}>
-                  <motion.a
-                    href={`#${link.toLowerCase()}`}
-                    className="text-gray-500 hover:text-yellow-400 transition-colors text-sm flex items-center gap-2 group"
-                    whileHover={{ x: 5 }}
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/40 group-hover:bg-yellow-400 transition-colors flex-shrink-0" />
-                    {link}
-                  </motion.a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+          <div className="footer-v2__contact">
+            <h4>Contact</h4>
+            {contactLinks.map((contact) => {
+              const content = <><contact.Icon size={14} color={contact.color} />{contact.label}</>;
+              return contact.href
+                ? <a key={contact.label} href={contact.href} target={contact.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">{content}</a>
+                : <span key={contact.label}>{content}</span>;
+            })}
+          </div>
 
-          {/* Contact */}
-          <motion.div variants={itemVariants}>
-            <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Contact</h4>
-            <ul className="space-y-3">
-              {contactLinks.map((c) => (
-                <li key={c.label}>
-                  {c.href ? (
-                    <motion.a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined}
-                      rel="noopener noreferrer"
-                      className="text-gray-500 hover:text-yellow-400 transition-colors text-sm flex items-center gap-2"
-                      whileHover={{ x: 5 }}>
-                      <c.Icon size={14} color={c.color} />
-                      {c.label}
-                    </motion.a>
-                  ) : (
-                    <span className="text-gray-500 text-sm flex items-center gap-2">
-                      <c.Icon size={14} color={c.color} />
-                      {c.label}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Availability */}
-          <motion.div variants={itemVariants} className="col-span-2 md:col-span-1">
-            <h4 className="font-bold mb-5 text-white text-sm uppercase tracking-widest">Let's work together</h4>
-            <p className="text-gray-500 text-sm leading-relaxed mb-5">Have a project in mind? Start with a short message and I’ll get back to you with the right next step.</p>
-            <motion.a
-              href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%27d%20like%20to%20discuss%20a%20project"
-              target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-bold text-yellow-400 hover:text-yellow-300"
-              whileHover={{ x: 4 }}
-            >
-              <BeeIcon size={17} /> Start a conversation
-            </motion.a>
+          <div className="footer-v2__availability">
+            <h4>Let&apos;s work together</h4>
+            <p>Have a project in mind? Start with a short message and I&apos;ll get back to you with the right next step.</p>
+            <a href={`https://wa.me/${site.whatsapp}?text=Hi%20Ziramzis%2C%20I%27d%20like%20to%20discuss%20a%20project`} target="_blank" rel="noopener noreferrer"><BeeIcon size={17} /> Start a conversation</a>
             <ShareSite />
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        {/* Bottom Bar */}
-        <motion.div
-          className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 text-sm text-gray-600"
-          style={{ borderTop: '1px solid rgba(245,200,66,0.08)' }}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
+        <div className="footer-v2__bottom">
           <span>© {currentYear} Ziramzis — Busy Bee Studio, Mombasa, Kenya.</span>
-          <span className="flex items-center gap-5">
-            <a href="/terms" className="hover:text-yellow-400 transition-colors">Terms</a>
-            <a href="/privacy" className="hover:text-yellow-400 transition-colors">Privacy</a>
-          </span>
-        </motion.div>
+          <span><a href="/terms">Terms</a><a href="/privacy">Privacy</a></span>
+        </div>
       </div>
     </footer>
   );

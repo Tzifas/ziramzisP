@@ -4,34 +4,52 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import {
   BeeIcon, MapPinIcon, ChartIcon, ArrowRightIcon, CheckRocketIcon,
-  BriefcaseIcon, WhatsAppIcon, BulbIcon,
+  BriefcaseIcon, WhatsAppIcon, BulbIcon, GearIcon,
 } from '../../components/Icons';
 import BrandLockup from '../../components/BrandLockup';
 import {
   summarizeColony, stageLabel, BEE_STATUSES, CONTENT_FORMATS, CONTENT_STATUSES, STAGES,
 } from '../../lib/hive';
 import { loadColony, saveColony, resetColony, nextId } from '../../lib/store';
+import { isAdminRequest } from '../../lib/adminAuth';
 
-const VIEWS = ['Overview', 'The Colony', 'Leads', 'Content', 'Approvals', 'Model Room', 'Roles & Skills', 'Settings'];
+const VIEWS = ['Overview', 'The Colony', 'Workboard', 'Leads', 'Content', 'Approvals', 'Model Room', 'Roles & Skills', 'Settings'];
 const TIER_COLOR = { leadership: '#f5c842', planning: '#00dce7', growth: '#59d8ba', production: '#b49cff', engagement: '#00c8d7' };
 const TIER_LABEL = { leadership: 'Leadership', planning: 'Planning', growth: 'Growth', production: 'Production', engagement: 'Engagement' };
 const TIER_ORDER = ['leadership', 'planning', 'growth', 'production', 'engagement'];
+
+const VIEW_ICONS = {
+  'Overview': ChartIcon,
+  'The Colony': BeeIcon,
+  'Workboard': BriefcaseIcon,
+  'Leads': MapPinIcon,
+  'Content': BulbIcon,
+  'Approvals': CheckRocketIcon,
+  'Model Room': BriefcaseIcon,
+  'Roles & Skills': BeeIcon,
+  'Settings': GearIcon,
+};
 
 const fmtTime = (iso) => {
   try { return new Date(iso).toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }); }
   catch (e) { return iso; }
 };
 
+export async function getServerSideProps({ req }) {
+  if (!isAdminRequest(req)) return { redirect: { destination: '/admin/login', permanent: false } };
+  return { props: {} };
+}
+
 export default function AdminPage() {
   const [activeView, setActiveView] = useState('Overview');
   const [dayLabel, setDayLabel] = useState('');
+  const [greeting, setGreeting] = useState('');
   const [colony, setColony] = useState(null);
   const [beeForm, setBeeForm] = useState(null);
   const [leadForm, setLeadForm] = useState(null);
+  const [taskForm, setTaskForm] = useState(null);
   const [contentForm, setContentForm] = useState(null);
   const [skillDraft, setSkillDraft] = useState('');
-  const [keyFor, setKeyFor] = useState(null);
-  const [keyVal, setKeyVal] = useState('');
   const [runnerChain, setRunnerChain] = useState('chat');
   const [runnerPrompt, setRunnerPrompt] = useState('');
   const [runnerBusy, setRunnerBusy] = useState(false);
@@ -40,12 +58,15 @@ export default function AdminPage() {
 
   useEffect(() => {
     setDayLabel(new Date().toLocaleDateString('en-US', { weekday: 'long' }));
+    const h = new Date().getHours();
+    setGreeting(h < 12 ? 'Good morning, Keeper.' : h < 17 ? 'Good afternoon, Keeper.' : 'Good evening, Keeper.');
     setColony(loadColony());
   }, []);
 
   useEffect(() => {
     fetch('/api/ai/run').then((r) => r.json()).then((j) => setEnvKeys(j.env || null)).catch(() => setEnvKeys(null));
   }, []);
+
 
   async function runTest() {
     if (!runnerPrompt.trim() || runnerBusy) return;
@@ -75,6 +96,11 @@ export default function AdminPage() {
       setRunnerResult({ ok: false, error: String((e && e.message) || e) });
     }
     setRunnerBusy(false);
+  }
+
+  async function signOut() {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    window.location.assign('/admin/login');
   }
 
   function update(mutator) {
@@ -107,6 +133,7 @@ export default function AdminPage() {
     );
   }
 
+
   const summary = summarizeColony(colony);
   const bees = colony.bees;
   const activeBees = summary.activeBees;
@@ -137,6 +164,13 @@ export default function AdminPage() {
   const pendingApprovals = colony.approvals.filter((a) => a.status === 'pending');
   const topLeads = [...colony.leads].sort((a, b) => b.score - a.score).slice(0, 3);
   const recentRuns = [...colony.runs].slice(-4).reverse();
+  const activeTasks = colony.tasks.filter((task) => !['done', 'cancelled'].includes(task.status));
+  const taskColumns = [
+    { id: 'queued', label: 'Queued', note: 'Ready to assign' },
+    { id: 'in-progress', label: 'Working', note: 'Bee has the task' },
+    { id: 'review', label: 'Keeper review', note: 'Needs your eye' },
+    { id: 'done', label: 'Done', note: 'Filed and finished' },
+  ];
 
   function saveBeeForm() {
     const f = beeForm;
@@ -170,6 +204,22 @@ export default function AdminPage() {
     });
   }
 
+  function saveTask() {
+    const f = taskForm;
+    if (!f || !f.title.trim()) return;
+    update((c) => {
+      c.tasks.push({ id: nextId('t'), title: f.title.trim(), ownerBeeId: f.ownerBeeId, status: f.status, priority: f.priority });
+    });
+    setTaskForm(null);
+  }
+
+  function moveTask(id, status) {
+    update((c) => {
+      const task = c.tasks.find((item) => item.id === id);
+      if (task) task.status = status;
+    });
+  }
+
   function advanceContent(id) {
     update((c) => {
       const item = c.content.find((x) => x.id === id);
@@ -193,11 +243,16 @@ export default function AdminPage() {
           </a>
           <div className="admin-sidebar__eyebrow">Colony control</div>
           <nav className="admin-nav" aria-label="Admin navigation">
-            {VIEWS.map((view) => (
-              <button key={view} className={activeView === view ? 'is-active' : ''} onClick={() => setActiveView(view)}>
-                <span className="admin-nav__dot" />{view}
-              </button>
-            ))}
+            {VIEWS.map((view) => {
+              const ViewIcon = VIEW_ICONS[view] || BeeIcon;
+              return (
+                <button key={view} className={activeView === view ? 'is-active' : ''} onClick={() => setActiveView(view)}
+                  style={{ boxShadow: activeView === view ? 'inset 3px 0 0 var(--honey-gold)' : 'none' }}>
+                  <ViewIcon size={14} color={activeView === view ? '#f5c842' : '#8497aa'} />
+                  {view}
+                </button>
+              );
+            })}
           </nav>
           <div className="admin-sidebar__footer">
             <div className="admin-online"><i /> {activeBees} bee{activeBees === 1 ? '' : 's'} online</div>
@@ -209,10 +264,11 @@ export default function AdminPage() {
           <header className="admin-topbar">
             <div>
               <p className="admin-kicker">{dayLabel ? dayLabel + ' · Mombasa, Kenya' : 'Mombasa, Kenya'}</p>
-              <h1>{activeView}</h1>
+              <h1>{greeting || activeView}</h1>
+              {colony && <p style={{ margin: '0.2rem 0 0', color: 'var(--gray-text)', fontSize: '0.82rem' }}>{summarizeColony(colony).digest[0]}</p>}
             </div>
             <div className="admin-topbar__actions">
-              <button className="admin-icon-button" aria-label="Notifications"><span>•</span><span>•</span><span>•</span></button>
+              <button className="admin-icon-button" type="button" onClick={signOut}>Sign out</button>
               <div className="admin-avatar">Z</div>
             </div>
           </header>
@@ -237,6 +293,24 @@ export default function AdminPage() {
           </div>
 
           {activeView === 'Overview' && (
+            <>
+              <section className="admin-focus-panel">
+                <div className="admin-panel__head">
+                  <div><span className="admin-panel__eyebrow"><BriefcaseIcon size={14} /> Keeper focus</span><h3>What needs a decision today</h3></div>
+                  <button className="admin-primary admin-primary--small" onClick={() => setActiveView('Workboard')}>Open workboard <ArrowRightIcon size={14} color="#111" /></button>
+                </div>
+                <div className="admin-focus-grid">
+                  {activeTasks.slice(0, 3).map((task) => (
+                    <article className={'admin-focus-card admin-focus-card--' + (task.status === 'review' ? 'gold' : task.status === 'in-progress' ? 'cyan' : 'mint')} key={task.id}>
+                      <div className="admin-focus-card__top"><span className={'hive-pill hive-pill--' + (task.status === 'in-progress' ? 'active' : task.status === 'review' ? 'pending' : 'idle')}>{task.status === 'in-progress' ? 'working' : task.status}</span><small>{task.priority} priority</small></div>
+                      <h4>{task.title}</h4>
+                      <p>{beeName(task.ownerBeeId)} owns this next move.</p>
+                      <button className="admin-text-button" onClick={() => setActiveView('Workboard')}>See task <ArrowRightIcon size={13} /></button>
+                    </article>
+                  ))}
+                  {!activeTasks.length && <div className="hive-empty">The board is clear. Commission the next task when you are ready.</div>}
+                </div>
+              </section>
             <div className="hive-grid2">
               <section className="admin-panel admin-panel--leads">
                 <div className="admin-panel__head">
@@ -287,6 +361,7 @@ export default function AdminPage() {
                 ))}
               </section>
             </div>
+            </>
           )}
 
           {activeView === 'The Colony' && (
@@ -369,6 +444,53 @@ export default function AdminPage() {
                   ))}
                 </tbody>
               </table>
+            </section>
+          )}
+
+          {activeView === 'Workboard' && (
+            <section className="admin-panel admin-panel--workboard">
+              <div className="admin-panel__head">
+                <div><span className="admin-panel__eyebrow"><BriefcaseIcon size={14} /> The working comb</span><h3>Assign work. Follow it. Sign it off.</h3></div>
+                <button className="hive-btn hive-btn--primary" onClick={() => setTaskForm({ title: '', ownerBeeId: bees.find((bee) => bee.status === 'active')?.id || bees[0]?.id || '', status: 'queued', priority: 'normal' })}>Assign task</button>
+              </div>
+              <p className="hive-sub" style={{ padding: '0 1.15rem 1rem', margin: 0 }}>Every task has one responsible bee. Move it across the board as it becomes ready, active, reviewed, and finished.</p>
+              {taskForm && (
+                <div className="hive-card" style={{ margin: '0 1.15rem 1rem' }}>
+                  <div className="hive-grid2">
+                    <div className="hive-form-row"><label className="hive-label" htmlFor="task-title">Task</label><input id="task-title" className="hive-input" value={taskForm.title} onChange={(event) => setTaskForm({ ...taskForm, title: event.target.value })} placeholder="What needs to happen?" /></div>
+                    <div className="hive-form-row"><label className="hive-label" htmlFor="task-owner">Responsible bee</label><select id="task-owner" className="hive-select" value={taskForm.ownerBeeId} onChange={(event) => setTaskForm({ ...taskForm, ownerBeeId: event.target.value })}>{bees.map((bee) => <option key={bee.id} value={bee.id}>{bee.name}</option>)}</select></div>
+                  </div>
+                  <div className="hive-grid2">
+                    <div className="hive-form-row"><label className="hive-label" htmlFor="task-status">Start in</label><select id="task-status" className="hive-select" value={taskForm.status} onChange={(event) => setTaskForm({ ...taskForm, status: event.target.value })}>{taskColumns.slice(0, 3).map((column) => <option key={column.id} value={column.id}>{column.label}</option>)}</select></div>
+                    <div className="hive-form-row"><label className="hive-label" htmlFor="task-priority">Priority</label><select id="task-priority" className="hive-select" value={taskForm.priority} onChange={(event) => setTaskForm({ ...taskForm, priority: event.target.value })}><option value="normal">Normal</option><option value="high">High</option></select></div>
+                  </div>
+                  <div className="hive-actions"><button className="hive-btn hive-btn--primary" onClick={saveTask}>Assign to hive</button><button className="hive-btn hive-btn--ghost" onClick={() => setTaskForm(null)}>Cancel</button></div>
+                </div>
+              )}
+              <div className="hive-workboard">
+                {taskColumns.map((column) => (
+                  <section className="hive-workboard__column" key={column.id}>
+                    <header><div><span>{column.label}</span><small>{column.note}</small></div><b>{colony.tasks.filter((task) => task.status === column.id).length}</b></header>
+                    <div className="hive-workboard__stack">
+                      {colony.tasks.filter((task) => task.status === column.id).map((task) => {
+                        const nextColumn = taskColumns[taskColumns.findIndex((item) => item.id === task.status) + 1];
+                        const previousColumn = taskColumns[Math.max(0, taskColumns.findIndex((item) => item.id === task.status) - 1)];
+                        return (
+                          <article className="hive-work-item" key={task.id}>
+                            <div className="hive-work-item__top"><span className={task.priority === 'high' ? 'hive-work-priority is-high' : 'hive-work-priority'}>{task.priority}</span><span className="hive-sub">{beeName(task.ownerBeeId)}</span></div>
+                            <h4>{task.title}</h4>
+                            <div className="hive-work-item__actions">
+                              {nextColumn && <button className="hive-btn hive-btn--ghost hive-btn--small" onClick={() => moveTask(task.id, nextColumn.id)}>Move to {nextColumn.label}</button>}
+                              {task.status !== 'queued' && <button className="hive-btn hive-btn--small" onClick={() => moveTask(task.id, previousColumn.id)}>Back</button>}
+                            </div>
+                          </article>
+                        );
+                      })}
+                      {colony.tasks.filter((task) => task.status === column.id).length === 0 && <div className="hive-workboard__empty">No work here yet.</div>}
+                    </div>
+                  </section>
+                ))}
+              </div>
             </section>
           )}
 
@@ -509,35 +631,40 @@ export default function AdminPage() {
             <div className="hive-grid2">
               <section className="admin-panel">
                 <div className="admin-panel__head">
-                  <div><span className="admin-panel__eyebrow"><ChartIcon size={14} /> Providers</span><h3>Accounts & keys</h3></div>
+                  <div><span className="admin-panel__eyebrow"><ChartIcon size={14} /> Providers</span><h3>Accounts &amp; keys</h3></div>
                 </div>
+                {/* Provider Status — read-only, keys live in server env */}
+                <div className="hive-card" style={{ marginBottom: '1rem' }}>
+                  <p className="hive-label" style={{ marginBottom: '0.75rem' }}>Provider Status</p>
+                  <div style={{ display: 'grid', gap: '0.5rem' }}>
+                    {[
+                      { name: 'Google Gemini', key: 'gemini' },
+                      { name: 'OpenRouter', key: 'openrouter' },
+                    ].map((p) => (
+                      <div key={p.key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.6rem 0.75rem', border: '1px solid rgba(145,168,178,0.12)', borderRadius: '0.6rem', background: 'rgba(5,14,25,0.4)' }}>
+                        <span style={{ color: '#cfd9e6', fontSize: '0.82rem' }}>{p.name}</span>
+                        <span className={`hive-pill ${envKeys && envKeys[p.key] ? 'hive-pill--active' : 'hive-pill--idle'}`}>
+                          {envKeys && envKeys[p.key] ? 'Connected' : 'Not set'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <p style={{ marginTop: '0.75rem', color: '#5a6e7f', fontSize: '0.7rem', lineHeight: 1.5 }}>
+                    Set <code style={{ color: '#f5c842' }}>GEMINI_API_KEY</code> and <code style={{ color: '#00dce7' }}>OPENROUTER_API_KEY</code> in your server environment — they never touch the browser.
+                  </p>
+                </div>
+                {/* All providers list */}
                 {colony.providers.map((p) => (
                   <div className="hive-card" key={p.id} style={{ marginBottom: '.6rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '.6rem', flexWrap: 'wrap' }}>
                       <div>
                         <strong style={{ color: '#fff' }}>{p.name}</strong>
-                        <p className="hive-sub" style={{ marginTop: '.2rem' }}>{p.note}{p.keyTail ? ' · key ' + p.keyTail : ''}</p>
+                        <p className="hive-sub" style={{ marginTop: '.2rem' }}>{p.note}</p>
                       </div>
                       <span className={'hive-pill ' + (p.status === 'connected' ? 'hive-pill--approved' : p.status === 'planned' ? 'hive-pill--idle' : 'hive-pill--pending')}>{p.status}</span>
                     </div>
-                    {keyFor === p.id ? (
-                      <div className="hive-actions" style={{ marginTop: '.6rem' }}>
-                        <input className="hive-input" style={{ maxWidth: 260 }} value={keyVal} onChange={(e) => setKeyVal(e.target.value)} placeholder="Paste API key" />
-                        <button className="hive-btn hive-btn--primary hive-btn--small" onClick={() => {
-                          const tail = keyVal.trim().slice(-4);
-                          update((c) => { const pr = c.providers.find((x) => x.id === p.id); if (pr) { pr.status = 'connected'; pr.keyTail = tail ? '••••' + tail : ''; } });
-                          setKeyFor(null); setKeyVal('');
-                        }}>Save</button>
-                        <button className="hive-btn hive-btn--ghost hive-btn--small" onClick={() => { setKeyFor(null); setKeyVal(''); }}>Cancel</button>
-                      </div>
-                    ) : (
-                      <div className="hive-actions" style={{ marginTop: '.6rem' }}>
-                        <button className="hive-btn hive-btn--ghost hive-btn--small" onClick={() => { setKeyFor(p.id); setKeyVal(''); }}>{p.status === 'connected' ? 'Replace key' : 'Connect key'}</button>
-                      </div>
-                    )}
                   </div>
                 ))}
-                <p className="hive-sub" style={{ marginTop: '.6rem' }}>Keys live server-side in environment variables (Vercel → Settings → Environment Variables). The connect buttons below are a preview of the in-panel key flow to come.</p>
               </section>
 
               <section className="admin-panel">
@@ -575,22 +702,33 @@ export default function AdminPage() {
                   <div><span className="admin-panel__eyebrow"><CheckRocketIcon size={14} /> Runner</span><h3>Test the fallback chain</h3></div>
                 </div>
                 <p className="hive-sub">One prompt goes through the selected chain. If the first model fails, the next takes over — with the same context. Every attempt is logged below.</p>
-                <div className="hive-actions" style={{ marginTop: '.6rem' }}>
-                  <select className="hive-select" style={{ maxWidth: 260 }} value={runnerChain} onChange={(e) => setRunnerChain(e.target.value)}>
-                    {colony.chains.map((ch) => <option key={ch.id} value={ch.id}>{ch.name}</option>)}
-                  </select>
+                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '.6rem', flexWrap: 'wrap', marginBottom: '.5rem' }}>
+                  {colony.chains.map((ch) => (
+                    <button
+                      key={ch.id}
+                      onClick={() => setRunnerChain(ch.id)}
+                      className={runnerChain === ch.id ? 'hive-chain__step' : 'hive-btn hive-btn--ghost hive-btn--small'}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {ch.name}
+                    </button>
+                  ))}
+                </div>
+                <div className="hive-actions" style={{ marginTop: '.4rem' }}>
                   <input className="hive-input" style={{ maxWidth: 340 }} placeholder="Ask the hive something…" value={runnerPrompt} onChange={(e) => setRunnerPrompt(e.target.value)} />
                   <button className="hive-btn hive-btn--primary" onClick={runTest} disabled={runnerBusy}>{runnerBusy ? 'Running…' : 'Run'}</button>
                 </div>
-                {envKeys && (
-                  <p className="hive-sub" style={{ marginTop: '.5rem' }}>Env keys — Gemini: {envKeys.gemini ? 'detected' : 'not set'} · OpenRouter: {envKeys.openrouter ? 'detected' : 'not set'}</p>
-                )}
                 {runnerResult && (
-                  <div className="hive-card" style={{ marginTop: '.6rem' }}>
+                  <div style={{ marginTop: '1rem', padding: '1rem', border: '1px solid rgba(245,200,66,0.2)', borderRadius: '0.75rem', background: 'rgba(5,14,25,0.6)' }}>
                     {runnerResult.ok ? (
-                      <div>
-                        <p className="hive-sub">Answered by <strong style={{ color: '#fff' }}>{runnerResult.usedModel && runnerResult.usedModel.name}</strong>{runnerResult.fallbackUsed ? ' · fallback used' : ''} · {runnerResult.durationMs}ms</p>
-                        <p style={{ color: '#e8eef7', fontSize: '.88rem', marginTop: '.4rem', whiteSpace: 'pre-wrap' }}>{runnerResult.output}</p>
+                      <>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
+                          <span style={{ color: '#f5c842', fontSize: '0.72rem', fontWeight: 800 }}>{runnerResult.usedModel?.name}</span>
+                          <span style={{ color: '#00dce7', fontSize: '0.66rem' }}>{runnerResult.usedModel?.providerId}</span>
+                          <span style={{ color: '#8497aa', fontSize: '0.66rem' }}>{runnerResult.durationMs}ms</span>
+                          {runnerResult.fallbackUsed && <span className="hive-pill hive-pill--resting">Fallback used</span>}
+                        </div>
+                        <pre style={{ margin: 0, color: '#cfd9e6', fontSize: '0.82rem', lineHeight: 1.6, whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: 'inherit' }}>{runnerResult.output}</pre>
                         <div style={{ marginTop: '.5rem' }}>
                           {(runnerResult.attempts || []).map((a, i) => (
                             <span key={i} className={'hive-pill ' + (a.ok ? 'hive-pill--active' : 'hive-pill--rejected')} style={{ marginRight: '.35rem' }}>
@@ -598,9 +736,9 @@ export default function AdminPage() {
                             </span>
                           ))}
                         </div>
-                      </div>
+                      </>
                     ) : (
-                      <p className="hive-sub" style={{ color: '#ff8a8a' }}>{runnerResult.error}</p>
+                      <p style={{ margin: 0, color: '#ff8a8a', fontSize: '0.82rem' }}>{runnerResult.error}</p>
                     )}
                   </div>
                 )}

@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta charSet="UTF-8" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/brand/mark.jpg" type="image/jpeg" />
       </Head>
       <body className="bg-dark text-white">
         <Main />

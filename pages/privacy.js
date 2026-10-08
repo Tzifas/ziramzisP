@@ -1,6 +1,5 @@
 import Head from 'next/head'
-import { ArrowRightIcon } from '../components/Icons'
-import BrandLockup from '../components/BrandLockup'
+import PageShell from '../components/PageShell'
 import { absoluteUrl, site } from '../lib/site'
 
 export default function Page() {
@@ -14,18 +13,7 @@ export default function Page() {
         <meta name="robots" content="index, follow" />
       </Head>
 
-      <div className="bg-dark text-white" style={{ minHeight: '100vh' }}>
-        <header className="sticky top-0 z-40" style={{ background: 'rgba(5,10,24,0.92)', backdropFilter: 'blur(14px)', borderBottom: '1px solid rgba(245,200,66,0.14)' }}>
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-            <a href="/" className="flex items-center gap-3" aria-label="Back to the Ziramzis home page">
-              <BrandLockup priority className="h-9 w-auto" />
-            </a>
-            <a href="/" className="inline-flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--cyan-mid)' }}>
-              Back to the hive <ArrowRightIcon size={15} />
-            </a>
-          </div>
-        </header>
-
+      <PageShell>
         <main className="max-w-4xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
           <p className="eyebrow">BUSY BEE STUDIO</p>
           <h1 className="section-title mt-4">Privacy Policy</h1>
@@ -54,16 +42,21 @@ export default function Page() {
           </div>
           <div className="mt-14 pt-8" style={{ borderTop: '1px solid rgba(245,200,66,0.15)' }}>
             <p className="text-gray-400 text-sm">
-              Questions? WhatsApp <a href="https://wa.me/254711410442" className="font-semibold" style={{ color: 'var(--cyan-mid)' }}>+254 711 410 442</a> or email{' '}
+              Questions? WhatsApp <a href={`https://wa.me/${site.whatsapp}`} className="font-semibold" style={{ color: 'var(--cyan-mid)' }}>{site.phone}</a> or email{' '}
               <a href={`mailto:${site.email}`} className="font-semibold" style={{ color: 'var(--cyan-mid)' }}>{site.email}</a>.
             </p>
+          </div>
+          <div style={{ marginTop: '3rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(245,200,66,0.12)', display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+            <a href="/keeper" style={{ color: 'var(--honey-gold)', fontSize: '0.82rem', fontWeight: 700 }}>Meet the Keeper →</a>
+            <a href="/#services" style={{ color: 'var(--cyan-mid)', fontSize: '0.82rem', fontWeight: 700 }}>Services →</a>
+            <a href="/" style={{ color: 'var(--gray-text)', fontSize: '0.82rem' }}>← Back to the hive</a>
           </div>
         </main>
 
         <footer className="py-8 px-4 text-center" style={{ background: '#030810', borderTop: '1px solid rgba(245,200,66,0.12)' }}>
           <span className="text-gray-600 text-sm">© {new Date().getFullYear()} Ziramzis — Busy Bee Studio, Mombasa, Kenya.</span>
         </footer>
-      </div>
+      </PageShell>
     </>
   )
 }

@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { WhatsAppIcon } from './Icons';
+import { site } from '../lib/site';
 
 export default function WhatsAppWidget() {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -43,7 +44,7 @@ export default function WhatsAppWidget() {
 
           {/* Floating Action Button */}
           <motion.a
-            href="https://wa.me/254711410442?text=Hi%20Ziramzis%2C%20I%20have%20a%20question%20about%20your%20services"
+            href={`https://wa.me/${site.whatsapp}?text=Hi%20Ziramzis%2C%20I%20have%20a%20question%20about%20your%20services`}
             target="_blank"
             rel="noopener noreferrer"
             className="w-14 h-14 rounded-full flex items-center justify-center cursor-pointer shadow-lg relative overflow-hidden group"

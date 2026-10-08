@@ -1,16 +1,19 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/router';
 import { BeeCharacter } from './Hero';
 
 export default function KeeperBee() {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [sectionVisible, setSectionVisible] = useState(false);
   const [started, setStarted] = useState(false);
   const [parked, setParked] = useState(false);
   const [startX, setStartX] = useState(-400);
   const [top, setTop] = useState(120);
+  const [showHint, setShowHint] = useState(false);
   const anchorRef = useRef(null);
 
   useEffect(() => { setMounted(true); }, []);
@@ -24,7 +27,7 @@ export default function KeeperBee() {
     return () => io.disconnect();
   }, [mounted]);
 
-  // Park position: anchored above the FIRST hexagon of the How-I-Work steps
+  // Park position: anchored above the first hex step
   useEffect(() => {
     if (!mounted || !sectionVisible) return;
     let raf = 0;
@@ -51,8 +54,22 @@ export default function KeeperBee() {
     setStarted(true);
   }, [mounted, sectionVisible, started]);
 
+  // 8-second hint mechanic — fires once per session
+  useEffect(() => {
+    if (!parked) return;
+    if (typeof window !== 'undefined' && sessionStorage.getItem('hive-hinted') === '1') return;
+    const t = setTimeout(() => {
+      setShowHint(true);
+      setTimeout(() => {
+        setShowHint(false);
+        if (typeof window !== 'undefined') sessionStorage.setItem('hive-hinted', '1');
+      }, 4000);
+    }, 8000);
+    return () => clearTimeout(t);
+  }, [parked]);
+
   function catchBee() {
-    window.location.href = '/keeper';
+    router.push('/keeper');
   }
 
   if (!mounted) return null;
@@ -63,6 +80,7 @@ export default function KeeperBee() {
       {sectionVisible && started && (
         <motion.button
           type="button"
+          className="keeper-bee"
           onClick={catchBee}
           aria-label="Meet the Keeper — about Ziramzis"
           initial={parked ? false : { x: startX }}
@@ -79,14 +97,50 @@ export default function KeeperBee() {
             style={{ position: 'absolute', right: 0, top: 0, width: 84, height: 74 }}
           >
             <BeeCharacter drift={false} className="right-0 top-0" style={{ scale: 0.58 }} />
-            <span
-              style={{ position: 'absolute', left: '50%', top: '100%', transform: 'translateX(-50%)', marginTop: 6,
-                whiteSpace: 'nowrap', background: 'rgba(13,31,60,0.95)', border: '1px solid rgba(245,200,66,0.45)',
-                color: 'var(--cyan-mid)', fontSize: 11, fontWeight: 800, padding: '5px 11px', borderRadius: 999,
-                boxShadow: '0 6px 18px rgba(0,0,0,0.3)' }}
-            >
-              Meet the Keeper
-            </span>
+
+            {/* Hint tooltip (8-second mechanic, once per session) */}
+            <AnimatePresence>
+              {showHint ? (
+                <motion.div
+                  key="hint"
+                  initial={{ opacity: 0, scale: 0.85, y: 4 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.85 }}
+                  transition={{ duration: 0.25 }}
+                  style={{
+                    position: 'absolute', left: '50%', top: '100%',
+                    transform: 'translateX(-50%)', marginTop: 8,
+                    whiteSpace: 'nowrap',
+                    background: 'rgba(5,10,24,0.97)',
+                    border: '1px solid rgba(245,200,66,0.55)',
+                    color: 'white', fontSize: 12, fontWeight: 700,
+                    padding: '8px 14px', borderRadius: 999,
+                    boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                  }}
+                >
+                  Curious who&apos;s behind the hive? &rarr;
+                </motion.div>
+              ) : (
+                <motion.span
+                  key="label"
+                  className="keeper-bee__label"
+                  initial={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    position: 'absolute', left: '50%', top: '100%',
+                    transform: 'translateX(-50%)', marginTop: 6,
+                    whiteSpace: 'nowrap',
+                    background: 'rgba(13,31,60,0.95)',
+                    border: '1px solid rgba(245,200,66,0.45)',
+                    color: 'var(--cyan-mid)', fontSize: 11, fontWeight: 800,
+                    padding: '5px 11px', borderRadius: 999,
+                    boxShadow: '0 6px 18px rgba(0,0,0,0.3)',
+                  }}
+                >
+                  Meet the Keeper
+                </motion.span>
+              )}
+            </AnimatePresence>
           </motion.div>
         </motion.button>
       )}
