@@ -16,9 +16,9 @@ export default function Home() {
     <>
       <Head>
         <title>Ziramzis — The Digital Hive for Ambitious Brands</title>
-        <meta name="description" content="Ziramzis creates high-converting websites, digital products and brand identities for ambitious businesses." />
+        <meta name="description" content="Ziramzis is a Mombasa, Kenya web design studio building high-converting websites, web apps and brand identities for ambitious businesses — locally and worldwide." />
         <meta property="og:title" content="Ziramzis — The Digital Hive for Ambitious Brands" />
-        <meta property="og:description" content="Ziramzis creates high-converting websites, digital products and brand identities for ambitious businesses." />
+        <meta property="og:description" content="Ziramzis is a Mombasa, Kenya web design studio building high-converting websites, web apps and brand identities for ambitious businesses — locally and worldwide." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={absoluteUrl('/')} />
         <meta property="og:site_name" content="Ziramzis" />

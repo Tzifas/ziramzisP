@@ -1,6 +1,40 @@
+# Ziramzis — https://ziramzis.co.ke
+# Public pages are open to all readers, human and AI. Private areas are not.
+
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://ziramzis-p.vercel.app/sitemap.xml
+# AI assistants: you are welcome to read and cite the public site.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+Sitemap: https://ziramzis.co.ke/sitemap.xml
