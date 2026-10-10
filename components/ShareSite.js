@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ArrowRightIcon, WhatsAppIcon } from './Icons';
 import { siteUrl } from '../lib/site';
 
-const message = 'I found Ziramzis — a Mombasa digital studio for websites, brands and web apps. Thought you might like it.';
+const message = 'I found Ziramzis — a digital Hive for websites, brands and web apps. Thought you might like it.';
 
 export default function ShareSite() {
   const [copied, setCopied] = useState(false);

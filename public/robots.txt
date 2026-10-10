@@ -1,4 +1,4 @@
-# Ziramzis — https://ziramzis.co.ke
+# Ziramzis — https://www.ziramzis.co.ke
 # Public pages are open to all readers, human and AI. Private areas are not.
 
 User-agent: *
@@ -37,4 +37,4 @@ Allow: /
 User-agent: Meta-ExternalAgent
 Allow: /
 
-Sitemap: https://ziramzis.co.ke/sitemap.xml
+Sitemap: https://www.ziramzis.co.ke/sitemap.xml

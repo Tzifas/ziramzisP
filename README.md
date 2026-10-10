@@ -5,7 +5,7 @@ Ziramzis is a Mombasa-based brand, web design and development studio. The public
 ## Live site and hosting
 
 - Host: Vercel
-- Current Vercel URL: `https://ziramzis.co.ke`
+- Current Vercel URL: `https://www.ziramzis.co.ke`
 - Contact email: `ziramzisfeis@gmail.com`
 - WhatsApp: `+254 711 410 442`
 - Location: Mombasa, Kenya
