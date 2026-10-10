@@ -24,6 +24,9 @@ export default function Home() {
         <meta property="og:site_name" content="Ziramzis" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:image" content={absoluteUrl('/brand/campaign.jpg')} />
+        <meta property="og:image:width" content="1024" />
+        <meta property="og:image:height" content="572" />
+        <meta property="og:image:alt" content="Ziramzis — The Digital Hive for Ambitious Brands" />
         <meta name="twitter:image" content={absoluteUrl('/brand/campaign.jpg')} />
         <link rel="canonical" href={absoluteUrl('/')} />
         <meta name="theme-color" content="#050A18" />
