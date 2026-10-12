@@ -93,12 +93,12 @@ export default function Keeper() {
       <Head>
         <title>Meet the Keeper — Ziramzis | Brand, Web Design & Development in Mombasa</title>
         <meta name="description" content="Meet Ramadhan “Ziramzis” — a Mombasa web designer and developer building brand identities, websites and web apps with a colony of AI assistants. Blueprint before code, from KSh 25k." />
-        <link rel="canonical" href={absoluteUrl('/keeper/')} />
+        <link rel="canonical" href={absoluteUrl('/keeper')} />
         <meta name="theme-color" content="#050A18" />
         <meta property="og:title" content="Meet the Keeper — Ziramzis" />
         <meta property="og:description" content="The person and the process behind Ziramzis — brand, web design and development from Mombasa, Kenya, with AI bee helpers." />
         <meta property="og:type" content="profile" />
-        <meta property="og:url" content={absoluteUrl('/keeper/')} />
+        <meta property="og:url" content={absoluteUrl('/keeper')} />
         <meta property="og:image" content={absoluteUrl('/og-image.png')} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content={absoluteUrl('/og-image.png')} />
@@ -111,7 +111,7 @@ export default function Keeper() {
               name: 'Ramadhan',
               alternateName: 'Ziramzis',
               jobTitle: 'Web designer and developer',
-              url: absoluteUrl('/keeper/'),
+              url: absoluteUrl('/keeper'),
               image: absoluteUrl('/images/keeper-hero.jpeg'),
               address: { '@type': 'PostalAddress', addressLocality: 'Mombasa', addressCountry: 'KE' },
               knowsAbout: ['Web design', 'Web development', 'Brand identity', 'Web applications', 'AI agents'],

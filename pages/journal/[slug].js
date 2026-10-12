@@ -26,14 +26,14 @@ export default function JournalPost({ post, others }) {
     datePublished: post.date,
     author: { "@type": "Person", name: "Ramadhan (Ziramzis)" },
     publisher: { "@type": "Organization", name: "Ziramzis" },
-    mainEntityOfPage: absoluteUrl("/journal/" + post.slug + "/")
+    mainEntityOfPage: absoluteUrl("/journal/" + post.slug)
   };
   return (
     <>
       <Head>
         <title>{post.title} | The Hive Journal - Ziramzis</title>
         <meta name="description" content={post.description} />
-        <link rel="canonical" href={absoluteUrl("/journal/" + post.slug + "/")} />
+        <link rel="canonical" href={absoluteUrl("/journal/" + post.slug)} />
         <meta name="theme-color" content="#050A18" />
         <meta name="robots" content="index, follow" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -61,7 +61,7 @@ export default function JournalPost({ post, others }) {
               <ul className="mt-3 space-y-2">
                 {others.map((o) => (
                   <li key={o.slug}>
-                    <a href={"/journal/" + o.slug + "/"} className="font-semibold" style={{ color: "var(--cyan-mid)" }}>{o.title}</a>
+                    <a href={"/journal/" + o.slug} className="font-semibold" style={{ color: "var(--cyan-mid)" }}>{o.title}</a>
                   </li>
                 ))}
               </ul>
@@ -69,7 +69,7 @@ export default function JournalPost({ post, others }) {
           )}
 
           <div style={{ marginTop: "3rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(245,200,66,0.12)", display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
-            <a href="/journal/" style={{ color: "var(--honey-gold)", fontSize: "0.82rem", fontWeight: 700 }}>All notes</a>
+            <a href="/journal" style={{ color: "var(--honey-gold)", fontSize: "0.82rem", fontWeight: 700 }}>All notes</a>
             <a href="/keeper" style={{ color: "var(--cyan-mid)", fontSize: "0.82rem", fontWeight: 700 }}>Meet the Keeper</a>
             <a href="/" style={{ color: "var(--gray-text)", fontSize: "0.82rem" }}>Back to the hive</a>
           </div>

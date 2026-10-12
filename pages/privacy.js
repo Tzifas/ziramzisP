@@ -8,7 +8,7 @@ export default function Page() {
       <Head>
         <title>Privacy Policy — Ziramzis</title>
         <meta name="description" content="Privacy Policy for Ziramzis — Busy Bee Studio, a web design and development studio in Mombasa, Kenya." />
-        <link rel="canonical" href={absoluteUrl('/privacy/')} />
+        <link rel="canonical" href={absoluteUrl('/privacy')} />
         <meta name="theme-color" content="#050A18" />
         <meta name="robots" content="index, follow" />
       </Head>

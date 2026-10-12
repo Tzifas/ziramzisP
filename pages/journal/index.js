@@ -9,7 +9,7 @@ export default function JournalIndex() {
       <Head>
         <title>The Hive Journal - Web & Brand Notes for Kenyan Businesses | Ziramzis</title>
         <meta name="description" content="Practical notes on websites, brands and going online for Kenyan businesses - costs, plans and tools, written from Mombasa by the Ziramzis studio." />
-        <link rel="canonical" href={absoluteUrl("/journal/")} />
+        <link rel="canonical" href={absoluteUrl("/journal")} />
         <meta name="theme-color" content="#050A18" />
         <meta name="robots" content="index, follow" />
       </Head>
@@ -22,7 +22,7 @@ export default function JournalIndex() {
 
           <div className="mt-12 space-y-6">
             {posts.map((post) => (
-              <a key={post.slug} href={"/journal/" + post.slug + "/"} className="block rounded-2xl p-6" style={{ background: "rgba(245,200,66,0.04)", border: "1px solid rgba(245,200,66,0.15)" }}>
+              <a key={post.slug} href={"/journal/" + post.slug} className="block rounded-2xl p-6" style={{ background: "rgba(245,200,66,0.04)", border: "1px solid rgba(245,200,66,0.15)" }}>
                 <p className="text-xs font-bold tracking-widest" style={{ color: "var(--honey-gold)" }}>{dateLabel(post.date).toUpperCase()} / {readingTime(post)} MIN READ</p>
                 <h2 className="text-white font-bold text-xl mt-2">{post.title}</h2>
                 <p className="text-gray-400 leading-relaxed mt-2">{post.description}</p>

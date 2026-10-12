@@ -8,7 +8,7 @@ export default function Page() {
       <Head>
         <title>Terms of Service — Ziramzis</title>
         <meta name="description" content="Terms of Service for Ziramzis — Busy Bee Studio, a web design and development studio in Mombasa, Kenya." />
-        <link rel="canonical" href={absoluteUrl('/terms/')} />
+        <link rel="canonical" href={absoluteUrl('/terms')} />
         <meta name="theme-color" content="#050A18" />
         <meta name="robots" content="index, follow" />
       </Head>
