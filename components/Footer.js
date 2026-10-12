@@ -37,6 +37,7 @@ export default function Footer() {
           <nav className="footer-v2__links" aria-label="Footer navigation">
             <h4>Quick Links</h4>
             <a href="/keeper">Meet the Keeper</a>
+            <a href="/journal">The Hive Journal</a>
             {['Services', 'Work', 'Process', 'Contact'].map((link) => <a key={link} href={`#${link.toLowerCase()}`}>{link}</a>)}
           </nav>
 
